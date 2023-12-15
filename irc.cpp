@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 00:45:36 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/11 00:46:05 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/15 17:58:52 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int main()
 {
-    std::cout << "hello" << std::endl;
+    std::cout << "helln" << std::endl;
     return (0);
 }
