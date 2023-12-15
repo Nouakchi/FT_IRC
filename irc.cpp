@@ -6,13 +6,10 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 00:45:36 by onouakch          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/12/15 17:40:06 by heddahbi         ###   ########.fr       */
-=======
-/*   Updated: 2023/12/15 17:58:52 by onouakch         ###   ########.fr       */
->>>>>>> 6f610c3b1564c7cbc7e6424a0d363fa51c29f0db
+/*   Updated: 2023/12/15 19:24:53 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <iostream>
 #include <sys/socket.h>
