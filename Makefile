@@ -6,7 +6,7 @@
 #    By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2023/12/11 00:53:39 by onouakch         ###   ########.fr        #
+#    Updated: 2023/12/16 11:17:49 by onouakch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,10 @@ CPP		=	c++
 RM		=	rm -rf
 FLAGS	=	-Wall -Wextra -Werror -std=c++98
 
-INCLUDES	=	
-SRCS	=	irc.cpp \
+INCLUDES	=	irc.h
+SRCS	=	irc.cpp		\
+			server.cpp	\
+			utils.cpp	\
 
 OBJS	=	$(SRCS:%.cpp=%.o)
 
