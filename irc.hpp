@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   irc.cpp                                            :+:      :+:    :+:   */
+/*   irc.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/11 00:45:36 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/12 11:19:43 by aaoutem-         ###   ########.fr       */
+/*   Created: 2023/12/12 12:04:10 by aaoutem-          #+#    #+#             */
+/*   Updated: 2023/12/16 12:32:58 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef IRC_HPP
+#define IRC_HPP
+
 #include <iostream>
+#include <sys/socket.h>
+#include <netdb.h>
 
-int main()
-{
-	std::cout << "hello" << std::endl;
+#define BACKLOG 10
+#define IRCPORT 6667
 
-	std::cout << "hello from the other side " << std::endl;
-	return (0);
-}
+
+#endif
