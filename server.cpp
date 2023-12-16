@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/16 19:17:44 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/16 19:21:00 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 
 int main()
 {
-    struct  sockaddr_in sock_struct = {0}, nuser_sock_struct = {0};
+    struct  sockaddr_in sock_struct, nuser_sock_struct;
+    bzero(&sock_struct, sizeof(sock_struct));
+    bzero(&nuser_sock_struct, sizeof(nuser_sock_struct));
     int server_socket, nuser_socket, opt_val = 1, nuser_sock_struct_length = sizeof(nuser_sock_struct);
     
 
