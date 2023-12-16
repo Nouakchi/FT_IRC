@@ -1,3 +1,8 @@
+############## -*- general -*- ##############
+
+    +   create a basic server that listen on PORT 8080 and wait for 
+        upcoming connection and accept it
+
 ############## -*- !snake -*- ##############
 
 TO_DO => 
