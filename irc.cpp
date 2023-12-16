@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 00:45:36 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/15 19:24:53 by heddahbi         ###   ########.fr       */
+/*   Updated: 2023/12/16 09:55:27 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int main(int ac , char **av)
 {
 
     int port;
-    // int pwd;
     if(ac != 3)
         ft_error("Usage: ./ircserv <port> <password>");
     else
@@ -44,19 +43,9 @@ int main(int ac , char **av)
        {
             port = atoi(av[1]);
             check_port(port);
-            
        }
        else
             ft_error("please Provide Host and Port ");
-    }
-    //AF_INET = IPv4 for TCP/IP
-    //SOCK_STREAM = TCP
-    //0 = IP
-    int dd = socket(AF_INET, SOCK_STREAM, 0);
-    if (dd == -1)
-    {
-        ft_error("Socket Failed");
-        return (1);
     }
   
     std::cout << "hello" << std::endl;
