@@ -13,3 +13,7 @@ client :
 	3 bind the socket : bind()
 	4 send and recieve the connection : recv() send() recvfrom(), sendto()
 	5 disconnect : closesocket()
+
+
+TO SEARCH : 
+	-> send(..., int flag); (what it is that flag)
