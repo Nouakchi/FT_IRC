@@ -6,7 +6,7 @@
 #    By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2023/12/16 11:17:49 by onouakch         ###   ########.fr        #
+#    Updated: 2023/12/17 14:05:05 by onouakch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ RM		=	rm -rf
 FLAGS	=	-Wall -Wextra -Werror -std=c++98
 
 INCLUDES	=	irc.h
-SRCS	=	irc.cpp		\
+
+SRCS	=	main.cpp	\
 			server.cpp	\
 			utils.cpp	\
 
