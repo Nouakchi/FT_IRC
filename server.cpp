@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/16 19:21:00 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/17 11:03:13 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 int main()
 {
     struct  sockaddr_in sock_struct, nuser_sock_struct;
-    bzero(&sock_struct, sizeof(sock_struct));
-    bzero(&nuser_sock_struct, sizeof(nuser_sock_struct));
+    // bzero(&sock_struct, sizeof(sock_struct));
+    // bzero(&nuser_sock_struct, sizeof(nuser_sock_struct));
     int server_socket, nuser_socket, opt_val = 1, nuser_sock_struct_length = sizeof(nuser_sock_struct);
     
 
@@ -26,7 +26,7 @@ int main()
     server_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket == -1)
         return (ft_error("Failed to open socket !!"));
-        
+    //seting the port ot be reused by the kernel
     if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEPORT, &opt_val, sizeof(opt_val)))
         return (ft_error("Failed to setup socket options !!"));
     
@@ -57,6 +57,7 @@ int main()
     while (true)
     {
         int num_events = kevent(kq, 0, 0, new_event, 1, 0);
+        std::cout << num_events << std::endl;
         if (num_events == -1)
             return (ft_error("Faile to check on events !!"));
         if (num_events > 0)
@@ -65,6 +66,8 @@ int main()
             while (++i < num_events)
             {
                 int event_fd = event[i].ident;
+                std::cout << event[i].flags <<  " , " << EV_EOF << " :: " << (event[i].flags & EV_EOF) << std::endl;
+                // getchar();
                 if (event[i].flags & EV_EOF)
                 {
                     std::cout << "client disconnected !!" << std::endl;
@@ -72,21 +75,23 @@ int main()
                 }
                 else if (event_fd == server_socket)
                 {
+                    std::cout << "client connected !!" << std::endl;
                     nuser_socket = accept(event_fd, (struct sockaddr *)&nuser_sock_struct , (socklen_t *)&nuser_sock_struct_length);
                     if (nuser_socket == -1)
                         std::cerr << "Failed to accept socket" << std::endl;
                     else
                     {
-                        EV_SET(new_event, nuser_socket, EVFILT_READ, EV_ADD, 0, 0, 0);
-                        if (kevent(kq, 0, 0, new_event, 1, 0))
+                        EV_SET(event, nuser_socket, EVFILT_READ, EV_ADD, 0, 0, 0);
+                        if (kevent(kq, event, 1, 0, 0, 0))
                             std::cerr << "Kevent falied !!"<< std::endl;
                     }
                 }
                 else if (event[i].filter & EVFILT_READ)
                 {
-                    char buff[1024];
+                    char buff[1024] = {0};
                     size_t bytes_read = recv(event_fd, &buff, sizeof(buff), 0);
-                    std::cout << bytes_read << std::endl;
+                    if (bytes_read)
+                        std::cout << bytes_read << " : " << buff << std::endl;
                 }
             }
         }
