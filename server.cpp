@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:27:08 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/18 17:12:06 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/18 20:39:57 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,39 @@ int addCnction(int (*clients_fd)[MAXFD], int accepted_fd)
 	if (accepted_fd < 0)
 		return -1;
 	while ((*clients_fd)[++i] != 0)
-		break;
+		;
 	if ((i + 1) == MAXFD)
 		return -1;
 	(*clients_fd)[i] = accepted_fd;
+	std::cout << "am here" << std::endl;
 	return 0;
 }
 
 int delCnction(int (*clients_fd)[MAXFD], int accepted_fd)
 {
 	int i = -1;
-
-	while ((*clients_fd)[++i] != 0)
+	
+	while ((*clients_fd)[++i] != accepted_fd)
+		;
+	(*clients_fd)[i] = 0;
+	return 0;
 }
+
+void sendToClient(int accepted_fd)
+{
+	// char buf[33] = 
+	std::string	buff = "U welcome asat\nTaaaalk to mee\n";
+	send(accepted_fd, buff.c_str(), buff.size(), 0);
+}
+
+void recvMsgFromClient(int fd)
+{
+	char buf[1024];
+	int read = recv(fd, buf, sizeof(buf) - 1, 0);
+	buf[read] = '\0';
+	std::cout << buf;
+}
+
 void connect_Socket(int sfd, int kq, struct addrinfo** res_)
 {
 	struct addrinfo* res = *res_;
@@ -41,19 +61,19 @@ void connect_Socket(int sfd, int kq, struct addrinfo** res_)
 	int 			nbr_events;
 
 	bzero(clients_fd, sizeof(clients_fd));
-	while (1)
-	{
+	while (1) {
 		nbr_events = kevent(kq, NULL, 0, evList, MAXEVENTS, NULL);
 		for (int i = 0; i < nbr_events; i++)
 		{
 			if (evList[i].ident == sfd)
 			{
 				int accepted_fd = accept(sfd,res->ai_addr,&res->ai_addrlen);
-				if (addCnction(&clients_fd, accepted_fd) == 0)	
+				if (addCnction(&clients_fd, accepted_fd) == 0)
 				{
 					EV_SET(&evSet, accepted_fd, EVFILT_READ, EV_ADD, 0, 0, NULL);
 					kevent(kq, &evSet, 1, NULL, 0, NULL);
 					std::cout << "A client with fd:" << accepted_fd << " Connected" << std::endl;
+					sendToClient(accepted_fd);
 				}
 				else
 				{
@@ -64,11 +84,13 @@ void connect_Socket(int sfd, int kq, struct addrinfo** res_)
 			else if (evList[i].flags & EV_EOF)
 			{
 				int discnct_fd = evList[i].ident;
-				EV_SET(&evSet, discnct_fd, EVFILT_READ, EV_DELETE,0,0,NULL);
+				EV_SET(&evSet, discnct_fd, EVFILT_READ, EV_DELETE, 0, 0, NULL);
 				kevent(kq, &evSet, 1, NULL, 0, NULL);
-				// deleteCnction(fd);
-				std::cout << "A client with fd:" << discnct_fd << " Disconnected";
+				delCnction(&clients_fd, discnct_fd);
+				std::cout << "A client with fd:" << discnct_fd << " Disconnected" << std::endl;
 			}
+			else if (evList[i].flags & EVFILT_READ )
+				recvMsgFromClient(evList[i].ident);
 		}
 	}
 }
@@ -92,7 +114,6 @@ int setUpSocket(struct addrinfo **res)
 	l = listen(sfd, BACKLOG);
 
 	return (sfd);
-
 }
 
 void	setupServer()
@@ -100,7 +121,7 @@ void	setupServer()
 	int sfd;
 	struct addrinfo *res;
 	struct kevent	evSet;
-	
+
 	sfd = setUpSocket(&res);
 	int kq = kqueue();
 	EV_SET(&evSet, sfd, EVFILT_READ, EV_ADD, 0, 0, NULL);
@@ -112,35 +133,3 @@ int main()
 {
 	setupServer();	
 }
-
-	// kevent kv; 
-	
-
-	// while(true)
-	// {
-	// 	int accepted_fd = accept(sfd,res->ai_addr,&res->ai_addrlen);
-	// 	if (accepted_fd != -1)
-	// 	{
-	// 		// handle the connection
-	// 		// send() and recv()...
-			
-	// 		// send section 
-	// 		/*{
-	// 			size_t msgsent_len;
-	// 			char *msg = "message";
-	// 			msgsent_len = send(accepted_fd, msg,sizeof(msg), 0);
-	// 			// evaluate msglen if needed
-	// 		}*/
-	// 		// recieve section 
-	// 		/*{
-	// 			size_t msgreaded_len;
-	// 			char buffer[MSG_LENGTH];
-	// 			msgreaded_len = recv(accepted_fd, buffer, sizeof(buffer), 0);
-	// 			if (msgreaded_len == 0)
-	// 				// this means the client has closed the connection so handle it.
-	// 		}*/
-	// 	}
-	// 	else
-	// 	{/* error ;*/}
-	// 	// select();
-	// }

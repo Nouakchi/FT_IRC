@@ -1,46 +1,48 @@
-// #include <iostream>
-// #include <stdlib.h>
-// #include <netinet/in.h>
-// #include <sys/socket.h>
-// #include <sys/types.h>
-// #include <netdb.h>
-// #include <arpa/inet.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <netdb.h>
+#include <arpa/inet.h>
 
-// int main(int ac, char *av[]) {
+#define PORT "8080"
 
-// 	const char 	*addres;
-// 	char	ipstr[INET_ADDRSTRLEN];
-// 	struct addrinfo hints, *res, *p;
-// 	struct sockaddr_in *ipv4;
-	
-//     int status;
-// 	void *addr ;
+int main() {
+    struct addrinfo hints, *ai, *p;
 
-//     memset(&hints, 0, sizeof(hints));
-//     hints.ai_family = AF_INET; // AF_INET or AF_INET6 to force version
-//     hints.ai_socktype = SOCK_STREAM;
-// 	// hints.ai_flags = AI_PASSIVE;
+    // Get us a socket and bind it
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_flags = AI_PASSIVE;
 
-//     status = getaddrinfo(av[1], NULL, &hints, &res);
-// 	if (!res)
-// 		std::cout << "dadass\n";
-// 	for (p = res; p != NULL; p = p->ai_next)
-// 	{
-// 		ipv4 = (struct sockaddr_in *)p->ai_addr;
-// 		addr = &(ipv4->sin_addr);
-// 		addres = inet_ntop(p->ai_family, addr,ipstr, 100);
-// 		printf("\t%s\n", ipstr);
-// 	}
-// 	freeaddrinfo(res);
-// 	return 0;
-// }
-#include <iostream>
-void f()
-{
-	std::cout << "dd";
-}
-int main()
-{
-	int f;
-	f();
+    int rv = getaddrinfo(NULL, PORT, &hints, &ai);
+    if (rv != 0) {
+        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
+        return 1;
+    }
+
+    // Loop through the results and print IP addresses
+    for (p = ai; p != NULL; p = p->ai_next) {
+        void *addr;
+        char ipstr[INET6_ADDRSTRLEN];
+
+        // Get the pointer to the address itself
+        if (p->ai_family == AF_INET) { // IPv4
+            struct sockaddr_in *ipv4 = (struct sockaddr_in *)p->ai_addr;
+            addr = &(ipv4->sin_addr);
+        } else { // IPv6
+            struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)p->ai_addr;
+            addr = &(ipv6->sin6_addr);
+        }
+
+        // Convert the IP address to a string
+        inet_ntop(p->ai_family, addr, ipstr, sizeof ipstr);
+
+        // Print the IP address
+        printf("IP Address: %s\n", ipstr);
+    }
+
+    freeaddrinfo(ai);
+
+    return 0;
 }
