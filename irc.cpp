@@ -6,16 +6,15 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 00:45:36 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/12 11:19:43 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/19 13:10:43 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-
+#include "Server.hpp"
 int main()
 {
-	std::cout << "hello" << std::endl;
-
-	std::cout << "hello from the other side " << std::endl;
+	Server srvr;
+	srvr.runServer();
 	return (0);
 }

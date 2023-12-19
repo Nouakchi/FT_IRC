@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:27:08 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/18 20:39:57 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/19 13:37:37 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int addCnction(int (*clients_fd)[MAXFD], int accepted_fd)
 	if ((i + 1) == MAXFD)
 		return -1;
 	(*clients_fd)[i] = accepted_fd;
-	std::cout << "am here" << std::endl;
 	return 0;
 }
 
@@ -39,7 +38,6 @@ int delCnction(int (*clients_fd)[MAXFD], int accepted_fd)
 
 void sendToClient(int accepted_fd)
 {
-	// char buf[33] = 
 	std::string	buff = "U welcome asat\nTaaaalk to mee\n";
 	send(accepted_fd, buff.c_str(), buff.size(), 0);
 }
@@ -57,7 +55,7 @@ void connect_Socket(int sfd, int kq, struct addrinfo** res_)
 	struct addrinfo* res = *res_;
 	struct kevent	evSet;
 	struct kevent	evList[MAXEVENTS];
-	int 			clients_fd[MAXFD];	
+	int 			clients_fd[MAXFD];
 	int 			nbr_events;
 
 	bzero(clients_fd, sizeof(clients_fd));
@@ -87,6 +85,7 @@ void connect_Socket(int sfd, int kq, struct addrinfo** res_)
 				EV_SET(&evSet, discnct_fd, EVFILT_READ, EV_DELETE, 0, 0, NULL);
 				kevent(kq, &evSet, 1, NULL, 0, NULL);
 				delCnction(&clients_fd, discnct_fd);
+				close(evList[i].ident);
 				std::cout << "A client with fd:" << discnct_fd << " Disconnected" << std::endl;
 			}
 			else if (evList[i].flags & EVFILT_READ )
@@ -100,7 +99,7 @@ int setUpSocket(struct addrinfo **res)
 	struct addrinfo hints;
 	int l;
 
-	memset(&hints,0,sizeof(hints));
+	bzero(&hints,sizeof(hints));
 	hints.ai_family = PF_UNSPEC; // ipv4 or ipv6 
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE; //
@@ -131,5 +130,6 @@ void	setupServer()
 
 int main()
 {
-	setupServer();	
+	setupServer();
 }
+
