@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/20 05:03:39 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/20 05:08:41 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void ft_setup_new_connection( t_server *server , int event_fd )
     std::cout << "client connected !!" << std::endl;
     server->new_sock_struct_len = sizeof(server->new_sock_struct);
     server->new_client = accept(event_fd, (struct sockaddr *)&server->new_sock_struct , (socklen_t *)&server->new_sock_struct_len);
+    // loop into the data received from the client
     while (true)
     {
         bytes_read = recv(server->new_client, &buff, sizeof(buff), 0);
