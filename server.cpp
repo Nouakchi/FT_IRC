@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/20 05:08:41 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/20 05:11:03 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,12 @@ void ft_setup_new_connection( t_server *server , int event_fd )
             break;
         std::cout << bytes_read << " ::: " << buff;
     }
+    
+    // sending mssg to the client to be informed that the connection has been accepted
     std::string resp = ":localhost 001 othman :Welcome to the IRC server!\r\n";
     send(server->new_client, resp.c_str(), resp.size(), 0);
+    
+    //addin the new event to the kqueue evList
     if (server->new_client == -1)
         std::cerr << "Failed to accept socket" << std::endl;
     else
