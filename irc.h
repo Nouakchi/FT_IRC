@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/17 14:04:11 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/18 10:16:30 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-#define PORT 8080
+#define PORT 6667
 
 typedef struct s_server
 {

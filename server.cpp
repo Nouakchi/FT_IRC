@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/17 14:05:51 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/20 05:03:39 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,21 @@ void    ft_check_event( int event_fd )
 
 void ft_setup_new_connection( t_server *server , int event_fd )
 {
+    char buff[1024];
+    size_t bytes_read;
+    
     std::cout << "client connected !!" << std::endl;
     server->new_sock_struct_len = sizeof(server->new_sock_struct);
     server->new_client = accept(event_fd, (struct sockaddr *)&server->new_sock_struct , (socklen_t *)&server->new_sock_struct_len);
+    while (true)
+    {
+        bytes_read = recv(server->new_client, &buff, sizeof(buff), 0);
+        if (!bytes_read)
+            break;
+        std::cout << bytes_read << " ::: " << buff;
+    }
+    std::string resp = ":localhost 001 othman :Welcome to the IRC server!\r\n";
+    send(server->new_client, resp.c_str(), resp.size(), 0);
     if (server->new_client == -1)
         std::cerr << "Failed to accept socket" << std::endl;
     else
