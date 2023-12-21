@@ -4,8 +4,10 @@ TO_DO =>
     + check this -> RFC 1459
 
 ############## -*- kadigh -*- ##############
+    authenticate the client (pass, nick, user)
 to search : 
 	-> ports (how they work?)(only for me)
+
 
 ############## -*- serfak -*- ##############
 familiarization with the IRC protocol specifications (RFC 1459 and RFC 2812)

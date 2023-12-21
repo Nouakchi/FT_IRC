@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:05:37 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/19 12:00:32 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/20 14:26:11 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ private :
 	struct addrinfo hints, *res;
 	struct kevent	evSet;
 	struct kevent	evList[MAXEVENTS];
+
+	// std::istream ifs;
 	
 	void	setUpsocket();
 	void	setUpserver();
@@ -34,7 +36,7 @@ private :
 	int addcnction(int fd);
 	int delcnction(int fd);
 
-	void sendToClient(int fd);
+	void sendToClient(int fd, std::string data);
 	void recvFromClient(int fd);
 
 	int	errflag;

@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   irc.hpp                                            :+:      :+:    :+:   */
+/*   client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 12:04:10 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/20 11:35:25 by aaoutem-         ###   ########.fr       */
+/*   Created: 2023/12/20 13:57:44 by aaoutem-          #+#    #+#             */
+/*   Updated: 2023/12/20 13:59:58 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IRC_HPP
-#define IRC_HPP
+#ifndef CLIENT_HPP
+#define CLIENT_HPP
 
-#include <iostream>
-#include <fstream>
-#include <ios>
-#include <sys/socket.h>
-#include <sys/event.h>
-#include <netdb.h>
-#include <unistd.h>
+#include "irc.hpp"
 
-#define BACKLOG 10
-#define MAXEVENTS 64
-#define MAXFD 256
-
+class Client
+{
+private :
+	std::string nickname;
+	std::string username;
+	
+public :
+};
 
 #endif
