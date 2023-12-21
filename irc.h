@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/18 10:16:30 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/21 01:35:08 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <sys/event.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #define PORT 6667
 

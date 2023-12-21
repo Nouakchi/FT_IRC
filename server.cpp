@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/20 05:11:03 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/21 01:44:45 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void    ft_check_event( int event_fd )
 
 void ft_setup_new_connection( t_server *server , int event_fd )
 {
-    char buff[1024];
-    size_t bytes_read;
     
     std::cout << "client connected !!" << std::endl;
     server->new_sock_struct_len = sizeof(server->new_sock_struct);
@@ -31,8 +29,10 @@ void ft_setup_new_connection( t_server *server , int event_fd )
     // loop into the data received from the client
     while (true)
     {
+        char buff[1024] = {0};
+        ssize_t bytes_read;
         bytes_read = recv(server->new_client, &buff, sizeof(buff), 0);
-        if (!bytes_read)
+        if (bytes_read <= 0)
             break;
         std::cout << bytes_read << " ::: " << buff;
     }
@@ -93,7 +93,8 @@ int	ft_create_socket( s_server *server )
     server->socket = socket(AF_INET, SOCK_STREAM, 0);
     if (server->socket == -1)
         return (ft_error("Failed to open socket !!"));
-        
+    if (fcntl(server->socket, F_SETFL, O_NONBLOCK) == -1)
+        return (ft_error("Failed"));
     //seting the port to be reused by the kernel
     if (setsockopt(server->socket, SOL_SOCKET, SO_REUSEPORT,&server->opt_val, sizeof(server->opt_val)))
         return (ft_error("Failed to setup socket options !!"));
