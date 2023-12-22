@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:22:27 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/22 00:49:41 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/22 22:38:23 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,28 @@ void	Server::setUpsocket()
 	int ad = getaddrinfo("0.0.0.0", "6667",&this->hints, &this->res);
 	// if (ad)
 	this->sfd =  socket(PF_INET, SOCK_STREAM, 0);
+
+	int reuse = 1;
+	setsockopt(this->sfd, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse));
 	
 	int b = bind(this->sfd, this->res->ai_addr, this->res->ai_addrlen);
-	
+
 	int l = listen(this->sfd,BACKLOG);
 	fcntl(sfd, F_SETFL, O_NONBLOCK);
+}
+
+void Server::Authenticate_cnction(int fd, Client& clnt)
+{
+	if (clnt.AuthFlag)
+		return; // already authentified
+	char buff[512];
+	recv(fd, buff,sizeof(buff), 0);
+	std::string cmd(buff);
+	size_t pos = cmd.find_first_not_of("PASS") + 1;
+	size_t passwdlen = cmd.length() - pos;
+	// pos = cmd.find_first_not_of(" ", pos);
+	if (cmd.substr(pos, passwdlen) != this->passwd);
+		
 }
 
 void	Server::setUpserver()
@@ -57,6 +74,7 @@ int Server::addcnction(int fd)
 	clients_fd[i] = fd;
 	return 0;
 }
+
 int Server::delcnction(int fd)
 {
 	int i = -1;
@@ -76,19 +94,18 @@ void Server::recvFromClient(int fd)
 	char buff[1024];
 	bzero(buff, sizeof(buff));
 	int recvdbytes;
+	// if (clients)
 	// recvdbytes = recv(fd,buff, sizeof(buff), 0);
 
 	while (true)
 	{
 		recvdbytes = recv(fd,buff, sizeof(buff), 0);
-		/* it may be a problem there is a difference between
-			0(no more reads) -1(error must be hundled )*/
 		if (recvdbytes <= 0)
 			break;
 		clientInput.append(buff, recvdbytes);
 	}
-	// if (recvdbytes  > 0)
-	// 	buff[recvdbytes] = '\0';
+	std::cout << clientInput ;
+	clientInput.clear();
 }
 
 void	Server::runServer()
@@ -103,6 +120,7 @@ void	Server::runServer()
 		{
 			if (evList[i].ident == sfd) // new connection is availble
 			{
+				// int afd = accept(this->sfd, NULL, NULL);
 				int afd = accept(this->sfd, res->ai_addr, &res->ai_addrlen);
 				if (addcnction(afd) == 0)
 				{
@@ -111,6 +129,15 @@ void	Server::runServer()
 					replay(afd,"password: ");
 					std::cout << "Client with fd:"<< afd<< " connected " << std::endl;
 				}
+				// while (true)
+				// {
+					// if (evList[i].filter & EVFILT_READ)
+					// {
+						// read from user 
+					// }
+					// if(Authentified)
+						//break the loop and connect
+				// }
 			}
 			else if (evList[i].flags & EV_EOF) // the client send EOF (disconnection) (so delete the cnction)
 			{

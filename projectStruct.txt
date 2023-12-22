@@ -1,19 +1,2 @@
-server :
-	1 initialize the socket 
-	2 create the socket : socket()
-	3 bind the socket : bind()
-	4 listen to the socket : listen()
-	5 accept the connection :accept()
-	6 send and recieve the connection : recv() send() recvfrom(), sendto()
-	7 disconnect : closesocket()
-
-client :
-	1 initialize the socket 
-	2 create the socket : socket()
-	3 bind the socket : bind()
-	4 send and recieve the connection : recv() send() recvfrom(), sendto()
-	5 disconnect : closesocket()
-
-
 TO SEARCH : 
 	-> send(..., int flag); (what it is that flag)

@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:05:37 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/22 00:12:04 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/22 22:36:09 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 #define SERVER_HPP
 
 #include "irc.hpp"
+#include "IRCEntities/client.hpp"
 
 class Server
 {
 private :
+	std::string passwd;
 	std::string clientInput;
 
 	int sfd;
@@ -30,7 +32,7 @@ private :
 	struct kevent	evSet;
 	struct kevent	evList[MAXEVENTS];
 
-	// std::istream ifs;
+	// std::map<int, Client> clients;
 
 	void	setUpsocket();
 	void	setUpserver();
@@ -40,6 +42,7 @@ private :
 
 	void replay(int fd, std::string data);
 	void recvFromClient(int fd);
+	void Authenticate_cnction(int fd, Client& clnt);
 
 	int	errflag;
 
