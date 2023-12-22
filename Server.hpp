@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:05:37 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/20 14:26:11 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/22 00:12:04 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 class Server
 {
 private :
+	std::string clientInput;
+
 	int sfd;
 
 	int kq;
@@ -29,23 +31,21 @@ private :
 	struct kevent	evList[MAXEVENTS];
 
 	// std::istream ifs;
-	
+
 	void	setUpsocket();
 	void	setUpserver();
 
 	int addcnction(int fd);
 	int delcnction(int fd);
 
-	void sendToClient(int fd, std::string data);
+	void replay(int fd, std::string data);
 	void recvFromClient(int fd);
 
 	int	errflag;
 
 public :
 	Server();
-
 	void	runServer();
-
 	~Server();
 };
 

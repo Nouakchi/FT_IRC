@@ -1,17 +1,11 @@
 
 
 #include <iostream>
-#include <fstream>
-#include <ios>
 
-std::ofstream& f()
-{
-    std::ofstream ofs;
-    ofs << "olaaa";
-    return ofs;
-}
 int main()
 {
-    std::ofstream ofs = f();
-    
+	char buff[10] = "oal";
+	std::string str = "POP";
+	str.append(buff);
+	std::cout << str;
 }

@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:22:27 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/20 14:29:27 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/22 00:49:41 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	Server::setUpsocket()
 	int b = bind(this->sfd, this->res->ai_addr, this->res->ai_addrlen);
 	
 	int l = listen(this->sfd,BACKLOG);
+	fcntl(sfd, F_SETFL, O_NONBLOCK);
 }
-
 
 void	Server::setUpserver()
 {
@@ -65,27 +65,30 @@ int Server::delcnction(int fd)
 	close(fd);
 	return 0;
 }
-void	Server::sendToClient(int fd, std::string data)
+
+void	Server::replay(int fd, std::string data)
 {
 	send(fd, data.c_str(), data.size(), 0);
 }
+
 void Server::recvFromClient(int fd)
 {
 	char buff[1024];
 	bzero(buff, sizeof(buff));
-	int recvbytes = recv(fd,buff, sizeof(buff), 0);
+	int recvdbytes;
+	// recvdbytes = recv(fd,buff, sizeof(buff), 0);
 
-
-	// while (true)
-	// {
-	// 	int recvbytes = recv(fd,buff, sizeof(buff), 0);
-	// 	if (!recvbytes)
-	// 		break;
-	// 	ofs << buff;
-	// }
-	if (recvbytes  > 0)
-		buff[recvbytes] = '\0';
-	std::cout << buff ;
+	while (true)
+	{
+		recvdbytes = recv(fd,buff, sizeof(buff), 0);
+		/* it may be a problem there is a difference between
+			0(no more reads) -1(error must be hundled )*/
+		if (recvdbytes <= 0)
+			break;
+		clientInput.append(buff, recvdbytes);
+	}
+	// if (recvdbytes  > 0)
+	// 	buff[recvdbytes] = '\0';
 }
 
 void	Server::runServer()
@@ -105,7 +108,7 @@ void	Server::runServer()
 				{
 					EV_SET(&this->evSet,afd, EVFILT_READ, EV_ADD, 0, 0, NULL);
 					kevent(this->kq, &this->evSet, 1, NULL, 0, NULL);
-					sendToClient(afd,"password: ");
+					replay(afd,"password: ");
 					std::cout << "Client with fd:"<< afd<< " connected " << std::endl;
 				}
 			}
