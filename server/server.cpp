@@ -6,18 +6,46 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/21 01:44:45 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/22 05:40:17 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc.h"
+#include "../includes/irc.h"
 
-void    ft_check_event( int event_fd )
+void    ft_parseCommand( char *buff )
+{
+    std::cout << " : " << buff;
+}
+
+void    ft_authProcess( Client *clt, char *buff)
+{
+    // get data from the new client to authenticate
+    if (strstr(buff, "PASS"))
+        std::cout << "Password is checked !!\n";
+    else if (strstr(buff, "NICK"))
+        clt->setNickName("test");
+    else if (strstr(buff, "USER"))
+        clt->setLoginName("test");
+        
+    // check if the client's data is ready to be authenticated
+    clt->check_authentification();
+    std::cout << " :: " << buff;
+}
+
+void    ft_check_event( t_server *server, int event_fd )
 {
     char buff[1024] = {0};
-    size_t bytes_read = recv(event_fd, &buff, sizeof(buff), 0);
-    if (bytes_read)
-        std::cout << bytes_read << " : " << buff;
+    ssize_t bytes_read = recv(event_fd, &buff, sizeof(buff), 0);
+    if (bytes_read <= 0)
+        return ;
+    std::map<int, Client*>::iterator it = server->clients.find(event_fd);
+    if (it != server->clients.end())
+    {
+        if (it->second->getAuthFlag())
+            ft_parseCommand(buff);
+        else
+            ft_authProcess(it->second, buff);
+    }
 }
 
 void ft_setup_new_connection( t_server *server , int event_fd )
@@ -26,20 +54,6 @@ void ft_setup_new_connection( t_server *server , int event_fd )
     std::cout << "client connected !!" << std::endl;
     server->new_sock_struct_len = sizeof(server->new_sock_struct);
     server->new_client = accept(event_fd, (struct sockaddr *)&server->new_sock_struct , (socklen_t *)&server->new_sock_struct_len);
-    // loop into the data received from the client
-    while (true)
-    {
-        char buff[1024] = {0};
-        ssize_t bytes_read;
-        bytes_read = recv(server->new_client, &buff, sizeof(buff), 0);
-        if (bytes_read <= 0)
-            break;
-        std::cout << bytes_read << " ::: " << buff;
-    }
-    
-    // sending mssg to the client to be informed that the connection has been accepted
-    std::string resp = ":localhost 001 othman :Welcome to the IRC server!\r\n";
-    send(server->new_client, resp.c_str(), resp.size(), 0);
     
     //addin the new event to the kqueue evList
     if (server->new_client == -1)
@@ -49,6 +63,7 @@ void ft_setup_new_connection( t_server *server , int event_fd )
         EV_SET(server->event, server->new_client, EVFILT_READ, EV_ADD, 0, 0, 0);
         if (kevent(server->kq, server->event, 1, NULL, 0, NULL))
             std::cerr << "Kevent falied !!"<< std::endl;
+        server->clients.insert(std::pair<int, Client*>(server->new_client, new Client(server->new_client)));
     }
 }
 

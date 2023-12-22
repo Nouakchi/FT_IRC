@@ -6,17 +6,17 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/17 14:02:46 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/22 03:51:38 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "irc.h"
+#include "includes/irc.h"
 
 int main()
 {
     int             i , num_events;
     t_server        server;
-    struct  kevent  new_event[5];
+    struct  kevent  new_event[512];
     
     if (EXIT_FAILURE == ft_create_socket(&server))
         return (EXIT_FAILURE);
@@ -49,7 +49,7 @@ int main()
                 ft_setup_new_connection( &server, event_fd );
             //check for an event from an existant client
             else if (new_event[i].filter & EVFILT_READ)
-                ft_check_event(event_fd);
+                ft_check_event(&server, event_fd);
         }
     }
     return   (0);

@@ -6,7 +6,7 @@
 #    By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2023/12/17 14:05:05 by onouakch         ###   ########.fr        #
+#    Updated: 2023/12/22 03:58:29 by onouakch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,13 @@ CPP		=	c++
 RM		=	rm -rf
 FLAGS	=	-Wall -Wextra -Werror -std=c++98
 
-INCLUDES	=	irc.h
+INCLUDES	=	includes/irc.h	\
+				models/Client.hpp	\
 
 SRCS	=	main.cpp	\
-			server.cpp	\
-			utils.cpp	\
+			server/server.cpp	\
+			utils/utils.cpp	\
+			models/Client.cpp
 
 OBJS	=	$(SRCS:%.cpp=%.o)
 
