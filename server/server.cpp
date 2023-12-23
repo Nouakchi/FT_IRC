@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/22 05:40:17 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/23 04:37:55 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,51 @@
 
 void    ft_parseCommand( char *buff )
 {
-    std::cout << " : " << buff;
-}
-
-void    ft_authProcess( Client *clt, char *buff)
-{
-    // get data from the new client to authenticate
-    if (strstr(buff, "PASS"))
-        std::cout << "Password is checked !!\n";
-    else if (strstr(buff, "NICK"))
-        clt->setNickName("test");
-    else if (strstr(buff, "USER"))
-        clt->setLoginName("test");
-        
-    // check if the client's data is ready to be authenticated
-    clt->check_authentification();
+    // here where we will be parsing commands
     std::cout << " :: " << buff;
 }
 
-void    ft_check_event( t_server *server, int event_fd )
+int     ft_checkPass( Client *clt, std::string buff, std::string pass )
+{
+    if (buff.substr(5, buff.length()) == pass)
+        return (clt->setPassChecked(true), 1);
+    else
+        return (clt->setPassChecked(false), 1);
+    return (1);
+}
+
+int     ft_checkNick( Client *clt, std::string buff )
+{
+    clt->setNickName(buff.substr(5, buff.length()));
+    return (1);
+}
+
+int     ft_checkUser( Client *clt, std::string buff )
+{
+    if (clt->getNickName() != "*")
+        return (clt->setLoginName(buff.substr(5, buff.length())), 0);
+    return (1);
+}
+
+void    ft_authProcess( Client *clt, std::string buff, std::string pass)
+{
+    buff.pop_back();
+    // get data from the new client to authenticate
+    if (buff.length() <= 5)
+        return ;
+    std::string tmp = buff.substr(0,5);
+    if (tmp == "PASS ")
+        ft_checkPass(clt, buff, pass);
+    else if (tmp == "NICK ")
+        ft_checkNick(clt, buff);
+    else if (tmp == "USER ")
+        ft_checkUser(clt, buff);
+        
+    // check if the client's data is ready to be authenticated
+    clt->check_authentification();
+}
+
+void  ft_check_event( t_server *server, int event_fd )
 {
     char buff[1024] = {0};
     ssize_t bytes_read = recv(event_fd, &buff, sizeof(buff), 0);
@@ -44,7 +70,7 @@ void    ft_check_event( t_server *server, int event_fd )
         if (it->second->getAuthFlag())
             ft_parseCommand(buff);
         else
-            ft_authProcess(it->second, buff);
+            ft_authProcess(it->second, std::string(buff), server->serv_pass);
     }
 }
 

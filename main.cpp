@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/22 03:51:38 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/23 04:39:59 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int main()
     int             i , num_events;
     t_server        server;
     struct  kevent  new_event[512];
+    
+    server.serv_pass = "pass_test";
     
     if (EXIT_FAILURE == ft_create_socket(&server))
         return (EXIT_FAILURE);
@@ -42,6 +44,7 @@ int main()
             if (new_event[i].flags & EV_EOF)
             {
                 std::cout << "client disconnected !!" << std::endl;
+                server.clients.erase(event_fd);
                 close(event_fd);
             }
             //check for new client
