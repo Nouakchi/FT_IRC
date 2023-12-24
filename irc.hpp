@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:04:10 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/22 22:01:53 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/24 07:03:48 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 #define IRC_HPP
 
 #include <iostream>
+#include <sstream>
 #include <map>
+#include <vector>
 #include <sys/socket.h>
 #include <sys/event.h>
 #include <netdb.h>

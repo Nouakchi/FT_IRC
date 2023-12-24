@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:05:37 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/22 22:36:09 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/23 22:51:48 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ class Server
 {
 private :
 	std::string passwd;
+	std::string hostname;
 	std::string clientInput;
 
 	int sfd;

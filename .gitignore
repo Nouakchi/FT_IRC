@@ -3,4 +3,5 @@ kitchen.cpp
 a.out
 ircserv
 .Notes.swp
+.vscode/*
 .vscode
