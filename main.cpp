@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/23 04:39:59 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/26 00:05:20 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,15 @@ int main()
     int             i , num_events;
     t_server        server;
     struct  kevent  new_event[512];
+    time_t          tt;
+    struct tm       *ti;
     
+    time(&tt);
+    ti = localtime(&tt);
+    
+    server.server_name = "1337_server";
     server.serv_pass = "pass_test";
+    server.server_date = asctime(ti);
     
     if (EXIT_FAILURE == ft_create_socket(&server))
         return (EXIT_FAILURE);
@@ -43,9 +50,14 @@ int main()
             //check for disconnected client
             if (new_event[i].flags & EV_EOF)
             {
-                std::cout << "client disconnected !!" << std::endl;
+                std::map<int, Client*>::iterator it = server.clients.find(event_fd);
+                std::vector<std::string>::const_iterator s_it = std::find(server.nicknames.begin(), server.nicknames.end(), it->second->getNickName());
+                server.nicknames.erase(s_it);
                 server.clients.erase(event_fd);
+                EV_SET(&server.delete_event, event_fd, EVFILT_READ, EV_DELETE, 0, 0, NULL);
+                kevent(server.kq, &server.delete_event, 1, NULL, 0, NULL);
                 close(event_fd);
+                std::cout << "client disconnected !!" << std::endl;
             }
             //check for new client
             else if (event_fd == server.socket)

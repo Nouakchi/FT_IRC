@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/23 04:07:00 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/25 23:36:23 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ class Client
         void setPassChecked( bool );
         
         // member functions
-        int     check_authentification( );
+        int     check_authentification( void );
         void    authenticate( void );
-        int     reply( std::string serv_name, std::string code, std::string mssg);
+        int     reply( std::string serv_name, int code, std::string mssg);
 };
 
 #endif

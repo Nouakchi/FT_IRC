@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 03:42:36 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/23 04:07:36 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/25 23:40:48 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,20 @@ void    Client::authenticate( void )
 int Client::check_authentification( void )
 {
     if (this->nickName == "*" || this->loginName == "*")
-        return (1);
+        return (-1);
     if (!this->passChecked)
-        return (this->reply(":localhost", std::to_string(ERR_PASSWDMISMATCH), ":Password Incorrect"), 1);
+        return (this->reply(":localhost", ERR_PASSWDMISMATCH, ":Password Incorrect"), EXIT_FAILURE);
+
     this->authenticate();
-    
-    // sending mssg to the client to be informed 
-    // that the connection has been accepted
-    if (ft_send(this->socket, ":localhost", "001", "othman", ":Welcome to the IRC server!"))
-        return (1);
-    return (0);
+    return (EXIT_SUCCESS);
 }
 
-int     Client::reply( std::string serv_name, std::string code, std::string mssg)
+int     Client::reply( std::string serv_name, int code, std::string mssg)
 {
-    if (ft_send(this->socket, serv_name, code, this->nickName, mssg))
-        return (1);
-    return (0);
+    std::string s_code = std::to_string(code);
+    if (code == -1)
+        s_code = "";
+    if (ft_send(this->socket, serv_name, s_code, this->nickName, mssg))
+        return (EXIT_FAILURE);
+    return (EXIT_SUCCESS);
 }

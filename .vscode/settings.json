@@ -1,7 +1,5 @@
 {
     "files.associations": {
-        "map": "cpp",
-        "string": "cpp",
         "__bit_reference": "cpp",
         "__config": "cpp",
         "__debug": "cpp",
@@ -45,6 +43,7 @@
         "iterator": "cpp",
         "limits": "cpp",
         "locale": "cpp",
+        "map": "cpp",
         "memory": "cpp",
         "mutex": "cpp",
         "new": "cpp",
@@ -54,6 +53,7 @@
         "sstream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
+        "string": "cpp",
         "string_view": "cpp",
         "system_error": "cpp",
         "tuple": "cpp",
