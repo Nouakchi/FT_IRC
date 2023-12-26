@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:05:37 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/23 22:51:48 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/26 01:46:07 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ class Server
 private :
 	std::string passwd;
 	std::string hostname;
-	std::string clientInput;
+	std::string creation_time;
+
+	std::vector<Client> clnts;
+	Client clnt;
 
 	int sfd;
 
@@ -42,10 +45,14 @@ private :
 	int delcnction(int fd);
 
 	void replay(int fd, std::string data);
+	
 	void recvFromClient(int fd);
-	void Authenticate_cnction(int fd, Client& clnt);
+	void Authenticate_cnction(Client& clnt, std::vector<std::string> cmd);
+	void checkAuth(Client& clnt);
+	void wlcmMsg(Client clnt);
 
-	int	errflag;
+	int  errflag;
+	void error_replay(int errNbr, Client& clnt, std::string err);
 
 public :
 	Server();

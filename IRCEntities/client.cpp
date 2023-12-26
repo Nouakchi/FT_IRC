@@ -6,15 +6,18 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:27:11 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/22 21:35:20 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/26 02:59:15 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.hpp"
 
+
 Client::Client()
-    : AuthFlag(0)
-{}
+	: AuthFlag(0)
+{
+}
 
 Client::~Client()
-{}
+{
+}
