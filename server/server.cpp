@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/26 04:31:02 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/26 07:03:47 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,34 @@ int     ft_checkNick( t_server *server, Client *clt, std::string buff )
 int     ft_checkUser( Client *clt, std::string buff )
 {
     if (clt->getNickName() != "*")
-        return (clt->setLoginName(buff), EXIT_SUCCESS);
+    {
+        int nbr_args = 0;
+        std::stringstream ss(buff);
+        std::string arg;
+        while (ss >> arg)
+        {
+            nbr_args++;
+            if (nbr_args == 1)
+                clt->setLoginName(arg);
+            else if (nbr_args == 4)
+            {
+                if (arg[0] == ':' && arg.length() > 1)
+                {
+                    clt->setRealName(arg.substr(1, arg.length()));
+                    break;
+                }
+                else
+                    clt->setRealName(arg);
+            }
+            else if (nbr_args > 4)
+                break;
+        }
+        if (nbr_args > 4)
+            return (
+                        clt->reply(":localhost", ERR_NEEDMOREPARAMS, "USER :Not enough parameters"),
+                        EXIT_FAILURE
+                    );
+    }
     return (EXIT_FAILURE);
 }
 

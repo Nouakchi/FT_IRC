@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/26 00:05:06 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/26 06:54:14 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include "../models/Client.hpp"
 #include <iterator>
 #include <vector>
+#include <sstream>
 
 #define PORT 6667
 

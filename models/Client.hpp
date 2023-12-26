@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/25 23:36:23 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/26 06:52:13 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class Client
         bool passChecked;
         std::string nickName;
         std::string loginName;
+        std::string realName;
         
     public:
         Client( int _socket );
@@ -36,6 +37,7 @@ class Client
         void setNickName( std::string );
         void setLoginName( std::string );
         void setPassChecked( bool );
+        void setRealName( std::string realname );
         
         // member functions
         int     check_authentification( void );

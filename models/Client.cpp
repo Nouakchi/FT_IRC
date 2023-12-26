@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 03:42:36 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/25 23:40:48 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/26 06:52:48 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ void    Client::setNickName( std::string _nickName )
 void    Client::setLoginName( std::string _loginName )
 {
     this->loginName = _loginName;
+}
+
+void    Client::setRealName( std::string _realName )
+{
+    this->realName = _realName;
 }
 
 void    Client::setPassChecked( bool checked )
