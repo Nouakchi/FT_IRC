@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/26 00:06:53 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/26 04:31:02 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ int     ft_checkPass( Client *clt, std::string buff, std::string pass )
 
 int     ft_checkNick( t_server *server, Client *clt, std::string buff )
 {
+    (void) server;
     if (buff.length() == 0)
         return (clt->reply(":localhost", ERR_NONICKNAMEGIVEN, ":No nickname given"), EXIT_FAILURE);
+        
     if (buff.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-{}[]\\`^") != std::string::npos)
         return (clt->reply(":localhost", ERR_ERRONEUSNICKNAME, buff + " :Erroneus nickname"), EXIT_FAILURE);
-    std::vector<std::string>::iterator it = std::find(server->nicknames.begin(), server->nicknames.end(), buff);
-    if (it != server->nicknames.end())
-        return (clt->reply(":localhost", ERR_NICKNAMEINUSE, buff + " :Nickname is already in use"), EXIT_FAILURE);
+        
     clt->setNickName(buff);
     return (EXIT_SUCCESS);
 }
@@ -66,13 +66,16 @@ int    ft_authProcess( t_server *server, Client *clt, std::string buff)
         return (clt->reply(":localhost", ERR_NOTREGISTERED, ":You have not registered"), EXIT_SUCCESS);
     std::string tmp = buff.substr(0,5);
     if (tmp == "PASS ")
-        ft_checkPass(clt, buff.substr(5, buff.length()), server->serv_pass);
+        status = ft_checkPass(clt, buff.substr(5, buff.length()), server->serv_pass);
     else if (tmp == "NICK ")
-        ft_checkNick(server, clt, buff.substr(5, buff.length()));
+        status = ft_checkNick(server, clt, buff.substr(5, buff.length()));
     else if (tmp == "USER ")
-        ft_checkUser(clt, buff.substr(5, buff.length()));
+        status = ft_checkUser(clt, buff.substr(5, buff.length()));
     else
-        clt->reply(":localhost", ERR_NOTREGISTERED, ":You have not registered");
+        status = clt->reply(":localhost", ERR_NOTREGISTERED, ":You have not registered");
+        
+    if (status == EXIT_FAILURE)
+        return (EXIT_SUCCESS);
 
     // check if the client's data is ready to be authenticated
     status = clt->check_authentification( );
@@ -84,8 +87,8 @@ int    ft_authProcess( t_server *server, Client *clt, std::string buff)
         if (it != server->nicknames.end())
             return (
                         clt->setNickName("*"),
-                        clt->reply(":localhost", ERR_NICKNAMEINUSE, buff.substr(5, buff.length()) + " :Nickname is already in use"),
-                        EXIT_FAILURE
+                        clt->reply(":localhost", ERR_NICKNAMEINUSE, clt->getNickName() + " :Nickname is already in use"),
+                        EXIT_SUCCESS
                     );
         server->nicknames.push_back(clt->getNickName());
         // sending mssg to the client to be informed 
