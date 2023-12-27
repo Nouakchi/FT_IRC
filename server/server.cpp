@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/27 02:31:39 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/27 02:56:35 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,46 @@ int     ft_checkUser( Client *clt, std::string buff )
     return (EXIT_SUCCESS);
 }
 
+int     ft_checkCmd( Client *clt, t_server *server, std::string buff)
+{
+    std::string tmp = buff.substr(0,5);
+    if (tmp == "PASS ")
+        return (ft_checkPass(clt, buff.substr(5, buff.length()), server->serv_pass));
+    else if (tmp == "NICK ")
+        return (ft_checkNick(server, clt, buff.substr(5, buff.length())));
+    else if (tmp == "USER ")
+        return (ft_checkUser(clt, buff.substr(5, buff.length())));
+    else
+        return (clt->reply(":localhost", ERR_NOTREGISTERED, ":You have not registered"));
+}
+
+int     ft_nickExists( Client *clt, t_server *server )
+{
+    std::vector<std::string>::iterator it = std::find(server->nicknames.begin(), server->nicknames.end(), clt->getNickName());
+    if (it != server->nicknames.end())
+        return (
+                    clt->setNickName("*"),
+                    clt->reply(":localhost", ERR_NICKNAMEINUSE, clt->getNickName() + " :Nickname is already in use"),
+                    EXIT_FAILURE
+                );
+    server->nicknames.push_back(clt->getNickName());
+    return (EXIT_SUCCESS);
+}
+
+int     ft_sendWelcome( Client *clt, t_server *server )
+{
+    if (clt->reply(":localhost", RPL_WELCOME, ":Welcome to the IRC server!"))
+            return (EXIT_FAILURE);
+    if (clt->reply(":localhost", RPL_YOURHOST, ":Your host is " + server->server_name + ", running version 1.0"))
+        return (EXIT_FAILURE);
+    std::string datetime(server->server_date);
+    if (clt->reply(":localhost", RPL_CREATED, ":This server was created " + datetime))
+        return (EXIT_FAILURE);
+        
+    clt->authenticate();
+    return (EXIT_SUCCESS);
+}
+
 int    ft_authProcess( t_server *server, Client *clt, std::string buff)
 {
     int status;
@@ -91,17 +131,8 @@ int    ft_authProcess( t_server *server, Client *clt, std::string buff)
     // get data from the new client to authenticate
     if (buff.length() < 5)
         return (clt->reply(":localhost", ERR_NOTREGISTERED, ":You have not registered"), EXIT_SUCCESS);
-    std::string tmp = buff.substr(0,5);
-    if (tmp == "PASS ")
-        status = ft_checkPass(clt, buff.substr(5, buff.length()), server->serv_pass);
-    else if (tmp == "NICK ")
-        status = ft_checkNick(server, clt, buff.substr(5, buff.length()));
-    else if (tmp == "USER ")
-        status = ft_checkUser(clt, buff.substr(5, buff.length()));
-    else
-        status = clt->reply(":localhost", ERR_NOTREGISTERED, ":You have not registered");
         
-    if (status == EXIT_FAILURE)
+    if (ft_checkCmd(clt, server, buff) == EXIT_FAILURE)
         return (EXIT_SUCCESS);
 
     // check if the client's data is ready to be authenticated
@@ -110,28 +141,22 @@ int    ft_authProcess( t_server *server, Client *clt, std::string buff)
         return (EXIT_FAILURE);
     else if (!status)
     {
-        std::vector<std::string>::iterator it = std::find(server->nicknames.begin(), server->nicknames.end(), clt->getNickName());
-        if (it != server->nicknames.end())
-            return (
-                        clt->setNickName("*"),
-                        clt->reply(":localhost", ERR_NICKNAMEINUSE, clt->getNickName() + " :Nickname is already in use"),
-                        EXIT_SUCCESS
-                    );
-        server->nicknames.push_back(clt->getNickName());
-        // sending mssg to the client to be informed 
-        // that the connection has been accepted
-        if (clt->reply(":localhost", RPL_WELCOME, ":Welcome to the IRC server!"))
+        if (ft_nickExists(clt, server))
+            return (EXIT_SUCCESS);
+        if (ft_sendWelcome(clt, server))
             return (EXIT_FAILURE);
-        if (clt->reply(":localhost", RPL_YOURHOST, ":Your host is " + server->server_name + ", running version 1.0"))
-            return (EXIT_FAILURE);
-        std::string datetime(server->server_date);
-        if (clt->reply(":localhost", RPL_CREATED, ":This server was created " + datetime))
-            return (EXIT_FAILURE);
-        
-        clt->authenticate();
         std::cout << clt->getNickName() << " " << clt->getLoginName() << " " << clt->getRealName() << std::endl;
     }
     return (EXIT_SUCCESS);
+}
+
+void  ft_disconnect( t_server *server, int event_fd )
+{
+    EV_SET(&server->delete_event, event_fd, EVFILT_READ, EV_DELETE, 0, 0, NULL);
+    kevent(server->kq, &server->delete_event, 1, NULL, 0, NULL);
+    server->clients.erase(event_fd);
+    close(event_fd);
+    std::cout << "client disconnected !!" << std::endl;
 }
 
 void  ft_check_event( t_server *server, int event_fd )
@@ -144,20 +169,10 @@ void  ft_check_event( t_server *server, int event_fd )
     if (it != server->clients.end())
     {
         if (it->second->getAuthFlag())
-        {
             ft_parseCommand(buff);
-        }
         else
-        {
             if (ft_authProcess(server, it->second, std::string(buff)))
-            {
-                EV_SET(&server->delete_event, event_fd, EVFILT_READ, EV_DELETE, 0, 0, NULL);
-                kevent(server->kq, &server->delete_event, 1, NULL, 0, NULL);
-                server->clients.erase(event_fd);
-                close(event_fd);
-                std::cout << "client disconnected !!" << std::endl;
-            }
-        }
+                ft_disconnect(server, event_fd);
     }
 }
 
