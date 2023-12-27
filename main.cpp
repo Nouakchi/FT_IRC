@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 00:22:43 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 00:49:19 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ int main()
     struct  kevent  new_event[512];
     time_t          tt;
     struct tm       *ti;
-    
+
     time(&tt);
     ti = localtime(&tt);
     
     server.server_name = "1337_server";
     server.serv_pass = "pass_test";
+    server.host_name = 
     server.server_date = asctime(ti);
     
     if (EXIT_FAILURE == ft_create_socket(&server))
@@ -35,6 +36,24 @@ int main()
         
     if (EXIT_FAILURE == ft_setup_kernel_queue(&server))
         return (EXIT_FAILURE);
+        
+    // // Get the local address and port the socket is bound to
+    // struct sockaddr_in local_addr;
+    // socklen_t addr_len = sizeof(local_addr);
+
+    // if (getsockname(server.socket, (struct sockaddr *)&local_addr, &addr_len) == -1) {
+    //     perror("getsockname failed");
+    //     close(server.socket);
+    //     return 1;
+    // }
+
+    // // Convert the IP address to a string and print it along with the port
+    // char ipstr[INET_ADDRSTRLEN];
+    // inet_ntop(AF_INET, &(local_addr.sin_addr), ipstr, INET_ADDRSTRLEN);
+    // printf("Local address: %s\n", ipstr);
+    // printf("Local port: %d\n", ntohs(local_addr.sin_port));
+    
+    // getchar();
     
     while (true)
     {

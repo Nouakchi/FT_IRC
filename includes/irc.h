@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 00:22:22 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 00:29:32 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <sys/types.h>
 #include <sys/event.h>
 #include <sys/time.h>
+#include <netdb.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <map>
@@ -58,6 +59,7 @@ typedef struct s_server
     char                        *server_date;
     std::string                 server_name;
     std::string                 serv_pass;
+    std::string                 host_name;
     struct	kevent		        event[512];
     struct  kevent              delete_event;
     struct	sockaddr_in	        sock_struct;
