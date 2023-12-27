@@ -1,14 +1,11 @@
 #include <iostream>
 
-enum err{
-	aaa = 463,
-	aab = 4222,
-
-};
-
 int main()
 {
-	
+	if ( f() || g() || k() )
+		std::cout << "true" << std::endl;
+	else
+		std::cout << "false" << std::endl;
 }
 
 

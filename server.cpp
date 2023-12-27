@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:22:27 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/27 03:06:44 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/27 08:55:07 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	Server::runServer()
 		{
 			if (evList[i].ident == sfd) // new connection is availble
 			{
-				// int afd = accept(this->sfd, NULL, NULL);
 				int afd = accept(this->sfd, res->ai_addr, &res->ai_addrlen);
 				if (addcnction(afd) == 0)
 				{
@@ -106,7 +105,6 @@ void	Server::runServer()
 					
 					std::cout << "Client with fd:"<< afd << " connected " << std::endl;
 
-					// replay(afd, hostname + " Welcome to the Internet Relay Network ");
 				}
 			}
 			else if (evList[i].flags & EV_EOF) // the client send EOF (disconnection) (so delete the cnction)
@@ -119,6 +117,8 @@ void	Server::runServer()
 			}
 			else if (evList[i].flags & EVFILT_READ) // the client sent data and its ready to read
 				recvFromClient(evList[i].ident);
+			// else if (evList[i].flags & EVFILT_WRITE) // the client is ready to write
+			// 	std::cout << "Client with fd:" << evList[i].ident << " is ready to write" << std::endl;
 		}
 	}
 }
@@ -128,7 +128,7 @@ void	Server::runServer()
 void Server::Authenticate_cnction(Client& clnt, std::vector<std::string> cmd)
 {
 	if ((cmd[0] == "PASS") && (clnt.AuthFlag == 1 || clnt.AuthFlag == 0))
-			processPass(clnt, cmd);
+		processPass(clnt, cmd);
 	else if (cmd[0] == "NICK" && clnt.AuthFlag > 0)
 		processNick(clnt, cmd);
 	else if (cmd[0] == "USER" && clnt.AuthFlag > 0)
@@ -138,9 +138,9 @@ void Server::Authenticate_cnction(Client& clnt, std::vector<std::string> cmd)
 
 	std::cout << "Auth flag : " << clnt.AuthFlag << std::endl;
 
-	if (clnt.AuthFlag == 3)
-		// && !clnt.nickName.empty()
-		// && !clnt.userName.empty())
+	if (clnt.AuthFlag == 3
+		&& !clnt.nickName.empty()
+		&& !clnt.userName.empty())
 	{
 		checkAuth(clnt);
 		if (clnt.AuthFlag == 3)

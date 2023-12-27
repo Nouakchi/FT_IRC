@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.cpp                                         :+:      :+:    :+:   */
+/*   Aa.cpp                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:27:08 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/19 13:37:37 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/27 03:27:39 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,3 +133,30 @@ int main()
 	setupServer();
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// std::string errMsg;
+
+	// errMsg = ":"+ this->hostname + " " + std::to_string(errNbr) + " " + clnt.nickName + err;
+
+	// std::cout << errMsg << std::endl;
+
+	// send(clnt.sfd, errMsg.c_str(), errMsg.size(), 0);

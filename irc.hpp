@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:04:10 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/27 02:49:15 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/27 09:04:36 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ enum Replies
 void		splitString(const std::string& input, std::vector<std::string>& tokens);
 std::string	skipSpaces(std::string input);
 
-bool		valid_nickname(std::string nickname);
+bool valid_nickname(std::string nickname);
 bool		nickInUse(std::string nickname);
-std::string    displayTimestamp();
+std::string	displayTimestamp();
 
 #endif
