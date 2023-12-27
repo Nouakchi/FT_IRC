@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:05:37 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/26 01:46:07 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/27 02:52:41 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,11 @@ private :
 	void replay(int fd, std::string data);
 	
 	void recvFromClient(int fd);
+
 	void Authenticate_cnction(Client& clnt, std::vector<std::string> cmd);
+	int processPass(Client& clnt, std::vector<std::string>& cmd);
+	int processNick(Client& clnt, std::vector<std::string>& cmd);
+	int processUser(Client& clnt, std::vector<std::string>& cmd);
 	void checkAuth(Client& clnt);
 	void wlcmMsg(Client clnt);
 

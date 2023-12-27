@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 23:02:51 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/26 03:09:43 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/27 03:00:36 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ std::string    displayTimestamp()
 
 	std::tm* timeInfo = std::localtime(&currentTime);
 
-	char buffer[17];	
-	std::strftime(buffer, 17, "%Y%m%d_%H%M%S", timeInfo);
+	char buffer[23];
+	std::strftime(buffer, 23, "%Y/%m/%d %H:%M:%S", timeInfo);
 	time_ = buffer;
 
 	return (time_);
@@ -56,14 +56,15 @@ void Server::wlcmMsg(Client clnt)
 	std::string RPL_created;
 
 	wlcmMsg = this->hostname + " 001 Welcome to the Internet Relay Network " 
-			+ clnt.nickName + "!" + clnt.userName + "\n";
-	RPL_urhost = this->hostname + " 002 Your host is " + this->hostname + "\n";
+			+ clnt.nickName + "!" + clnt.userName + "\r\n";
+	send(clnt.sfd, wlcmMsg.c_str(), wlcmMsg.size(), 0);
+
+	RPL_urhost = this->hostname + " 002 Your host is " + this->hostname + "\r\n";
+	send(clnt.sfd, RPL_urhost.c_str(), RPL_urhost.size(), 0);
+
 	RPL_created = this->hostname + " 003 This server was created "
 			+ this->creation_time  + "\r\n";
-	
-	wlcmMsg += RPL_urhost + RPL_created;
-	
-	send(clnt.sfd, wlcmMsg.c_str(), wlcmMsg.size(), 0);
+	send(clnt.sfd, RPL_created.c_str(), RPL_created.size(), 0);
 }
 
 void	Server::checkAuth(Client& clnt)
@@ -74,16 +75,14 @@ void	Server::checkAuth(Client& clnt)
 	{
 		error_replay(ERR_PASSWDMISMATCH, clnt, " :Password incorrect");
 		close (clnt.sfd);
-		return;
 	}
-	else if (valid_nickname(clnt.nickName))
+	else if (!valid_nickname(clnt.nickName))
 	{
 		error_replay(ERR_ERRONEUSNICKNAME, clnt, " :Erroneus nickname");
-		return ;
 	}
 	// else if (nickInUse(clnt.nickName)) //
 	// {
-	//	error_replay(ERR_NICKNAMEINUSE, clnt, " :Nickname is already in use");
+	//	error_replay(ERR_NICKNAMEINUSE, clnt, " :Nickname is already in use\r\n");
 	// }
 	else  // Valid Authentif  send a wlcm msg
 		return;
@@ -96,6 +95,6 @@ void	Server::error_replay(int errNbr, Client& clnt, std::string err)
 	std::string errMsg;
 
 	errMsg = this->hostname + " " + std::to_string(errNbr) + " " + clnt.nickName + err;
-	std::cout <<"error \n";
+	std::cout << err;
 	send(clnt.sfd, errMsg.c_str(), errMsg.size(), 0);
 }

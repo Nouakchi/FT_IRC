@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:22:27 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/26 03:08:43 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/27 03:06:44 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Server::Server()
 	// hints.ai_flags = AI_PASSIVE;
 
 	this->creation_time = displayTimestamp();
-	
+
 	passwd = "123";
 }
 
@@ -123,61 +123,28 @@ void	Server::runServer()
 	}
 }
 
-int main()
-{
-	Server srvr;
-	srvr.runServer();
-	return (0);
-}
+
 
 void Server::Authenticate_cnction(Client& clnt, std::vector<std::string> cmd)
 {
-	if ((cmd[0] == "PASS")
-		 && (clnt.AuthFlag == 1 || clnt.AuthFlag == 0)){
-		if (cmd.size() != 2)
-		{
-			error_replay(ERR_NEEDMOREPARAMS, clnt, " PASS :Not enough parametres\r\n");
-			return ;
-		}
-		std::cout  << "lok am here " << std::endl;
-		clnt.AuthFlag = 1;
-		clnt.clnt_entred_passwd = cmd[1];
-	}
-	else if (cmd[0] == "NICK"
-			 && clnt.AuthFlag > 0){
-		if (cmd.size() != 2){
-			error_replay(ERR_NEEDMOREPARAMS, clnt, " NICK :Not enough parametres\r\n");
-			return ;
-		}
-		else {
-			clnt.nickName = cmd[1];
-			if (clnt.AuthFlag < 2)
-				clnt.AuthFlag++ ;
-		}
-	}
-	else if (cmd[0] == "USER"
-			 && clnt.AuthFlag > 0){
-		//USER
-		if (cmd.size() != 5){
-			error_replay(ERR_NEEDMOREPARAMS, clnt, " USER :Not enough parametres\r\n");
-			return ;
-		}
-		// user_cmd(cmd);
-		if (clnt.AuthFlag < 3)
-		{
-			clnt.AuthFlag++ ;
-			std::cout  << "lok am here " << std::endl;
-		}
-	}
+	if ((cmd[0] == "PASS") && (clnt.AuthFlag == 1 || clnt.AuthFlag == 0))
+			processPass(clnt, cmd);
+	else if (cmd[0] == "NICK" && clnt.AuthFlag > 0)
+		processNick(clnt, cmd);
+	else if (cmd[0] == "USER" && clnt.AuthFlag > 0)
+		processUser(clnt, cmd);
+	else // not registred Yet
+		error_replay(ERR_NOTREGISTERED, clnt, ":Unauthorized command (already registered)\r\n");
 
-	if (clnt.AuthFlag == 3
-		&& !clnt.nickName.empty()
-		&& !clnt.userName.empty())
+	std::cout << "Auth flag : " << clnt.AuthFlag << std::endl;
+
+	if (clnt.AuthFlag == 3)
+		// && !clnt.nickName.empty()
+		// && !clnt.userName.empty())
 	{
-			std::cout << "AUTHENT" << std::endl;
-		// checkAuth(clnt);
-		// if (clnt.AuthFlag == 3)
-		// wlcmMsg(clnt);
+		checkAuth(clnt);
+		if (clnt.AuthFlag == 3)
+			wlcmMsg(clnt);
 	}
 }
 
@@ -193,12 +160,30 @@ void Server::recvFromClient(int fd)
 	{
 		char buff[512];
 		recvdbytes = recv(fd,buff, sizeof(buff), 0);
-		// if (buff.find_last_of("\r\n") != std::string::npos);
-		// break;
-		if (recvdbytes <= 0)
+		if (recvdbytes< 0)
 			break;
+
 		Input.append(buff, recvdbytes);
+
+
+		// size_t clrfpos = Input.find("\r\n");
+		// if ((clrfpos != std::string::npos) || recvdbytes <= 0)
+		// {
+		// 	Input = Input.erase(Input.length() - 2, 2);
+		// 	break;
+		// }
+		if (Input.find("\n")!= std::string::npos)
+		{	
+			Input.pop_back();
+			if (Input.find("\r")!= std::string::npos)
+			{
+				Input.pop_back();
+				break;
+			}
+			break;
+		}
 	}
+	std::cout << Input << std::endl<< std::endl;
 	
 
 	if (clnt.AuthFlag == 3)
