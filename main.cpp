@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/26 04:20:14 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 00:22:43 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,12 @@ int main()
                 std::vector<std::string>::const_iterator s_it = std::find(server.nicknames.begin(), server.nicknames.end(), it->second->getNickName());
                 if (s_it != server.nicknames.end())
                     server.nicknames.erase(s_it);
-                server.clients.erase(event_fd);
-                EV_SET(&server.delete_event, event_fd, EVFILT_READ, EV_DELETE, 0, 0, NULL);
-                kevent(server.kq, &server.delete_event, 1, NULL, 0, NULL);
-                close(event_fd);
-                std::cout << "client disconnected !!" << std::endl;
+                ft_disconnect( &server, event_fd );
+                // server.clients.erase(event_fd);
+                // EV_SET(&server.delete_event, event_fd, EVFILT_READ, EV_DELETE, 0, 0, NULL);
+                // kevent(server.kq, &server.delete_event, 1, NULL, 0, NULL);
+                // close(event_fd);
+                // std::cout << "client disconnected !!" << std::endl;
             }
             //check for new client
             else if (event_fd == server.socket)

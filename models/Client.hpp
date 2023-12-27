@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/27 01:01:22 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/27 23:50:12 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,22 @@ class Client
         Client( int _socket );
         
         //getters
-        int getAuthFlag( void );
-        bool getPassChecked( void );
+        int         getAuthFlag( void );
+        bool        getPassChecked( void );
         std::string getNickName( void );
         std::string getLoginName( void );
         std::string getRealName( void );
 
         //setters
-        void setNickName( std::string );
-        void setLoginName( std::string );
-        void setPassChecked( bool );
-        void setRealName( std::string realname );
+        void        setNickName( std::string );
+        void        setLoginName( std::string );
+        void        setPassChecked( bool );
+        void        setRealName( std::string realname );
         
         // member functions
-        int     check_authentification( void );
-        void    authenticate( void );
-        int     reply( std::string serv_name, int code, std::string mssg);
+        int         check_authentification( void );
+        void        authenticate( void );
+        int         reply( std::string serv_name, int code, std::string mssg);
 };
 
 #endif

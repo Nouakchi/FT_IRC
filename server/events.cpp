@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:47:54 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/27 03:48:56 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 00:19:22 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void    ft_parseCommand( char *buff )
 
 void  ft_disconnect( t_server *server, int event_fd )
 {
+    // remove the socket from the EVLIST
     EV_SET(&server->delete_event, event_fd, EVFILT_READ, EV_DELETE, 0, 0, NULL);
     kevent(server->kq, &server->delete_event, 1, NULL, 0, NULL);
+    // remove the user from the SET && close it's FD
     server->clients.erase(event_fd);
     close(event_fd);
     std::cout << "client disconnected !!" << std::endl;
@@ -36,6 +38,7 @@ void  ft_check_event( t_server *server, int event_fd )
     std::map<int, Client*>::iterator it = server->clients.find(event_fd);
     if (it != server->clients.end())
     {
+        // if the user is registered otherwise it will proced the auth process
         if (it->second->getAuthFlag())
             ft_parseCommand(buff);
         else

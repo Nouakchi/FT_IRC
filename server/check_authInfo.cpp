@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:51:58 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/27 03:52:36 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 00:07:58 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ int     ft_checkPass( Client *clt, std::string buff, std::string pass )
 {
     if (buff.length() == 0)
         return (clt->reply(":localhost", ERR_NEEDMOREPARAMS, "PASS :Not enough parameters"), EXIT_FAILURE);
+    
+    // if the nickname is not given, so the user still in the PASS step,
+    // otherwise the pass is ignored and an ERR_MSG is sent to the client
     if (clt->getNickName() == "*")
     {
         if (buff == pass)
@@ -34,7 +37,8 @@ int     ft_checkNick( t_server *server, Client *clt, std::string buff )
     if (buff.length() == 0)
         return (clt->reply(":localhost", ERR_NONICKNAMEGIVEN, ":No nickname given"), EXIT_FAILURE);
         
-    if (buff.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-{}[]\\`^") != std::string::npos)
+    std::string allowed_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-{}[]\\`^";
+    if (buff.find_first_not_of(allowed_chars) != std::string::npos)
         return (clt->reply(":localhost", ERR_ERRONEUSNICKNAME, buff + " :Erroneus nickname"), EXIT_FAILURE);
         
     clt->setNickName(buff);

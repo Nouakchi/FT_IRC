@@ -6,11 +6,13 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:49:12 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/27 03:52:32 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 00:02:19 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/irc.h"
+
+/*      authenticate the user && send a welcoming message to the client     */
 
 int     ft_sendWelcome( Client *clt, t_server *server )
 {
@@ -21,13 +23,18 @@ int     ft_sendWelcome( Client *clt, t_server *server )
     std::string datetime(server->server_date);
     if (clt->reply(":localhost", RPL_CREATED, ":This server was created " + datetime))
         return (EXIT_FAILURE);
-        
+
+    //change the authFlag to TRUE
     clt->authenticate();
+	
     return (EXIT_SUCCESS);
 }
 
+/*		check if the nickname used by the new user is already in use		*/
+
 int     ft_nickExists( Client *clt, t_server *server )
 {
+	// loop into the used nicknames to check if the given nickname already exist
     std::vector<std::string>::iterator it = std::find(server->nicknames.begin(), server->nicknames.end(), clt->getNickName());
     if (it != server->nicknames.end())
         return (
@@ -35,14 +42,18 @@ int     ft_nickExists( Client *clt, t_server *server )
                     clt->reply(":localhost", ERR_NICKNAMEINUSE, clt->getNickName() + " :Nickname is already in use"),
                     EXIT_FAILURE
                 );
+	//	if the given nickname is unique it will be added to the used nicknames SET
     server->nicknames.push_back(clt->getNickName());
     return (EXIT_SUCCESS);
 }
+
+/*		if the user is not registered yet it will continue the authentication process		*/
 
 int    ft_authProcess( t_server *server, Client *clt, std::string buff)
 {
     int status;
 
+	//	remove the "\r\n" of the received buffer from the client
     buff.pop_back();
     if (buff.find("\r") != std::string::npos)
         buff.pop_back();
@@ -63,7 +74,6 @@ int    ft_authProcess( t_server *server, Client *clt, std::string buff)
             return (EXIT_SUCCESS);
         if (ft_sendWelcome(clt, server))
             return (EXIT_FAILURE);
-        std::cout << clt->getNickName() << " " << clt->getLoginName() << " " << clt->getRealName() << std::endl;
     }
     return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 03:42:36 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/27 02:31:31 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/27 23:53:31 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ Client::Client( int _socket )
     this->nickName = "*";
     this->loginName = "*";
 }
+
+/************************************************************/
+/*                  # -*- GETTERS -*- #                     */
+/************************************************************/
 
 int Client::getAuthFlag( void )
 {
@@ -47,6 +51,10 @@ std::string Client::getRealName( void )
     return (this->realName);
 }
 
+/************************************************************/
+/*                  # -*- SETTERS -*- #                     */
+/************************************************************/
+
 void    Client::setNickName( std::string _nickName )
 {
     this->nickName = _nickName;
@@ -71,6 +79,10 @@ void    Client::authenticate( void )
 {
     this->authFlag = 1;
 }
+
+/************************************************************/
+/*                  # -*- M_FUNCT -*- #                     */
+/************************************************************/
 
 int Client::check_authentification( void )
 {
