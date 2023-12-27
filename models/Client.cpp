@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 03:42:36 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/26 06:52:48 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/27 01:02:04 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ bool Client::getPassChecked( void )
 std::string Client::getNickName( void )
 {
     return (this->nickName);
+}
+
+std::string Client::getLoginName( void )
+{
+    return (this->loginName);
+}
+
+std::string Client::getRealName( void )
+{
+    return (this->realName);
 }
 
 void    Client::setNickName( std::string _nickName )

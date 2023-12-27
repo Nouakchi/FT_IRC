@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/26 07:03:47 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/27 01:16:57 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,26 +63,26 @@ int     ft_checkUser( Client *clt, std::string buff )
             {
                 if (arg[0] == ':' && arg.length() > 1)
                 {
-                    clt->setRealName(arg.substr(1, arg.length()));
-                    break;
+                    size_t pos = buff.find(":");
+                    clt->setRealName(buff.substr(pos + 1, buff.length()));
                 }
                 else
                     clt->setRealName(arg);
-            }
-            else if (nbr_args > 4)
-                break;
-        }
-        if (nbr_args > 4)
-            return (
+                if (ss >> arg)
+                    return (
                         clt->reply(":localhost", ERR_NEEDMOREPARAMS, "USER :Not enough parameters"),
                         EXIT_FAILURE
                     );
+                return (EXIT_SUCCESS);
+            }
+        }
     }
     return (EXIT_FAILURE);
 }
 
 int    ft_authProcess( t_server *server, Client *clt, std::string buff)
 {
+    std::cout << buff;
     int status;
 
     buff.pop_back();
@@ -127,6 +127,7 @@ int    ft_authProcess( t_server *server, Client *clt, std::string buff)
         std::string datetime(server->server_date);
         if (clt->reply(":localhost", RPL_CREATED, ":This server was created " + datetime))
             return (EXIT_FAILURE);  
+        std::cout << clt->getNickName() << " " << clt->getLoginName() << " " << clt->getRealName() << std::endl;
     }
     return (EXIT_SUCCESS);
 }
