@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/27 01:16:57 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/27 02:31:39 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ int     ft_checkNick( t_server *server, Client *clt, std::string buff )
 
 int     ft_checkUser( Client *clt, std::string buff )
 {
+    int nbr_args = 0;
+    
     if (clt->getNickName() != "*")
     {
-        int nbr_args = 0;
         std::stringstream ss(buff);
         std::string arg;
         while (ss >> arg)
@@ -65,24 +66,23 @@ int     ft_checkUser( Client *clt, std::string buff )
                 {
                     size_t pos = buff.find(":");
                     clt->setRealName(buff.substr(pos + 1, buff.length()));
+                    break;
                 }
                 else
                     clt->setRealName(arg);
-                if (ss >> arg)
-                    return (
+            }
+        }
+        if (nbr_args != 4)
+            return (
                         clt->reply(":localhost", ERR_NEEDMOREPARAMS, "USER :Not enough parameters"),
                         EXIT_FAILURE
                     );
-                return (EXIT_SUCCESS);
-            }
-        }
     }
-    return (EXIT_FAILURE);
+    return (EXIT_SUCCESS);
 }
 
 int    ft_authProcess( t_server *server, Client *clt, std::string buff)
 {
-    std::cout << buff;
     int status;
 
     buff.pop_back();
@@ -126,7 +126,9 @@ int    ft_authProcess( t_server *server, Client *clt, std::string buff)
             return (EXIT_FAILURE);
         std::string datetime(server->server_date);
         if (clt->reply(":localhost", RPL_CREATED, ":This server was created " + datetime))
-            return (EXIT_FAILURE);  
+            return (EXIT_FAILURE);
+        
+        clt->authenticate();
         std::cout << clt->getNickName() << " " << clt->getLoginName() << " " << clt->getRealName() << std::endl;
     }
     return (EXIT_SUCCESS);

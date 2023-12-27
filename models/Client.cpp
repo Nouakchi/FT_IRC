@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 03:42:36 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/27 01:02:04 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/27 02:31:31 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int Client::check_authentification( void )
     if (!this->passChecked)
         return (this->reply(":localhost", ERR_PASSWDMISMATCH, ":Password Incorrect"), EXIT_FAILURE);
 
-    this->authenticate();
     return (EXIT_SUCCESS);
 }
 
