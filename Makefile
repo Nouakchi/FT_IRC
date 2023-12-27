@@ -6,7 +6,7 @@
 #    By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2023/12/22 03:58:29 by onouakch         ###   ########.fr        #
+#    Updated: 2023/12/27 03:55:26 by onouakch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,13 @@ FLAGS	=	-Wall -Wextra -Werror -std=c++98
 INCLUDES	=	includes/irc.h	\
 				models/Client.hpp	\
 
-SRCS	=	main.cpp	\
-			server/server.cpp	\
-			utils/utils.cpp	\
-			models/Client.cpp
+SRCS	=	main.cpp					\
+			server/server.cpp			\
+			server/authentication.cpp	\
+			server/check_authInfo.cpp	\
+			server/events.cpp			\
+			utils/utils.cpp				\
+			models/Client.cpp			\
 
 OBJS	=	$(SRCS:%.cpp=%.o)
 

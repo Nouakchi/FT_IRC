@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/26 06:54:14 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/27 03:55:48 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,7 @@ int     ft_bind_to_listen( t_server *server );
 int     ft_setup_kernel_queue( t_server *server);
 void    ft_setup_new_connection( t_server *server , int event_fd );
 int     ft_send(int socket, std::string serv_name, std::string code, std::string nickname, std::string message);
+int     ft_checkCmd( Client *clt, t_server *server, std::string buff);
+int    ft_authProcess( t_server *server, Client *clt, std::string buff);
 
 # endif
