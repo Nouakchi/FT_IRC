@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/27 02:56:35 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/27 03:00:26 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,22 @@ int     ft_checkUser( Client *clt, std::string buff )
                 clt->setLoginName(arg);
             else if (nbr_args == 4)
             {
-                if (arg[0] == ':' && arg.length() > 1)
+                if (arg.length() > 1)
                 {
-                    size_t pos = buff.find(":");
-                    clt->setRealName(buff.substr(pos + 1, buff.length()));
-                    break;
+                    if (arg[0] == ':')
+                    {
+                        size_t pos = buff.find(":");
+                        clt->setRealName(buff.substr(pos + 1, buff.length()));
+                        break;
+                    }
+                    else
+                        clt->setRealName(arg);
                 }
                 else
-                    clt->setRealName(arg);
+                {
+                    nbr_args--;
+                    break;
+                }
             }
         }
         if (nbr_args != 4)
