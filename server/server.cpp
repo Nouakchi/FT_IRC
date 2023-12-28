@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/27 03:53:20 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 01:12:55 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int ft_bind_to_listen( t_server *server )
         return (ft_error("Failed to bind socket !!"));
         
     //listen for connection
-    if (listen(server->socket, 4))
+    if (listen(server->socket, 128))
         return (ft_error("Failed to listen !!"));
     std::cout << "server is listening on port " << PORT << std::endl;
     return (EXIT_SUCCESS);

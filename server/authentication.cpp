@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:49:12 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 00:02:19 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 01:30:23 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 
 int     ft_sendWelcome( Client *clt, t_server *server )
 {
-    if (clt->reply(":localhost", RPL_WELCOME, ":Welcome to the IRC server!"))
+    if (clt->reply(std::string(server->host_name), RPL_WELCOME,
+         ":Welcome to the Internet Relay Network " + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name))
             return (EXIT_FAILURE);
-    if (clt->reply(":localhost", RPL_YOURHOST, ":Your host is " + server->server_name + ", running version 1.0"))
+    if (clt->reply(std::string(server->host_name), RPL_YOURHOST, ":Your host is " + server->server_name + ", running version 1.0"))
         return (EXIT_FAILURE);
     std::string datetime(server->server_date);
-    if (clt->reply(":localhost", RPL_CREATED, ":This server was created " + datetime))
+    if (clt->reply(std::string(server->host_name), RPL_CREATED, ":This server was created " + datetime))
         return (EXIT_FAILURE);
 
     //change the authFlag to TRUE

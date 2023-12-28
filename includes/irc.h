@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 00:29:32 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 01:23:13 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ typedef struct s_server
 	int					        opt_val;
     int                         new_sock_struct_len;
     char                        *server_date;
+    std::string                 host_name;
     std::string                 server_name;
     std::string                 serv_pass;
-    std::string                 host_name;
     struct	kevent		        event[512];
     struct  kevent              delete_event;
     struct	sockaddr_in	        sock_struct;
