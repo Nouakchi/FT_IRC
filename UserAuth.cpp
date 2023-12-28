@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 02:44:16 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/27 09:10:18 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/28 04:42:43 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int Server::processPass(Client& clnt, std::vector<std::string>& cmd)
 	if (cmd.size() != 2)
 	{
 		error_replay(ERR_NEEDMOREPARAMS, clnt, " PASS :Not enough parametres\r\n");
-		// return 0;
+		return 0;
 	}
 	clnt.AuthFlag = 1;
 	clnt.clnt_entred_passwd = cmd[1];

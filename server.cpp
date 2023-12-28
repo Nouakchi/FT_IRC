@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:22:27 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/27 08:55:07 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/28 04:50:17 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	Server::runServer()
 
 void Server::Authenticate_cnction(Client& clnt, std::vector<std::string> cmd)
 {
-	if ((cmd[0] == "PASS") && (clnt.AuthFlag == 1 || clnt.AuthFlag == 0))
+	if ((cmd[0] == "PASS")&& (clnt.AuthFlag == 1 || clnt.AuthFlag == 0))
 		processPass(clnt, cmd);
 	else if (cmd[0] == "NICK" && clnt.AuthFlag > 0)
 		processNick(clnt, cmd);
