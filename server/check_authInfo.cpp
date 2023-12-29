@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:51:58 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 00:07:58 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 09:25:14 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int     ft_checkNick( t_server *server, Client *clt, std::string buff )
 {
     (void) server;
     if (buff.length() == 0)
-        return (clt->reply(":localhost", ERR_NONICKNAMEGIVEN, ":No nickname given"), EXIT_FAILURE);
+        return (clt->reply(server->host_name, ERR_NONICKNAMEGIVEN, ":No nickname given"), EXIT_FAILURE);
         
     std::string allowed_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-{}[]\\`^";
     if (buff.find_first_not_of(allowed_chars) != std::string::npos)
-        return (clt->reply(":localhost", ERR_ERRONEUSNICKNAME, buff + " :Erroneus nickname"), EXIT_FAILURE);
+        return (clt->reply(server->host_name, ERR_ERRONEUSNICKNAME, buff + " :Erroneus nickname"), EXIT_FAILURE);
         
     clt->setNickName(buff);
     return (EXIT_SUCCESS);
@@ -60,7 +60,7 @@ int     ft_checkUser( Client *clt, std::string buff )
                 clt->setLoginName(arg);
             else if (nbr_args == 4)
             {
-                if (arg.length() > 1)
+                if (arg.length() >= 1)
                 {
                     if (arg[0] == ':')
                     {
@@ -97,5 +97,5 @@ int     ft_checkCmd( Client *clt, t_server *server, std::string buff)
     else if (tmp == "USER ")
         return (ft_checkUser(clt, buff.substr(5, buff.length())));
     else
-        return (clt->reply(":localhost", ERR_NOTREGISTERED, ":You have not registered"));
+        return (clt->reply(server->host_name, ERR_NOTREGISTERED, ":You have not registered"));
 }

@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 01:23:13 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 08:42:48 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_server
     struct	sockaddr_in	        new_sock_struct;
     std::map<int, Client*>      clients;
     std::vector<std::string>    nicknames;
-    
+
 	
 }   t_server;
 

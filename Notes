@@ -4,25 +4,28 @@
         upcoming connection and accept it
 
 ############## -*- !snake -*- ##############
-
-TO_DO => 
-    + check this -> RFC 1459
+-*- join channel // *-* operators && users
+-*- private message (client to client)
+-*- private message (client to channel)
 
 ############## -*- kadigh -*- ##############
 
+* MODE - Change the channel's mode:
+· i: Set/remove Invite-only channel
+· t: Set/remove the restrictions of the TOPIC command to channel
+operators
+· k: Set/remove the channel key (password)
+· o: Give/take channel operator privilege
+· l: Set/remove the user limit to channel
+
 ############## -*- serfak -*- ##############
-familiarization with the IRC protocol specifications (RFC 1459 and RFC 2812)
-understand the structure of IRC messages and commands
+* KICK - Eject a client from the channel
+* INVITE - Invite a client to a channel
+* TOPIC - Change or view the channel topic
 
 
 
-test
 
-PASS kehf
-errr
-PASS kjbewf
-err
-PASS test
-PASS khewbfewf
-err
+
+
 

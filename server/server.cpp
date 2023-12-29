@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 01:12:55 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 08:45:48 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void ft_setup_new_connection( t_server *server , int event_fd )
     server->new_sock_struct_len = sizeof(server->new_sock_struct);
     server->new_client = accept(event_fd, (struct sockaddr *)&server->new_sock_struct , (socklen_t *)&server->new_sock_struct_len);
     
-    //addin the new event to the kqueue evList
+    //adding the new event to the kqueue evList
     if (server->new_client == -1)
         std::cerr << "Failed to accept socket" << std::endl;
     else

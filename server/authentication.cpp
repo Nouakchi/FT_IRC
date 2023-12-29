@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:49:12 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 01:30:23 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/28 09:11:12 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int     ft_nickExists( Client *clt, t_server *server )
     if (it != server->nicknames.end())
         return (
                     clt->setNickName("*"),
-                    clt->reply(":localhost", ERR_NICKNAMEINUSE, clt->getNickName() + " :Nickname is already in use"),
+                    clt->reply(server->host_name, ERR_NICKNAMEINUSE, clt->getNickName() + " :Nickname is already in use"),
                     EXIT_FAILURE
                 );
 	//	if the given nickname is unique it will be added to the used nicknames SET
@@ -60,7 +60,7 @@ int    ft_authProcess( t_server *server, Client *clt, std::string buff)
         buff.pop_back();
     // get data from the new client to authenticate
     if (buff.length() < 5)
-        return (clt->reply(":localhost", ERR_NOTREGISTERED, ":You have not registered"), EXIT_SUCCESS);
+        return (clt->reply(server->host_name, ERR_NOTREGISTERED, ":You have not registered"), EXIT_SUCCESS);
         
     if (ft_checkCmd(clt, server, buff) == EXIT_FAILURE)
         return (EXIT_SUCCESS);
