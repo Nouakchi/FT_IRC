@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:22:27 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/28 04:50:17 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/28 06:55:59 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 Server::Server()
 	: hostname(":")
 {
-	bzero(clients_fd,sizeof(clients_fd));
+	// bzero(clients_fd,sizeof(clients_fd));
 	bzero(&hints,sizeof(hints));
 	hints.ai_family = PF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
@@ -43,7 +43,7 @@ void	Server::setUpsocket()
 	int b = bind(this->sfd, this->res->ai_addr, this->res->ai_addrlen);
 
 	int l = listen(this->sfd,BACKLOG);
-	fcntl(sfd, F_SETFL, O_NONBLOCK);
+	fcntl(sfd, F_SETFL, O_NONBLOCK); 
 }
 
 void	Server::setUpserver()
@@ -56,34 +56,6 @@ void	Server::setUpserver()
 	gethostname(hostnm, sizeof(hostnm));
 	hostname.append(hostnm);
 }
-
-int Server::addcnction(int fd)
-{
-	int i = -1;
-	if (fd < 0)
-		return -1;
-	while (clients_fd[++i] != 0);
-	if ((i + 1) == MAXFD)
-		return -1;
-	clients_fd[i] = fd;
-	return 0;
-}
-
-int Server::delcnction(int fd)
-{
-	int i = -1;
-	while (clients_fd[++i] != fd);
-	clients_fd[i] = 0;
-	close(fd);
-	return 0;
-}
-
-void	Server::replay(int fd, std::string data)
-{
-	send(fd, data.c_str(), data.size(), 0);
-}
-
-
 
 void	Server::runServer()
 {
@@ -98,21 +70,16 @@ void	Server::runServer()
 			if (evList[i].ident == sfd) // new connection is availble
 			{
 				int afd = accept(this->sfd, res->ai_addr, &res->ai_addrlen);
-				if (addcnction(afd) == 0)
-				{
 					EV_SET(&this->evSet,afd, EVFILT_READ, EV_ADD, 0, 0, NULL);
 					kevent(this->kq, &this->evSet, 1, NULL, 0, NULL);
 					
 					std::cout << "Client with fd:"<< afd << " connected " << std::endl;
-
-				}
 			}
 			else if (evList[i].flags & EV_EOF) // the client send EOF (disconnection) (so delete the cnction)
 			{
 				int dfd = evList[i].ident;
 				EV_SET(&this->evSet, dfd, EVFILT_READ, EV_DELETE, 0, 0, NULL);
 				kevent(this->kq, &this->evSet, 1, NULL, 0, NULL);
-				delcnction(dfd);
 				std::cout << "A client with fd:" << dfd << " Disconnected" << std::endl;
 			}
 			else if (evList[i].flags & EVFILT_READ) // the client sent data and its ready to read
@@ -165,13 +132,6 @@ void Server::recvFromClient(int fd)
 
 		Input.append(buff, recvdbytes);
 
-
-		// size_t clrfpos = Input.find("\r\n");
-		// if ((clrfpos != std::string::npos) || recvdbytes <= 0)
-		// {
-		// 	Input = Input.erase(Input.length() - 2, 2);
-		// 	break;
-		// }
 		if (Input.find("\n")!= std::string::npos)
 		{	
 			Input.pop_back();

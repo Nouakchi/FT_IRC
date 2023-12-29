@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 10:05:37 by aaoutem-          #+#    #+#             */
-/*   Updated: 2023/12/27 02:52:41 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2023/12/28 06:26:01 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ private :
 	int kq;
 	int nbr_ofEvents;
 
-	int	clients_fd[MAXFD];
+	// int	clients_fd[MAXFD];
 	struct addrinfo hints, *res;
 	struct kevent	evSet;
 	struct kevent	evList[MAXEVENTS];
@@ -41,10 +41,8 @@ private :
 	void	setUpsocket();
 	void	setUpserver();
 
-	int addcnction(int fd);
-	int delcnction(int fd);
-
-	void replay(int fd, std::string data);
+	// int addcnction(int fd);
+	// int delcnction(int fd);
 	
 	void recvFromClient(int fd);
 
