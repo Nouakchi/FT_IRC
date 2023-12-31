@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:00:24 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/30 16:00:40 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/31 11:24:24 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,9 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
     std::cout << "	::::	" << buff << "	:::::\n";
     while (ss >> token)
         items.push_back(token);
-    ft_joinCmd(server, clt, items);
+    if (items.size())
+    {
+        if (items[0] == "JOIN")
+            ft_joinCmd(server, clt, items);
+    }
 }

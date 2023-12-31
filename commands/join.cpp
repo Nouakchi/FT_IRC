@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:07:43 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/30 18:28:09 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:00:24 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 			std::set<Client *>::iterator c_it = it->second->users.begin();
 			while (c_it != it->second->users.end())
 			{
-				std::string msg = (*c_it)->getNickName() + "!" + (*c_it)->getLoginName() + "@" + server->host_name + " JOIN " + target + " \r\n";
+				std::string msg = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " JOIN " + target + " \r\n";
 				std::cout << "-*- " << msg;
 				send((*c_it)->getSocket(), msg.c_str(), msg.size(), 0);
 				c_it++;
@@ -45,12 +45,12 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 	{
 		Channel *new_chnl = new Channel(target, key, clt);
 		server->channels.insert(std::pair<std::string, Channel*>(target, new_chnl));
-		std::string msg = clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " JOIN " + target + " \r\n";
+		std::string msg = ":" + clt->getNickName() + "!~" + clt->getLoginName() + "@" + server->host_name + " JOIN " + target + " \r\n";
 		std::cout << "-*- " << msg;
 		send(clt->getSocket(), msg.c_str(), msg.size(), 0);
 		clt->reply(server->host_name, RPL_NOTOPIC, target + " :No topic is set");
-		clt->reply(server->host_name, RPL_NAMREPLY, "= " + target + " :@" + clt->getNickName());
-		clt->reply(server->host_name, RPL_ENDOFNAMES, target + " :End of /NAMES list");
+		clt->reply(server->host_name, RPL_NAMREPLY, "@ " + target + " :@" + clt->getNickName());
+		clt->reply(server->host_name, RPL_ENDOFNAMES, target + " :End of /NAMES list.");
 	}
 	return (EXIT_SUCCESS);
 }
