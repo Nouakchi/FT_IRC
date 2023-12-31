@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/27 23:50:12 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:20:35 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ class Client
         
         //getters
         int         getAuthFlag( void );
+        int         getSocket( void );
         bool        getPassChecked( void );
         std::string getNickName( void );
         std::string getLoginName( void );

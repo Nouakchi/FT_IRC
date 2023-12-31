@@ -6,17 +6,11 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:47:54 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 00:19:22 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/30 16:00:14 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/irc.h"
-
-void    ft_parseCommand( char *buff )
-{
-    // here where we will be parsing commands
-    std::cout << " :: " << buff;
-}
 
 void  ft_disconnect( t_server *server, int event_fd )
 {
@@ -40,9 +34,10 @@ void  ft_check_event( t_server *server, int event_fd )
     {
         // if the user is registered otherwise it will proced the auth process
         if (it->second->getAuthFlag())
-            ft_parseCommand(buff);
+            ft_parseCommand(server, it->second, std::string(buff));
         else
             if (ft_authProcess(server, it->second, std::string(buff)))
                 ft_disconnect(server, event_fd);
     }
 }
+

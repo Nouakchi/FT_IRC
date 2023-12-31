@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 08:42:48 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:27:18 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include <fcntl.h>
 #include <map>
 #include "../models/Client.hpp"
+#include "../models/Channel.hpp"
 #include <iterator>
 #include <vector>
 #include <sstream>
@@ -37,6 +38,12 @@ enum err_rpl
     RPL_WELCOME = 001,
     RPL_YOURHOST = 002,
     RPL_CREATED = 003,
+    
+    RPL_NOTOPIC = 313,
+    RPL_NAMREPLY = 353,
+    RPL_ENDOFNAMES = 366,
+    
+    ERR_NOSUCHCHANNEL = 403,
     
     ERR_NONICKNAMEGIVEN = 431,
     ERR_ERRONEUSNICKNAME = 432,
@@ -51,21 +58,22 @@ enum err_rpl
 
 typedef struct s_server
 {
-    int					        socket;
-    int                         new_client;
-    int                         kq;
-	int					        opt_val;
-    int                         new_sock_struct_len;
-    char                        *server_date;
-    std::string                 host_name;
-    std::string                 server_name;
-    std::string                 serv_pass;
-    struct	kevent		        event[512];
-    struct  kevent              delete_event;
-    struct	sockaddr_in	        sock_struct;
-    struct	sockaddr_in	        new_sock_struct;
-    std::map<int, Client*>      clients;
-    std::vector<std::string>    nicknames;
+    int					            socket;
+    int                             new_client;
+    int                             kq;
+	int					            opt_val;
+    int                             new_sock_struct_len;
+    char                            *server_date;
+    std::string                     host_name;
+    std::string                     server_name;
+    std::string                     serv_pass;
+    struct	kevent		            event[512];
+    struct  kevent                  delete_event;
+    struct	sockaddr_in	            sock_struct;
+    struct	sockaddr_in	            new_sock_struct;
+    std::map<int, Client*>          clients;
+    std::map<std::string, Channel*> channels;
+    std::vector<std::string>        nicknames;
 
 	
 }   t_server;
@@ -80,5 +88,10 @@ void    ft_setup_new_connection( t_server *server , int event_fd );
 int     ft_checkCmd( Client *clt, t_server *server, std::string buff);
 int     ft_authProcess( t_server *server, Client *clt, std::string buff);
 int     ft_send(int socket, std::string serv_name, std::string code, std::string nickname, std::string message);
+
+/*####################*/
+
+void    ft_parseCommand( t_server *server, Client *clt, std::string buff );
+int     ft_joinCmd( t_server *server, Client *clt, std::vector<std::string> &items );
 
 # endif

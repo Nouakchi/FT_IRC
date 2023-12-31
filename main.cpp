@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 08:39:49 by onouakch         ###   ########.fr       */
+/*   Updated: 2023/12/30 10:30:07 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int main()
     time(&tt);
     ti = localtime(&tt);
     
-    server.server_name = "1337_server";
     server.serv_pass = "pass_test";
     server.server_date = asctime(ti);
     
     gethostname(tmp_host, sizeof(tmp_host));
     
-    server.host_name = ":" + std::string(tmp_host);
+    server.server_name = std::string(tmp_host);
+    server.host_name = ":" + server.server_name;
     
     if (EXIT_FAILURE == ft_create_socket(&server))
         return (EXIT_FAILURE);
