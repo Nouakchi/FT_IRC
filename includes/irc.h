@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/30 17:27:18 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/02 10:32:54 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ enum err_rpl
     RPL_CREATED = 003,
     
     RPL_NOTOPIC = 313,
+    RPL_TOPIC = 332,
     RPL_NAMREPLY = 353,
     RPL_ENDOFNAMES = 366,
     
@@ -49,6 +50,7 @@ enum err_rpl
     ERR_ERRONEUSNICKNAME = 432,
     ERR_NICKNAMEINUSE = 433,
     
+    ERR_NOTONCHANNEL = 442,
     ERR_NOTREGISTERED = 451,
     ERR_NEEDMOREPARAMS = 461,
     ERR_ALREADYREGISTRED = 462,
@@ -93,5 +95,5 @@ int     ft_send(int socket, std::string serv_name, std::string code, std::string
 
 void    ft_parseCommand( t_server *server, Client *clt, std::string buff );
 int     ft_joinCmd( t_server *server, Client *clt, std::vector<std::string> &items );
-
+int		ft_partCmd(t_server *server, Client *clt, std::vector<std::string> &items);
 # endif

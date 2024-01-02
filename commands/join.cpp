@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:07:43 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/31 12:00:24 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/02 09:34:58 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 				send((*c_it)->getSocket(), msg.c_str(), msg.size(), 0);
 				c_it++;
 			}
-			clt->reply(server->host_name, RPL_NOTOPIC, target + it->second->topic);
+			int RPL = (it->second->topic == " :No topic is set") ? RPL_NOTOPIC : RPL_TOPIC;
+			clt->reply(server->host_name, RPL, target + " :" + it->second->topic);
 			clt->reply(server->host_name, RPL_NAMREPLY, "= " + target + it->second->u_names);
 			clt->reply(server->host_name, RPL_ENDOFNAMES, target + " :End of /NAMES list");
 		}
@@ -49,7 +50,7 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 		std::cout << "-*- " << msg;
 		send(clt->getSocket(), msg.c_str(), msg.size(), 0);
 		clt->reply(server->host_name, RPL_NOTOPIC, target + " :No topic is set");
-		clt->reply(server->host_name, RPL_NAMREPLY, "@ " + target + " :@" + clt->getNickName());
+		clt->reply(server->host_name, RPL_NAMREPLY, "= " + target + " :@" + clt->getNickName());
 		clt->reply(server->host_name, RPL_ENDOFNAMES, target + " :End of /NAMES list.");
 	}
 	return (EXIT_SUCCESS);
