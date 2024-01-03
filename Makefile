@@ -6,7 +6,7 @@
 #    By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2023/12/30 16:35:22 by onouakch         ###   ########.fr        #
+#    Updated: 2024/01/02 15:08:05 by onouakch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS	=	main.cpp					\
 			models/Channel.cpp			\
 			commands/cmds.cpp			\
 			commands/join.cpp			\
+			commands/part.cpp			\
 
 OBJS	=	$(SRCS:%.cpp=%.o)
 
