@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:00:24 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/02 15:39:06 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/03 18:24:12 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
     {
         if (token[0] == ':' && token.length() > 1)
         {
-            items.push_back(buff.substr(1, buff.length()));
+            items.push_back(buff.substr(buff.find(":"), buff.length()));
             break;
         }
         items.push_back(token);
