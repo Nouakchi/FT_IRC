@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:00:24 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/02 10:19:33 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/04 10:24:32 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
             ft_joinCmd(server, clt, items);
         else if (items[0] == "PART")
             ft_partCmd(server, clt, items);
+        else if(items[0] == "MODE")
+            ft_modeCmd(server, clt, buff);
     }
 }

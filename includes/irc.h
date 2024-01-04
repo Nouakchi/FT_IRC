@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/02 10:32:54 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/04 14:46:29 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ enum err_rpl
     RPL_ENDOFNAMES = 366,
     
     ERR_NOSUCHCHANNEL = 403,
-    
+    ERR_UNKNOWNMODE = 472,
+    ERR_CHANOPRIVSNEEDED = 482,
+
     ERR_NONICKNAMEGIVEN = 431,
     ERR_ERRONEUSNICKNAME = 432,
     ERR_NICKNAMEINUSE = 433,
@@ -96,4 +98,17 @@ int     ft_send(int socket, std::string serv_name, std::string code, std::string
 void    ft_parseCommand( t_server *server, Client *clt, std::string buff );
 int     ft_joinCmd( t_server *server, Client *clt, std::vector<std::string> &items );
 int		ft_partCmd(t_server *server, Client *clt, std::vector<std::string> &items);
+
+/*_________ kaigh_________________*/
+
+int     ft_modeCmd( t_server *server, Client *clnt, std::string buff);
+void    splitString(const std::string& cmd, std::vector<std::string>& substrs);
+
+void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd );
+void	RmMode( t_server *server, Client *clnt, std::vector<std::string>& cmd );
+
+
+void	error_replay( t_server* server ,int errNbr, Client clnt, std::string err);
+
+/*____________________________________*/
 # endif

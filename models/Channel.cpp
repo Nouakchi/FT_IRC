@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:20:47 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/02 09:34:51 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/04 15:11:36 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,9 @@ Channel::Channel(std::string _name, std::string _key, Client *_opt)
 {
     this->name = _name;
     this->key = _key;
-    this->opt = _opt;
     this->topic = "No topic is set";
-    this->u_names = " :@" + _opt->getNickName() + " ";
-    this->users.insert(opt);
-    this->i = 0;
-    this->t = 0;
-    this->k = 0;
-    this->o = 0;
-    this->l = 0;
+    this->i = false; // at the creation, the channel is not invite-only
+    this->t = true; //  at the creation, the topic stters/removals is restricted to Operators
+    this->o = 0;    // at the moment i dont think i would use this flag
+    this->l = 100; // at the creation, the max user of a channel are 100 
 }
