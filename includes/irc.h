@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/04 14:46:29 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/04 19:08:11 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ enum err_rpl
     ERR_NICKNAMEINUSE = 433,
     
     ERR_NOTONCHANNEL = 442,
+    ERR_USERNOTINCHANNEL = 441,
     ERR_NOTREGISTERED = 451,
     ERR_NEEDMOREPARAMS = 461,
     ERR_ALREADYREGISTRED = 462,
-    
     ERR_PASSWDMISMATCH = 464,
 };
 

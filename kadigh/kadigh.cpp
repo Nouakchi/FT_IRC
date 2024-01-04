@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 07:36:16 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/04 16:42:59 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/04 18:09:34 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,14 @@ void	ApplyMode( t_server *server, Client *clnt, std::vector<std::string>& cmd)
 	if (cmd[2].find_first_not_of("itkol") != std::string::npos)
 		return(error_replay(server,ERR_UNKNOWNMODE, *clnt, cmd[2] + " :is unknown mode char to me"));
 
+	if (cmd[2].length() == 0  || cmd[2].length() > 2  // bcz we could only apply one mode at a time the only allowed combination is the "it" one
+		|| cmd[2][0] == cmd[2][1])
+		return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
+
 	if (Set_RmModeSign > 0)
 		SetMode(server, clnt, cmd);
 	else
 		RmMode(server, clnt, cmd);
-
 
 }
 
