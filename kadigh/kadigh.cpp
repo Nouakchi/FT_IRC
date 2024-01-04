@@ -6,11 +6,11 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 07:36:16 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/04 14:54:20 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:42:59 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/irc.h"
+#include "../includes/irc.h"
 
 bool	parseChannelName( t_server *server, std::string& ChnlName)
 {

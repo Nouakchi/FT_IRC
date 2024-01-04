@@ -6,11 +6,11 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:38:23 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/04 15:35:33 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:43:09 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/irc.h"
+#include "../includes/irc.h"
 
 void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd )
 {

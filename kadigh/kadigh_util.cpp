@@ -6,11 +6,11 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 17:27:48 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/03 17:33:21 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:43:04 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/irc.h"
+#include "../includes/irc.h"
 
 void	error_replay( t_server* server ,int errNbr, Client clnt, std::string err)
 {
