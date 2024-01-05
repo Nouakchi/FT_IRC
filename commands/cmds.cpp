@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:00:24 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/03 18:24:12 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/05 14:18:05 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
             ft_joinCmd(server, clt, items);
         else if (items[0] == "PART")
             ft_partCmd(server, clt, items);
+        else if (items[0] == "PRIVMSG")
+            ft_chPrivmsg(server, clt, items);
     }
 }

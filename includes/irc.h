@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/02 10:32:54 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/05 14:18:53 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,7 @@ int     ft_send(int socket, std::string serv_name, std::string code, std::string
 void    ft_parseCommand( t_server *server, Client *clt, std::string buff );
 int     ft_joinCmd( t_server *server, Client *clt, std::vector<std::string> &items );
 int		ft_partCmd(t_server *server, Client *clt, std::vector<std::string> &items);
+int     ft_chPrivmsg( t_server *server, Client *clt, std::vector<std::string> &items );
+
+
 # endif
