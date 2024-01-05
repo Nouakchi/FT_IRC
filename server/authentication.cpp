@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:49:12 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 09:11:12 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:15:59 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int     ft_sendWelcome( Client *clt, t_server *server )
 int     ft_nickExists( Client *clt, t_server *server )
 {
 	// loop into the used nicknames to check if the given nickname already exist
-    std::vector<std::string>::iterator it = std::find(server->nicknames.begin(), server->nicknames.end(), clt->getNickName());
+    std::set<std::string>::iterator it = std::find(server->nicknames.begin(), server->nicknames.end(), clt->getNickName());
     if (it != server->nicknames.end())
         return (
                     clt->setNickName("*"),
@@ -44,7 +44,7 @@ int     ft_nickExists( Client *clt, t_server *server )
                     EXIT_FAILURE
                 );
 	//	if the given nickname is unique it will be added to the used nicknames SET
-    server->nicknames.push_back(clt->getNickName());
+    server->nicknames.insert(clt->getNickName());
     return (EXIT_SUCCESS);
 }
 

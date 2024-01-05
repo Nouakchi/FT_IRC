@@ -6,7 +6,7 @@
 #    By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2024/01/02 15:08:05 by onouakch         ###   ########.fr        #
+#    Updated: 2024/01/05 14:38:50 by onouakch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS	=	main.cpp					\
 			commands/cmds.cpp			\
 			commands/join.cpp			\
 			commands/part.cpp			\
+			commands/privmsg.cpp		\
 
 OBJS	=	$(SRCS:%.cpp=%.o)
 

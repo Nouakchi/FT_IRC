@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/30 10:30:07 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:15:17 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int main()
             if (new_event[i].flags & EV_EOF)
             {
                 std::map<int, Client*>::iterator it = server.clients.find(event_fd);
-                std::vector<std::string>::const_iterator s_it = std::find(server.nicknames.begin(), server.nicknames.end(), it->second->getNickName());
+                std::set<std::string>::iterator s_it = std::find(server.nicknames.begin(), server.nicknames.end(), it->second->getNickName());
                 if (s_it != server.nicknames.end())
                     server.nicknames.erase(s_it);
                 ft_disconnect( &server, event_fd );

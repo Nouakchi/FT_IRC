@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/05 14:18:53 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:26:29 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #include "../models/Client.hpp"
 #include "../models/Channel.hpp"
 #include <iterator>
+#include <set>
 #include <vector>
 #include <sstream>
 
@@ -40,18 +41,28 @@ enum err_rpl
     RPL_CREATED = 003,
     
     RPL_NOTOPIC = 313,
+    
     RPL_TOPIC = 332,
+    
     RPL_NAMREPLY = 353,
+    
     RPL_ENDOFNAMES = 366,
     
+    ERR_NOSUCHNICK = 401,
     ERR_NOSUCHCHANNEL = 403,
+    ERR_CANNOTSENDTOCHAN = 404,
     
+    ERR_NORECIPIENT = 411,
+    ERR_NOTEXTTOSEND = 412,
+
     ERR_NONICKNAMEGIVEN = 431,
     ERR_ERRONEUSNICKNAME = 432,
     ERR_NICKNAMEINUSE = 433,
     
     ERR_NOTONCHANNEL = 442,
+    
     ERR_NOTREGISTERED = 451,
+    
     ERR_NEEDMOREPARAMS = 461,
     ERR_ALREADYREGISTRED = 462,
     
@@ -75,7 +86,7 @@ typedef struct s_server
     struct	sockaddr_in	            new_sock_struct;
     std::map<int, Client*>          clients;
     std::map<std::string, Channel*> channels;
-    std::vector<std::string>        nicknames;
+    std::set<std::string>        nicknames;
 
 	
 }   t_server;
@@ -96,7 +107,7 @@ int     ft_send(int socket, std::string serv_name, std::string code, std::string
 void    ft_parseCommand( t_server *server, Client *clt, std::string buff );
 int     ft_joinCmd( t_server *server, Client *clt, std::vector<std::string> &items );
 int		ft_partCmd(t_server *server, Client *clt, std::vector<std::string> &items);
-int     ft_chPrivmsg( t_server *server, Client *clt, std::vector<std::string> &items );
+int     ft_privmsg( t_server *server, Client *clt, std::vector<std::string> &items );
 
 
 # endif
