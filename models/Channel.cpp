@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:20:47 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/04 15:11:36 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/05 11:09:47 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 Channel::Channel(std::string _name, std::string _key, Client *_opt)
 {
+    (void )_opt;
     this->name = _name;
     this->key = _key;
     this->topic = "No topic is set";

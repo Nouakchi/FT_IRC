@@ -1,0 +1,5 @@
+*.o
+a.out
+kitchen.cpp
+ircserv
+.vscode/*

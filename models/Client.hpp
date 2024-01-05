@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/03 11:07:20 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/05 11:10:00 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define __CLIENT_HPP__
 
 #include <iostream>
+#include <vector>
 
 class Client
 {
