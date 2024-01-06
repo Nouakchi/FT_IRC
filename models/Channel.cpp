@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:20:47 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/03 18:16:56 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:35:58 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@ Channel::Channel(std::string _name, std::string _key, Client *_opt)
     this->key = _key;
     this->topic = "No topic is set";
     this->users.insert(std::pair<std::string, Client*>("@" + _opt->getNickName(), _opt));
-    this->i = 0;
-    this->t = 0;
-    this->k = 0;
+    this->i = false;
+    this->t = true;
     this->o = 0;
-    this->l = 0;
+    this->l = -1;
 }
 
 std::string Channel::u_list( void )

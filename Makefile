@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+         #
+#    By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2024/01/05 14:38:50 by onouakch         ###   ########.fr        #
+#    Updated: 2024/01/06 14:38:44 by aaoutem-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,9 @@ SRCS	=	main.cpp					\
 			commands/join.cpp			\
 			commands/part.cpp			\
 			commands/privmsg.cpp		\
+			kadigh/SetRmMode.cpp		\
+			kadigh/kadigh.cpp			\
+			kadigh/kadigh_util.cpp
 
 OBJS	=	$(SRCS:%.cpp=%.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   irc.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/05 15:26:29 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:03:30 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ enum err_rpl
     RPL_CREATED = 003,
     
     RPL_NOTOPIC = 313,
+
+    RPL_CHANNELMODEIS = 324,
     
     RPL_TOPIC = 332,
     
@@ -60,6 +62,8 @@ enum err_rpl
     ERR_NICKNAMEINUSE = 433,
     
     ERR_NOTONCHANNEL = 442,
+
+    ERR_USERNOTINCHANNEL = 441,
     
     ERR_NOTREGISTERED = 451,
     
@@ -67,6 +71,9 @@ enum err_rpl
     ERR_ALREADYREGISTRED = 462,
     
     ERR_PASSWDMISMATCH = 464,
+
+    ERR_UNKNOWNMODE = 472,
+    ERR_CHANOPRIVSNEEDED = 482,
 };
 
 typedef struct s_server
@@ -109,5 +116,15 @@ int     ft_joinCmd( t_server *server, Client *clt, std::vector<std::string> &ite
 int		ft_partCmd(t_server *server, Client *clt, std::vector<std::string> &items);
 int     ft_privmsg( t_server *server, Client *clt, std::vector<std::string> &items );
 
+/*--------------------*/
+
+int ft_modeCmd( t_server *server, Client *clnt, std::string buff);
+
+void	error_replay( t_server* server ,int errNbr, Client clnt, std::string err);
+
+void    splitString(const std::string& cmd, std::vector<std::string>& substrs);
+
+void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd );
+void	RmMode(t_server *server, Client *clnt, std::vector<std::string>& cmd);
 
 # endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 13:02:46 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/03 18:00:10 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:58:25 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ class Channel
 {
     public:
         std::string                         name;
-        std::string                         key;
         std::string                         topic;
         std::map<std::string, Client *>     users;
-        int                                 i;
-        int                                 t;
-        int                                 k;
+
+        bool                                i;
+        bool                                t;
+        std::string                         key;
         int                                 o;
         int                                 l;
 
@@ -34,5 +34,6 @@ class Channel
         Channel(std::string name, std::string key, Client *opt);
         std::string u_list( void );
 };
+
 
 #endif

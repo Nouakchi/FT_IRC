@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:00:24 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/05 15:16:56 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:58:26 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
         }
         items.push_back(token);
     }
-    if (items.size() > 1)
+
+    if (items.size() >= 1)
     {
         if (items[0] == "JOIN")
             ft_joinCmd(server, clt, items);
@@ -39,5 +40,7 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
             ft_partCmd(server, clt, items);
         else if (items[0] == "PRIVMSG")
             ft_privmsg(server, clt, items);
+        else if (items[0] == "MODE")
+            ft_modeCmd(server, clt, buff);
     }
 }
