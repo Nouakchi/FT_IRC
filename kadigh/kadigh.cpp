@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 07:36:16 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/04 18:09:34 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/06 12:02:22 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,53 @@ bool	OpExecCommand( t_server *server, Client *clnt, std::string chnlName)
 	return true;
 }
 
-void	listCHmodes()
+void	ChannelOP(Channel *chnl, std::vector<std::string>& modes)
 {
-	std::cout << "need to be Implemented\n";
+	bool chnHasOpFlag = false;
+
+	std::map<std::string, Client *>::iterator it = chnl->users.begin();
+
+	while (it != chnl->users.end())
+	{
+		if (it->first[0] == '@')
+		{
+			modes[1].append(" " + it->first);
+			chnHasOpFlag = true;
+		}
+	}
+	if (chnHasOpFlag)
+		modes[0].append("o");
+
+	return ;
 }
 
+void	listCHmodes( t_server *server, Client *clnt , std::string ChnlName)
+{
+	std::vector<std::string> modes;
+	modes[0] = "+";
+	int i = -1;
+
+	Channel *chnl = server->channels[ChnlName];
+	
+	if (chnl->i)
+		modes[0].append("i");
+	if(chnl->t)
+		modes[0].append("t");
+	if (!chnl->k.empty())
+	{
+		modes[0].append("k");
+		modes[1].append(" " + chnl->k);
+	}
+	if (chnl->l > 0)
+	{
+		modes[0].append("l");
+		modes[1].append(" " + std::to_string(chnl->l));
+	}
+	ChannelOP(chnl, modes);
+
+	//send replay 
+	error_replay(server, RPL_CHANNELMODEIS, *clnt, ChnlName + " " + modes[0] + " " + modes[1]);// to be verified
+}
 
 
 void	ApplyMode( t_server *server, Client *clnt, std::vector<std::string>& cmd)
@@ -58,13 +100,12 @@ void	ApplyMode( t_server *server, Client *clnt, std::vector<std::string>& cmd)
 
 	if (cmd[2].length() == 0  || cmd[2].length() > 2  // bcz we could only apply one mode at a time the only allowed combination is the "it" one
 		|| cmd[2][0] == cmd[2][1])
-		return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
+		return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"));
 
 	if (Set_RmModeSign > 0)
 		SetMode(server, clnt, cmd);
 	else
 		RmMode(server, clnt, cmd);
-
 }
 
 int ft_modeCmd( t_server *server, Client *clnt, std::string buff)
@@ -74,31 +115,20 @@ int ft_modeCmd( t_server *server, Client *clnt, std::string buff)
 	splitString(buff, cmd);
 
 	if (cmd.size() < 2 || cmd.size() > 4)
-	{
-		error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n");
-		return 0;
-	}
+		return (error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"), 0);
 
-	if (!parseChannelName(server, cmd[1]))
-	{
-		error_replay(server, ERR_NOSUCHCHANNEL, *clnt, " :No such channel\r\n");
-		return 0;
-	}
+	if (!parseChannelName(server, cmd[1])) //parse the channel name && if exist
+		return (error_replay(server, ERR_NOSUCHCHANNEL, *clnt, " :No such channel"), 0);
 
 	if (!OpExecCommand(server, clnt, cmd[1])) // if the user is not an operator he is not allowed to change the channel modes
-	{
-		error_replay(server,ERR_CHANOPRIVSNEEDED, *clnt, cmd[1] + " :You're not channel operator\r\n");
-		return 0;
-	}
+		return (error_replay(server,ERR_CHANOPRIVSNEEDED, *clnt, cmd[1] + " :You're not channel operator"),0);
 
 	if ( cmd.size() == 2 )
-		listCHmodes();
+		listCHmodes(server, clnt, cmd[2]);
 	else if (cmd[2][0] == '+' || cmd[2][0] == '-')
-	{
 		ApplyMode(server, clnt, cmd);
-	}
 	else 
-		return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"),
-				0);
+		return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"), 0);
+
 	return 1;
 }

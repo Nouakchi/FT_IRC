@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:38:23 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/04 19:51:43 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/06 09:57:16 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,29 @@ void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd )
 {
 	std::string chnlName = cmd[1];
 
-	int i = -1;
-	while (++i < cmd[2].length())
+	if (cmd[2][0] == 'k')
 	{
-		if (cmd[2][i] == 'i')
+		if (cmd.size() == 4)
+			server->channels[chnlName]->k = cmd[3];
+		else
+			return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
+	}
+	else if (cmd[2][0] == 'o')
+		setChnlOp(server, clnt, cmd);
+	else if (cmd[2][0] == 'l')
+	{
+		if (cmd.size() == 4 && (cmd[3].find_first_not_of("0123456789") == std::string::npos))
+			server->channels[chnlName]->l = atoi(cmd[3].c_str());
+		else // not a valid arguement
+			return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
+	}
+	while (!cmd[2].empty())
+	{
+		if (cmd[2][0] == 'i')
 			server->channels[chnlName]->i = true;
-		else if (cmd[2][i] == 't')
+		else if (cmd[2][0] == 't')
 			server->channels[chnlName]->t = true;
-		else if (cmd[2][i] == 'k')
-		{
-			if (cmd.size() == 4)
-				server->channels[chnlName]->k = cmd[3];
-			else
-				return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
-		}
-		else if (cmd[2][i] == 'o')
-			setChnlOp(server, clnt, cmd);
-		else if (cmd[2][i] == 'l')
-		{
-			if (cmd.size() == 4 && (cmd[3].find_first_not_of("0123456789") == std::string::npos))
-				server->channels[chnlName]->l = atoi(cmd[3].c_str());
-			else // not a valid arguement
-				return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
-		}
+		cmd[2].erase(0,1);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/04 19:08:11 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/06 11:58:18 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ enum err_rpl
     RPL_CREATED = 003,
     
     RPL_NOTOPIC = 313,
+    RPL_CHANNELMODEIS = 324,
     RPL_TOPIC = 332,
     RPL_NAMREPLY = 353,
     RPL_ENDOFNAMES = 366,
