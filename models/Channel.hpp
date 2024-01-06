@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 13:02:46 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/31 11:14:27 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/03 18:00:10 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,25 @@
 # define __CHANNEL_HPP__
 
 #include <iostream>
-#include <set>
+#include <map>
 #include "Client.hpp"
 
 class Channel
 {
     public:
-        std::string             name;
-        std::string             key;
-        std::string             topic;
-        std::string             u_names;
-        Client                  *opt;
-        std::set<Client *>      users;
-        int                     i;
-        int                     t;
-        int                     k;
-        int                     o;
-        int                     l;
+        std::string                         name;
+        std::string                         key;
+        std::string                         topic;
+        std::map<std::string, Client *>     users;
+        int                                 i;
+        int                                 t;
+        int                                 k;
+        int                                 o;
+        int                                 l;
 
     public:
         Channel(std::string name, std::string key, Client *opt);
+        std::string u_list( void );
 };
 
 #endif

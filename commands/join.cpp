@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:07:43 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/31 12:00:24 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/06 18:19:39 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,20 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 	std::map<std::string, Channel*>::iterator it = server->channels.find(target);
 	if (it != server->channels.end())
 	{
-		if (it->second->u_names.find(clt->getNickName()) == std::string::npos)
+		if (it->second->users.find(clt->getNickName()) == it->second->users.end())
 		{
-			it->second->u_names.append(clt->getNickName() + " ");
-			it->second->users.insert(clt);
-			std::set<Client *>::iterator c_it = it->second->users.begin();
+			it->second->users.insert(std::pair<std::string, Client*>(clt->getNickName(), clt));
+			std::map<std::string, Client *>::iterator c_it = it->second->users.begin();
 			while (c_it != it->second->users.end())
 			{
 				std::string msg = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " JOIN " + target + " \r\n";
 				std::cout << "-*- " << msg;
-				send((*c_it)->getSocket(), msg.c_str(), msg.size(), 0);
+				send(c_it->second->getSocket(), msg.c_str(), msg.size(), 0);
 				c_it++;
 			}
-			clt->reply(server->host_name, RPL_NOTOPIC, target + it->second->topic);
-			clt->reply(server->host_name, RPL_NAMREPLY, "= " + target + it->second->u_names);
+			int RPL = (it->second->topic == " :No topic is set") ? RPL_NOTOPIC : RPL_TOPIC;
+			clt->reply(server->host_name, RPL, target + " :" + it->second->topic);
+			clt->reply(server->host_name, RPL_NAMREPLY, "= " + target + " :" + it->second->u_list());
 			clt->reply(server->host_name, RPL_ENDOFNAMES, target + " :End of /NAMES list");
 		}
 	}
@@ -49,7 +49,7 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 		std::cout << "-*- " << msg;
 		send(clt->getSocket(), msg.c_str(), msg.size(), 0);
 		clt->reply(server->host_name, RPL_NOTOPIC, target + " :No topic is set");
-		clt->reply(server->host_name, RPL_NAMREPLY, "@ " + target + " :@" + clt->getNickName());
+		clt->reply(server->host_name, RPL_NAMREPLY, "= " + target + " :@" + clt->getNickName());
 		clt->reply(server->host_name, RPL_ENDOFNAMES, target + " :End of /NAMES list.");
 	}
 	return (EXIT_SUCCESS);

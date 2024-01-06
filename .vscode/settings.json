@@ -50,6 +50,7 @@
         "optional": "cpp",
         "ostream": "cpp",
         "ratio": "cpp",
+        "set": "cpp",
         "sstream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
@@ -62,7 +63,6 @@
         "unordered_map": "cpp",
         "utility": "cpp",
         "vector": "cpp",
-        "set": "cpp",
         "__functional_03": "cpp"
     }
 }

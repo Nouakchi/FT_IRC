@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:47:54 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/30 16:00:14 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:48:06 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ void  ft_check_event( t_server *server, int event_fd )
         // if the user is registered otherwise it will proced the auth process
         if (it->second->getAuthFlag())
             ft_parseCommand(server, it->second, std::string(buff));
-        else
-            if (ft_authProcess(server, it->second, std::string(buff)))
+        else if (ft_authProcess(server, it->second, std::string(buff)))
                 ft_disconnect(server, event_fd);
     }
 }
