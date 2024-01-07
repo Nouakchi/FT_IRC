@@ -2,20 +2,14 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   irc.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/05 15:26:29 by onouakch         ###   ########.fr       */
-=======
+/*                                                    +:+ +:+         +:+     */    
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/06 15:52:39 by heddahbi         ###   ########.fr       */
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
+/*   Updated: 2024/01/07 16:51:10 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 # ifndef __IRC_HPP__
 # define __IRC_HPP__
@@ -35,10 +29,8 @@
 #include "../models/Client.hpp"
 #include "../models/Channel.hpp"
 #include <iterator>
-<<<<<<< HEAD
 #include <set>
-=======
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
+
 #include <vector>
 #include <sstream>
 
@@ -51,7 +43,6 @@ enum err_rpl
     RPL_CREATED = 003,
     
     RPL_NOTOPIC = 313,
-<<<<<<< HEAD
     
     RPL_TOPIC = 332,
     
@@ -66,26 +57,18 @@ enum err_rpl
     ERR_NORECIPIENT = 411,
     ERR_NOTEXTTOSEND = 412,
 
-=======
-    RPL_TOPIC = 332,
-    RPL_NAMREPLY = 353,
-    RPL_ENDOFNAMES = 366,
+
+    ERR_CHANOPRIVSNEEDED = 482,
+    ERR_BADCHANMASK = 476,
     
-    ERR_NOSUCHCHANNEL = 403,
-    
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
     ERR_NONICKNAMEGIVEN = 431,
     ERR_ERRONEUSNICKNAME = 432,
     ERR_NICKNAMEINUSE = 433,
+    ERR_USERNOTINCHANNEL = 441,
     
     ERR_NOTONCHANNEL = 442,
-<<<<<<< HEAD
-    
+
     ERR_NOTREGISTERED = 451,
-    
-=======
-    ERR_NOTREGISTERED = 451,
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
     ERR_NEEDMOREPARAMS = 461,
     ERR_ALREADYREGISTRED = 462,
     
@@ -109,15 +92,11 @@ typedef struct s_server
     struct	sockaddr_in	            new_sock_struct;
     std::map<int, Client*>          clients;
     std::map<std::string, Channel*> channels;
-<<<<<<< HEAD
-    std::set<std::string>        nicknames;
-=======
-    std::vector<std::string>        nicknames;
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
+    std::set<std::string>           nicknames;
 
-	
 }   t_server;
 
+/*####################*/
 int     ft_error( std::string err_msg );
 int     ft_create_socket( t_server *server );
 int     ft_bind_to_listen( t_server *server );
@@ -134,12 +113,7 @@ int     ft_send(int socket, std::string serv_name, std::string code, std::string
 void    ft_parseCommand( t_server *server, Client *clt, std::string buff );
 int     ft_joinCmd( t_server *server, Client *clt, std::vector<std::string> &items );
 int		ft_partCmd(t_server *server, Client *clt, std::vector<std::string> &items);
-<<<<<<< HEAD
 int     ft_privmsg( t_server *server, Client *clt, std::vector<std::string> &items );
-
-
-=======
-
 /*####################*/
 int    ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items);
 int    ft_inviteCmd(t_server *server, Client *clt, std::vector<std::string> &items);
@@ -147,5 +121,5 @@ int    ft_topicCmd(t_server *server, Client *clt, std::vector<std::string> &item
 int     get_client_by_fd(t_server *server, int fd);
 bool    is_valid_channel_name(std::string name);
 /*####################*/
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
+
 # endif

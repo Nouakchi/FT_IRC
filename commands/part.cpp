@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/02 09:47:19 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/03 18:21:53 by onouakch         ###   ########.fr       */
-=======
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 09:47:19 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/03 20:08:01 by heddahbi         ###   ########.fr       */
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
+/*   Updated: 2024/01/07 17:12:56 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +32,7 @@ int		ft_partChannel(t_server *server, Client *clt, std::string target, std::stri
 	while (c_it != it->second->users.end())
 	{
 		std::string msg = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " PART " + target + " " + quit_msg + " \r\n";
-<<<<<<< HEAD
 		std::cout << "-*- " << msg;
-=======
-		// std::cout << "-*- " << msg;
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
 		send(c_it->second->getSocket(), msg.c_str(), msg.size(), 0);
 		c_it++;
 	}

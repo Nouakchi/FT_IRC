@@ -3,18 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:07:43 by onouakch          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/01/06 18:19:39 by onouakch         ###   ########.fr       */
-=======
-/*   Updated: 2024/01/03 16:15:33 by onouakch         ###   ########.fr       */
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
+/*   Updated: 2024/01/07 16:56:57 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../includes/irc.h"
+#include "../models/Channel.hpp"
+#include "../models/Client.hpp"
+#include <sstream>
+
+
+
 
 int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::string key)
 {

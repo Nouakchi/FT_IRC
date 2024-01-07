@@ -3,21 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/05 15:15:17 by onouakch         ###   ########.fr       */
-=======
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/03 20:19:39 by heddahbi         ###   ########.fr       */
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
+/*   Updated: 2024/01/07 17:13:48 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/irc.h"
+#include <sstream>
+#include <vector>
 
 int main()
 {
@@ -53,11 +48,7 @@ int main()
         //check for a new connection or a received message
         num_events = kevent(server.kq, NULL, 0, new_event, 1, NULL);
         if (num_events == -1)
-<<<<<<< HEAD
             return (ft_error("Faile to check on events !!"));
-=======
-            return (ft_error("Failed to check on events !!"));
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
 
         i = -1;
         while (++i < num_events)
@@ -67,11 +58,7 @@ int main()
             if (new_event[i].flags & EV_EOF)
             {
                 std::map<int, Client*>::iterator it = server.clients.find(event_fd);
-<<<<<<< HEAD
                 std::set<std::string>::iterator s_it = std::find(server.nicknames.begin(), server.nicknames.end(), it->second->getNickName());
-=======
-                std::vector<std::string>::const_iterator s_it = std::find(server.nicknames.begin(), server.nicknames.end(), it->second->getNickName());
->>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
                 if (s_it != server.nicknames.end())
                     server.nicknames.erase(s_it);
                 ft_disconnect( &server, event_fd );

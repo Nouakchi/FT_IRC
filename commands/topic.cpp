@@ -1,15 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   topic.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/07 17:07:55 by heddahbi          #+#    #+#             */
+/*   Updated: 2024/01/07 17:07:56 by heddahbi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/irc.h"
 #include "../models/Client.hpp"
 #include "../models/Channel.hpp"
 
-#define ERR_NEEDMOREPARAMS 461
-#define ERR_NOSUCHCHANNEL 403
-#define ERR_NOTONCHANNEL 442
-#define ERR_USERNOTINCHANNEL 441
-#define ERR_CHANOPRIVSNEEDED 482
-#define ERR_BADCHANMASK   476
-#define RPL_NOTOPIC 331
-#define RPL_TOPIC 332
+
 
 int ft_topicCmd(t_server *server, Client *clt, std::vector<std::string> &items)
 {

@@ -1,13 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   kick.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/07 17:08:37 by heddahbi          #+#    #+#             */
+/*   Updated: 2024/01/07 17:08:38 by heddahbi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/irc.h"
 #include "../models/Client.hpp"
 #include "../models/Channel.hpp"
-
-#define ERR_NEEDMOREPARAMS 461
-#define ERR_NOSUCHCHANNEL 403
-#define ERR_NOTONCHANNEL 442
-#define ERR_USERNOTINCHANNEL 441
-#define ERR_CHANOPRIVSNEEDED 482
-#define  ERR_BADCHANMASK   476
 
 // bad channel mask is an error that is returned when the channel name doesn't start with # or &
 bool is_valid_channel_name(std::string name)
