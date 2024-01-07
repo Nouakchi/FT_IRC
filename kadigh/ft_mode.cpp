@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kadigh.cpp                                         :+:      :+:    :+:   */
+/*   ft_mode.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 07:36:16 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/06 18:37:26 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/07 13:23:28 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,17 @@
 
 bool	parseChannelName( t_server *server, std::string& ChnlName)
 {
-	// return true;
-
 	if ((ChnlName[0] != '#' && ChnlName[0] != '&')
 		|| ChnlName.length() == 1)
-	{
 		return false;
-	}
 
 	std::string special_set = ", \r\n\a\0";
 	for (size_t i = 1; i < ChnlName.length(); i++)
 		if ((special_set.find(ChnlName[i]) != std::string::npos))
 			return false;
 
-	// check if there is  a channel with this name
-	std::map<std::string, Channel*>::iterator it = server->channels.find(ChnlName);
+
+	std::map<std::string, Channel*>::iterator it = server->channels.find(ChnlName); // check if there is  a channel with this name
 	if (it == server->channels.end())
 		return false;
 
@@ -40,7 +36,7 @@ bool	OpExecCommand( t_server *server, Client *clnt, std::string chnlName)
 	std::string nick("@" + clnt->getNickName());
 
 	Channel*	chnl = server->channels[chnlName];
-	std::map<std::string, Client*>::iterator it = chnl->users.find(nick);
+	std::map<std::string, Client*>::iterator it = chnl->users.find(nick); // check if the operator who's changing the mode
 	if (it == chnl->users.end())
 		return false;
 
@@ -68,7 +64,7 @@ void	ChannelOP(Channel *chnl, std::string* modes)
 	return ;
 }
 
-void	listCHmodes( t_server *server, Client *clnt , std::string ChnlName)
+void	listCHmodes( t_server *server, Client *clnt , std::string ChnlName) // list mode in case (MODE #channel)
 {
 	std::string modes[2];
 
@@ -89,15 +85,17 @@ void	listCHmodes( t_server *server, Client *clnt , std::string ChnlName)
 		modes[1].append(" " + std::to_string(chnl->l));
 	}
 	ChannelOP(chnl, modes);
-	
-	//send replay 
 
 	if (!modes[0].empty())
+	{
 		modes[0].insert(0, "+");
-	std::cout << ChnlName + " " + modes[0] + " " + modes[1] << std::endl;
-	error_replay(server, RPL_CHANNELMODEIS, *clnt, ChnlName + " " + modes[0] + " " + modes[1]);// to be verified
-}
+		error_replay(server, RPL_CHANNELMODEIS, *clnt, ChnlName + " " + modes[0] + " " + modes[1]);// to be verified
+	}
+	// else
+	// 	error_replay(server, RPL_CHANNELMODEIS, *clnt, ChnlName + " :End of MODE list");
 
+	return ;
+}
 
 void	ApplyMode( t_server *server, Client *clnt, std::vector<std::string>& cmd)
 {
@@ -120,7 +118,6 @@ void	ApplyMode( t_server *server, Client *clnt, std::vector<std::string>& cmd)
 
 int	ft_modeCmd( t_server *server, Client *clnt, std::string buff)
 {
-
 	std::vector<std::string> cmd;
 	splitString(buff, cmd);
 

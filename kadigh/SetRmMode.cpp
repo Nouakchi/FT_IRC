@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:38:23 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/06 18:14:03 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/07 11:57:17 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,13 @@ void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd )
 	else if (cmd[2][0] == 'l')
 	{
 		if (cmd.size() == 4 && (cmd[3].find_first_not_of("0123456789") == std::string::npos))
-			server->channels[chnlName]->l = atoi(cmd[3].c_str());
+		{
+			int limit = atoi(cmd[3].c_str());
+			if (limit > 0)
+				server->channels[chnlName]->l = limit;
+			else // not a valid arguement
+				return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
+		}
 		else // not a valid arguement
 			return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
 	}
@@ -104,8 +110,8 @@ void	RmMode(t_server *server, Client *clnt, std::vector<std::string>& cmd)
 		RmChnlOp(server, clnt, cmd);
 	else if (cmd[2][0] == 'l')
 	{
-		if (cmd.size() == 4 && (cmd[3].find_first_not_of("0123456789") == std::string::npos))
-			server->channels[chnlName]->l = atoi(cmd[3].c_str());
+		if (cmd.size() == 3)
+			server->channels[chnlName]->l = -1;
 		else // not a valid arguement
 			return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
 	}
