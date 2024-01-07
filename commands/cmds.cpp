@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:00:24 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/06 16:58:26 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/07 15:17:17 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
             ft_privmsg(server, clt, items);
         else if (items[0] == "MODE")
             ft_modeCmd(server, clt, buff);
+        else if (items[0] == "LOGTIME")
+            loggedTime( server, clt );
     }
 }

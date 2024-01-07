@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 03:42:36 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/30 17:20:49 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/07 14:36:22 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ Client::Client( int _socket )
     this->passChecked = false;
     this->nickName = "*";
     this->loginName = "*";
+    srvrJointime = std::time(NULL);
 }
 
 /************************************************************/
@@ -54,6 +55,10 @@ std::string Client::getLoginName( void )
 std::string Client::getRealName( void )
 {
     return (this->realName);
+}
+std::time_t  Client::getclntsrvrJointime( void )
+{
+    return (this->srvrJointime);
 }
 
 /************************************************************/

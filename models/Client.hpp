@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/30 17:20:35 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/07 14:27:40 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@
 class Client
 {
     private:
-        int socket;
-        bool authFlag;
-        bool passChecked;
+        int         socket;
+        bool        authFlag;
+        bool        passChecked;
         std::string nickName;
         std::string loginName;
         std::string realName;
         
+        std::time_t srvrJointime;
+
     public:
         Client( int _socket );
         
@@ -35,6 +37,7 @@ class Client
         std::string getNickName( void );
         std::string getLoginName( void );
         std::string getRealName( void );
+        std::time_t getclntsrvrJointime( void );
 
         //setters
         void        setNickName( std::string );

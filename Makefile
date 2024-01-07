@@ -6,7 +6,7 @@
 #    By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2024/01/07 11:30:31 by aaoutem-         ###   ########.fr        #
+#    Updated: 2024/01/07 15:18:05 by aaoutem-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRCS	=	main.cpp					\
 			commands/privmsg.cpp		\
 			kadigh/SetRmMode.cpp		\
 			kadigh/ft_mode.cpp			\
-			kadigh/ft_mode_utils.cpp	
+			kadigh/ft_mode_utils.cpp	\
+			bot/logtime.cpp
 
 
 OBJS	=	$(SRCS:%.cpp=%.o)

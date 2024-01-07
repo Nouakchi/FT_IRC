@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/06 16:03:30 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/07 15:17:46 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int     ft_privmsg( t_server *server, Client *clt, std::vector<std::string> &ite
 
 /*--------------------*/
 
-int ft_modeCmd( t_server *server, Client *clnt, std::string buff);
+int     ft_modeCmd( t_server *server, Client *clnt, std::string buff);
 
 void	error_replay( t_server* server ,int errNbr, Client clnt, std::string err);
 
@@ -126,5 +126,6 @@ void    splitString(const std::string& cmd, std::vector<std::string>& substrs);
 
 void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd );
 void	RmMode(t_server *server, Client *clnt, std::vector<std::string>& cmd);
-
+/*___________bot__________________*/
+void    loggedTime( t_server *server, Client *clnt );
 # endif
