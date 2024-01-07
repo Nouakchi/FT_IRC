@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
 /*   Updated: 2023/12/30 17:20:35 by onouakch         ###   ########.fr       */
+=======
+/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
+/*   Updated: 2024/01/06 13:52:31 by heddahbi         ###   ########.fr       */
+>>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +53,11 @@ class Client
         int         check_authentification( void );
         void        authenticate( void );
         int         reply( std::string serv_name, int code, std::string mssg);
+<<<<<<< HEAD
+=======
+        //
+
+>>>>>>> 20a4cf9 (finish all cmds based on the first version of <join>)
 };
 
 #endif
