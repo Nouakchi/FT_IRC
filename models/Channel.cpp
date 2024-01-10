@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:20:47 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/07 17:02:45 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/10 00:52:16 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ Channel::Channel(std::string _name, std::string _key, Client *_opt)
 {
     this->name = _name;
     this->key = _key;
-    this->topic = "No topic is set";
+    this->topic = "";
     this->users.insert(std::pair<std::string, Client*>("@" + _opt->getNickName(), _opt));
     this->i = 0;
     this->t = 0;

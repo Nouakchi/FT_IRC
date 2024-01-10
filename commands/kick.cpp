@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:08:37 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/07 17:08:38 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/10 00:26:25 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,19 @@ int ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items)
     std::stringstream ss_targets(items[1]);
     std::stringstream ss_users(items[2]);
     std::string reason;
+
     // if the size of the vector is less than 3, then we don't have enough parameters to execute the command
     if (size < 3)
         return clt->reply(server->host_name, ERR_NEEDMOREPARAMS, "KICK :Not enough parameters"), EXIT_FAILURE;
-    // if the size of the vector is greater than 3, then we have a reason for the kick bcs limechat consider the last parameter as a reason
+    // if the size of the vector is greater than 3, then we have a reason for the kick because limechat considers the last parameter as a reason
     if (size > 3)
         reason = _return_reason(items);
-    // if the channel name is not valid, then we return an error
-    if (!is_valid_channel_name(items[1]))
-        return clt->reply(server->host_name, ERR_BADCHANMASK, items[1] + " :Bad Channel Mask"), EXIT_FAILURE;
-    while (std::getline(ss_targets, ch, ','))
+   while (std::getline(ss_targets, ch, ','))
     {
-
+        std::cout << "ch: " << ch << std::endl;
+        // if the channel name is not valid, then we return an error
+        if (!is_valid_channel_name(ch))
+            return clt->reply(server->host_name, ERR_BADCHANMASK, ch + " :Bad Channel Mask"), EXIT_FAILURE;
         std::map<std::string, Channel *>::iterator it = server->channels.find(ch);
         // if the channel doesn't exist, then we return an error
         if (it == server->channels.end())
@@ -65,33 +66,23 @@ int ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items)
         std::map<std::string, Client *>::iterator is_opt = it->second->users.find("@" + clt->getNickName());
         if (it->second->users.find(clt->getNickName()) != it->second->users.end() && is_opt == it->second->users.end())
             return clt->reply(server->host_name, ERR_CHANOPRIVSNEEDED, clt->getNickName() + " " + ch + " :You are not a channel operator"), EXIT_FAILURE;
-        
         else if (it->second->users.find(clt->getNickName()) == it->second->users.end() && is_opt == it->second->users.end())
             return clt->reply(server->host_name, ERR_NOTONCHANNEL, ch + " :You're not on that channel"), EXIT_FAILURE;
-        while (std::getline(ss_users, ch, ','))
+        std::stringstream ss_users_copy(items[2]);  // we need to copy the stringstream because it's already used in the while loop lfu9
+        while(std::getline(ss_users_copy, ch, ','))
         {
-            std::map<std::string, Client *>::iterator it_user = it->second->users.find(ch);
-            if (it_user == it->second->users.end() && is_opt != it->second->users.end())
-                return clt->reply(server->host_name, ERR_USERNOTINCHANNEL, ch + " " + it->first + " :They aren't on that channel"), EXIT_FAILURE;
-            std::map<std::string, Client *>::iterator c_it = it->second->users.begin();
-            while (c_it != it->second->users.end())
-            {
-                if (reason.empty())
-                    reason = "Probably because you're a noob";
-                std::string message;
-                message = ":KICK " + ch + " " + it_user->first + " " + ": " + clt->getNickName() + " " + reason + "\r\n";
-                if (c_it->second->getNickName() != clt->getNickName())
-                    c_it->second->reply(server->host_name, 00, message);
-                c_it++;
-            }
-            // we erase the user from the channel if he's kicked
+            if(reason.empty())
+                reason = "probably because you're a noob";
+            // if the user is not in the channel, then we return an error
+            if (it->second->users.find(ch) == it->second->users.end())
+                return clt->reply(server->host_name, ERR_USERNOTINCHANNEL, ch + " " + it->second->name + " :They aren't on that channel"), EXIT_FAILURE;
+            std::string msg = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " KICK " + it->second->name + " " + ch + " :" + reason + " \r\n";
+            send(it->second->users[ch]->getSocket(), msg.c_str(), msg.size(), 0);
             it->second->users.erase(ch);
-            // if the channel is empty, then we erase it from the map optimisation purposes
-            if (!it->second->users.size())
-                server->channels.erase(it->first);
         }
+        // Check if the channel is empty and erase it from the map for optimization purposes
+        if(it->second->users.size() == 0)
+            server->channels.erase(it->second->name);
     }
-
     return EXIT_SUCCESS;
 }
-
