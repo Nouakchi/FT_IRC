@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:31:38 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/14 12:16:54 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/14 16:28:16 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int ft_inviteCmd(t_server *server, Client *clt, std::vector<std::string> &items)
         clt->reply(server->host_name, ERR_NOSUCHNICK, user + " :No such nick/channel");
         return EXIT_FAILURE;
     }
-    else if(it_channel->second->users.find(clt->getNickName()) == it_channel->second->users.end())
+    if(it_channel->second->users.find(clt->getNickName()) == it_channel->second->users.end() && it_channel->second->users.find("@" + clt->getNickName()) == it_channel->second->users.end())
     {
         clt->reply(server->host_name, ERR_NOTONCHANNEL, target + " :You're not on that channel");
         return EXIT_FAILURE;
@@ -68,6 +68,12 @@ int ft_inviteCmd(t_server *server, Client *clt, std::vector<std::string> &items)
     }
     else if(it_channel->second->users.find(user) == it_channel->second->users.end())
     {
+        std::map<std::string , Client*>::iterator op_it = it_channel->second->users.find("@" + clt->getNickName());
+        if (op_it == it_channel->second->users.end() && it_channel->second->o == true )
+        {
+            clt->reply(server->host_name, ERR_CHANOPRIVSNEEDED, clt->getNickName() + " " + target + " :You are not a channel operator");
+            return EXIT_FAILURE;
+        }
         std::map<std::string, Client*>::iterator c_it = it_channel->second->users.begin();
             while (c_it != it_channel->second->users.end())
             {
@@ -77,12 +83,6 @@ int ft_inviteCmd(t_server *server, Client *clt, std::vector<std::string> &items)
                 c_it++;
             }
 
-        std::map<std::string , Client*>::iterator op_it = it_channel->second->users.find("@" + clt->getNickName());
-        if (op_it == it_channel->second->users.end() && it_channel->second->o == true )
-        {
-            clt->reply(server->host_name, ERR_CHANOPRIVSNEEDED, clt->getNickName() + " " + target + " :You are not a channel operator");
-            return EXIT_FAILURE;
-        }
     
         std::string mess = "You have been invited to channel " + target + " by " + clt->getNickName().append("\r\n");
         it_channel->second->users.insert(std::pair<std::string, Client*>(user, it->second));
