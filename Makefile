@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+         #
+#    By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2024/01/06 12:50:10 by heddahbi         ###   ########.fr        #
+#    Updated: 2024/01/16 22:59:46 by onouakch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,12 +21,26 @@ INCLUDES	=	includes/irc.h		\
 				models/Client.hpp	\
 				models/Channel.hpp	\
 
-SRCS	=	main.cpp \
-			$(wildcard models/*.cpp) \
-			$(wildcard utils/*.cpp) \
-			$(wildcard commands/*.cpp) \
-			$(wildcard server/*.cpp) \
-			
+SRCS	=	main.cpp					\
+			server/server.cpp			\
+			server/authentication.cpp	\
+			server/check_authInfo.cpp	\
+			server/events.cpp			\
+			utils/utils.cpp				\
+			models/Client.cpp			\
+			models/Channel.cpp			\
+			commands/cmds.cpp			\
+			commands/join.cpp			\
+			commands/part.cpp			\
+			commands/privmsg.cpp		\
+			commands/invite.cpp		\
+			commands/kick.cpp		\
+			commands/topic.cpp		\
+			kadigh/SetRmMode.cpp		\
+			kadigh/ft_mode.cpp			\
+			kadigh/ft_mode_utils.cpp	\
+			bot/logtime.cpp				\
+
 
 OBJS	=	$(SRCS:%.cpp=%.o)
 

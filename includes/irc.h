@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   irc.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */    
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/07 16:51:10 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/16 23:00:07 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ enum err_rpl
     RPL_CREATED = 003,
     
     RPL_NOTOPIC = 313,
+
+    RPL_CHANNELMODEIS = 324,
     
     RPL_TOPIC = 332,
     
@@ -58,7 +60,6 @@ enum err_rpl
     ERR_NOTEXTTOSEND = 412,
 
 
-    ERR_CHANOPRIVSNEEDED = 482,
     ERR_BADCHANMASK = 476,
     
     ERR_NONICKNAMEGIVEN = 431,
@@ -73,6 +74,9 @@ enum err_rpl
     ERR_ALREADYREGISTRED = 462,
     
     ERR_PASSWDMISMATCH = 464,
+
+    ERR_UNKNOWNMODE = 472,
+    ERR_CHANOPRIVSNEEDED = 482,
 };
 
 typedef struct s_server
@@ -118,8 +122,19 @@ int     ft_privmsg( t_server *server, Client *clt, std::vector<std::string> &ite
 int    ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items);
 int    ft_inviteCmd(t_server *server, Client *clt, std::vector<std::string> &items);
 int    ft_topicCmd(t_server *server, Client *clt, std::vector<std::string> &items);
-int     get_client_by_fd(t_server *server, int fd);
 bool    is_valid_channel_name(std::string name);
 /*####################*/
 
+/*--------------------*/
+
+int     ft_modeCmd( t_server *server, Client *clnt, std::string buff);
+
+void	error_replay( t_server* server ,int errNbr, Client clnt, std::string err);
+
+void    splitString(const std::string& cmd, std::vector<std::string>& substrs);
+
+void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd );
+void	RmMode(t_server *server, Client *clnt, std::vector<std::string>& cmd);
+/*___________bot__________________*/
+void    loggedTime( t_server *server, Client *clnt );
 # endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:00:24 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/07 17:12:25 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/16 22:57:31 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
         }
         items.push_back(token);
     }
-    if (items.size())
+
+    if (items.size() >= 1)
     {
         if (items[0] == "JOIN")
             ft_joinCmd(server, clt, items);
@@ -43,8 +44,11 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
             ft_inviteCmd(server, clt, items);
         else if (items[0] == "TOPIC")
             ft_topicCmd(server, clt, items);
-        
-        
+        else if (items[0] == "PRIVMSG")
+            ft_privmsg(server, clt, items);
+        else if (items[0] == "MODE")
+            ft_modeCmd(server, clt, buff);
+        else if (items[0] == "LOGTIME")
+            loggedTime( server, clt );
     }
-    
 }
