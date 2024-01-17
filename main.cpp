@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/05 15:15:17 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/16 10:44:44 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int main()
     
     server.serv_pass = "pass_test";
     server.server_date = asctime(ti);
-    
+
     gethostname(tmp_host, sizeof(tmp_host));
     
     server.server_name = std::string(tmp_host);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kadigh_util.cpp                                    :+:      :+:    :+:   */
+/*   ft_mode_utils.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 17:27:48 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/06 14:57:01 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/17 09:57:00 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ std::string skipSpaces(std::string input)
 	return output;
 }
 
-void splitString(const std::string& cmd, std::vector<std::string>& substrs)
+void splitString(const std::string& cmd, std::vector<std::string>& substrs, char delim)
 {
 	std::istringstream iss(cmd);
 	std::string token;
 	std::string realname;
 
-	while (std::getline(iss, token, ' ')) {
+	while (std::getline(iss, token, delim)) {
 		if (token[0] == ':' )
 		{
 			if (token.length() >= 1) 
@@ -55,4 +55,26 @@ void splitString(const std::string& cmd, std::vector<std::string>& substrs)
 	}
 
 	return ;
+}
+
+bool	hasDuplicate(std::string str)
+{
+	size_t lngth = str.length();
+
+	for (size_t i = 0; i < lngth; i++)
+		for (size_t j = i; j < lngth - i; j++)
+			if (isalpha(str[j]) && str[i] == str[j])
+				return false;
+	return true;
+}
+
+
+
+std::string	str_toupper(std::string flag)
+{
+	std::string tmp(flag);
+
+	for (int i = 0; i < flag.length(); i++)
+		tmp[i] = toupper(flag[i]);
+	return tmp;
 }

@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 07:36:16 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/07 13:23:28 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/17 11:43:13 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ bool	parseChannelName( t_server *server, std::string& ChnlName)
 		return false;
 
 	std::string special_set = ", \r\n\a\0";
-	for (size_t i = 1; i < ChnlName.length(); i++)
-		if ((special_set.find(ChnlName[i]) != std::string::npos))
-			return false;
-
+	if (ChnlName.find_first_of(special_set) != std::string::npos)
+		return false;
 
 	std::map<std::string, Channel*>::iterator it = server->channels.find(ChnlName); // check if there is  a channel with this name
 	if (it == server->channels.end())
@@ -93,54 +91,78 @@ void	listCHmodes( t_server *server, Client *clnt , std::string ChnlName) // list
 	}
 	// else
 	// 	error_replay(server, RPL_CHANNELMODEIS, *clnt, ChnlName + " :End of MODE list");
-
 	return ;
+}
+
+bool	setUnsetflags(std::string flags, std::string& res, size_t paramsNbr)
+{
+
+	while (!flags.empty())
+	{
+		size_t pos = flags.find_first_of("+-", 1);
+		std::cout << pos << std::endl;
+		if (flags[0] == '+')
+			res.append(str_toupper(flags.substr(1, pos - 1)));
+		else if (flags[0] == '-')
+			res.append(flags.substr(1, pos - 1));
+		flags.erase(0, pos);
+	}
+
+	int i = -1;
+	int ArgsNbr = 0;
+	while (res[++i])
+		if (res[i] == 'o' || res[i] == 'O' 
+			|| res[i] == 'K' || res[i] == 'L')
+			ArgsNbr++;
+
+	if (ArgsNbr != paramsNbr)
+		return false;
+	return true;
 }
 
 void	ApplyMode( t_server *server, Client *clnt, std::vector<std::string>& cmd)
 {
-	int Set_RmModeSign = 0 + (cmd[2][0] == '+')*1 + (cmd[2][0] == '-')*(-1);
+	std::string toSet;
+	std::string toUnset;
 
-	cmd[2].erase(0,1);
-
-	if (cmd[2].find_first_not_of("itkol") != std::string::npos)
+	std::string tmp = cmd[2];
+	if (cmd[2].find_first_not_of("+-itkol") != std::string::npos || cmd[2].length() > 10
+		|| cmd[2].find_first_of("+-", 1) == 1 || hasDuplicate(cmd[2]))
 		return(error_replay(server,ERR_UNKNOWNMODE, *clnt, cmd[2] + " :is unknown mode char to me"));
 
-	if (cmd[2].length() == 0  || cmd[2].length() > 2  // bcz we could only apply one mode at a time the only allowed combination is the "it" one
-		|| cmd[2][0] == cmd[2][1])
-		return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"));
+	std::string str;
+	int i = 0;
+	if (!setUnsetflags(cmd[2], str, cmd.size() - 3))
+		return (error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"));
 
-	if (Set_RmModeSign > 0)
-		SetMode(server, clnt, cmd);
-	else
-		RmMode(server, clnt, cmd);
+	while (!str.empty())
+	{
+		if (isupper(str[i]))
+			SetMode(server, clnt, cmd, tolower(str[i]), i);
+		else
+			RmMode(server, clnt, cmd, str[i], i);
+	}
 }
 
 int	ft_modeCmd( t_server *server, Client *clnt, std::string buff)
 {
 	std::vector<std::string> cmd;
-	splitString(buff, cmd);
-
-	if (cmd.size() < 2 || cmd.size() > 4)
-	{
-		error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters");
-		return (0);
-	}
-
-	if (!parseChannelName(server, cmd[1])) //parse the channel name && if exist
-	{
-		error_replay(server, ERR_NOSUCHCHANNEL, *clnt, " :No such channel");
-		return (0);
-	}
+	splitString(buff, cmd, ' ');
 
 	if (!OpExecCommand(server, clnt, cmd[1])) // if the user is not an operator he is not allowed to change the channel modes
 		return (error_replay(server,ERR_CHANOPRIVSNEEDED, *clnt, cmd[1] + " :You're not channel operator"),0);
+
+	if (cmd.size() < 2 || cmd.size() > 7)
+		return (error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"), 0);
+
+	if (!parseChannelName(server, cmd[1])) //parse the channel name && if exist
+		return (error_replay(server, ERR_NOSUCHCHANNEL, *clnt, " :No such channel"),0);
 
 	if ( cmd.size() == 2 )
 		listCHmodes(server, clnt, cmd[1]);
 	else if (cmd[2][0] == '+' || cmd[2][0] == '-')
 		ApplyMode(server, clnt, cmd);
-	else 
+	else
 		return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"), 0);
 
 	return 1;
