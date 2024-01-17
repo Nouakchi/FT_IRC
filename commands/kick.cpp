@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:08:37 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/10 00:26:25 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/17 09:59:30 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items)
     // if the size of the vector is greater than 3, then we have a reason for the kick because limechat considers the last parameter as a reason
     if (size > 3)
         reason = _return_reason(items);
-   while (std::getline(ss_targets, ch, ','))
+    while (std::getline(ss_targets, ch, ','))
     {
         std::cout << "ch: " << ch << std::endl;
         // if the channel name is not valid, then we return an error
@@ -69,20 +69,30 @@ int ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items)
         else if (it->second->users.find(clt->getNickName()) == it->second->users.end() && is_opt == it->second->users.end())
             return clt->reply(server->host_name, ERR_NOTONCHANNEL, ch + " :You're not on that channel"), EXIT_FAILURE;
         std::stringstream ss_users_copy(items[2]);  // we need to copy the stringstream because it's already used in the while loop lfu9
-        while(std::getline(ss_users_copy, ch, ','))
+        while (std::getline(ss_users_copy, ch, ','))
         {
-            if(reason.empty())
+            if (reason.empty())
                 reason = "probably because you're a noob";
             // if the user is not in the channel, then we return an error
             if (it->second->users.find(ch) == it->second->users.end())
                 return clt->reply(server->host_name, ERR_USERNOTINCHANNEL, ch + " " + it->second->name + " :They aren't on that channel"), EXIT_FAILURE;
-            std::string msg = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " KICK " + it->second->name + " " + ch + " :" + reason + " \r\n";
-            send(it->second->users[ch]->getSocket(), msg.c_str(), msg.size(), 0);
+
+            // Send KICK message to the user who is being kicked
+            std::string kickMessage = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " KICK " + it->second->name + " " + ch + " :" + reason + "\r\n";
+            send(it->second->users[ch]->getSocket(), kickMessage.c_str(), kickMessage.size(), 0);
+
             it->second->users.erase(ch);
         }
         // Check if the channel is empty and erase it from the map for optimization purposes
-        if(it->second->users.size() == 0)
+            std::string channelMessage = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " KICK " + it->second->name + " " + ch + " :" + reason + "\r\n";
+            for (std::map<std::string, Client *>::iterator channelUser = it->second->users.begin(); channelUser != it->second->users.end(); ++channelUser)
+            {
+                if(channelUser->first != clt->getNickName())
+                send(channelUser->second->getSocket(), channelMessage.c_str(), channelMessage.size(), 0);
+            }
+        if (it->second->users.size() == 0)
             server->channels.erase(it->second->name);
     }
     return EXIT_SUCCESS;
 }
+
