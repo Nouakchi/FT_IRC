@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 01:12:58 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/18 02:33:00 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ class Channel;
 class Client
 {
     private:
-        int         socket;
-        bool        authFlag;
-        bool        passChecked;
-        std::string nickName;
-        std::string loginName;
-        std::string realName;
-        std::set<Channel *> joined_channels;
+        int                     socket;
+        bool                    authFlag;
+        bool                    passChecked;
+        std::string             nickName;
+        std::string             loginName;
+        std::string             realName;
+        std::set<Channel *>     joined_channels;
         
         std::time_t srvrJointime;
         

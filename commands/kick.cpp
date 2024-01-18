@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:08:37 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/17 09:59:30 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/17 12:35:56 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items)
             // Send KICK message to the user who is being kicked
             std::string kickMessage = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " KICK " + it->second->name + " " + ch + " :" + reason + "\r\n";
             send(it->second->users[ch]->getSocket(), kickMessage.c_str(), kickMessage.size(), 0);
-
             it->second->users.erase(ch);
         }
         // Check if the channel is empty and erase it from the map for optimization purposes

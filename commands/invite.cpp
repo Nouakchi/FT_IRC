@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:31:38 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/17 04:30:33 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:53:25 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int ft_inviteCmd(t_server *server, Client *clt, std::vector<std::string> &items)
         return EXIT_FAILURE;
     }
     else if (it_channel->second->users.find("@" + clt->getNickName()) == it_channel->second->users.end() &&
-             it_channel->second->o == true)
+             it_channel->second->o == false)
     {
         clt->reply(server->host_name, ERR_CHANOPRIVSNEEDED, clt->getNickName() + " " + target + " :You are not a channel operator");
         return EXIT_FAILURE;
@@ -83,23 +83,22 @@ int ft_inviteCmd(t_server *server, Client *clt, std::vector<std::string> &items)
         return EXIT_FAILURE;
     }
 
-    // send RPL_INVITING to the invoker and INVITE to the user
+    // Send INVITE message to the user
     std::string inviteMessage = ":" + clt->getNickName() + " INVITE " + user + " " + target + "\r\n";
     send(it_user->second->getSocket(), inviteMessage.c_str(), inviteMessage.length(), 0);
-    std::string rplMessage = ":" + clt->getNickName() + " " + std::to_string(RPL_INVITING) + " " + user + " " + target + "\r\n";
+
+    // 
+    
+    // Send RPL_INVITING to the invoker
+    std::string rplMessage = ":" + server->host_name + " 341 " + clt->getNickName() + " " + user + "\r\n";
     send(clt->getSocket(), rplMessage.c_str(), rplMessage.length(), 0);
-
-    // Insert the user into the channel
-    it_channel->second->users.insert(std::pair<std::string, Client*>(user, it_user->second));
-
-    // Inform all users in the channel that a new user has joined
-    std::string joinMessage = ":" + user + "!" + it_user->second->getLoginName() + "@" + server->host_name + " JOIN " + target + "\r\n";
-    for (std::map<std::string, Client*>::iterator channelUser = it_channel->second->users.begin(); channelUser != it_channel->second->users.end(); ++channelUser)
-    {
-        send(channelUser->second->getSocket(), joinMessage.c_str(), joinMessage.length(), 0);
-    }
 
     return EXIT_SUCCESS;
 }
+
+
+
+
+
 
 
