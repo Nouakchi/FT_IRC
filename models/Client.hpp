@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 01:43:35 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:51:52 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ class Client
         std::string realName;
         
         std::time_t srvrJointime;
-        bool    is_invited;
 
     public:
         Client( int _socket );
@@ -45,7 +44,6 @@ class Client
         void        setLoginName( std::string );
         void        setPassChecked( bool );
         void        setRealName( std::string realname );
-        void        set_isinvited(bool i);
         
         // member functions
         int         check_authentification( void );

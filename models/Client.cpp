@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 03:42:36 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 01:48:24 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:51:57 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ Client::Client( int _socket )
     this->socket = _socket;
     this->authFlag = 0;
     this->passChecked = false;
-    this->is_invited =  false;
     this->nickName = "*";
     this->loginName = "*";
     srvrJointime = std::time(NULL);

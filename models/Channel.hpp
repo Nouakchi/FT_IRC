@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 13:02:46 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 01:11:25 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:52:49 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class Channel
         std::string                         name;
         std::string                         topic;
         std::map<std::string, Client *>     users;
+        std::set<std::string >              invited_users;
 
         bool                                i;
         bool                                t;

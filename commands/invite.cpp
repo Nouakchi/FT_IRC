@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:31:38 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/18 01:46:56 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:53:25 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ int ft_inviteCmd(t_server *server, Client *clt, std::vector<std::string> &items)
     std::string inviteMessage = ":" + clt->getNickName() + " INVITE " + user + " " + target + "\r\n";
     send(it_user->second->getSocket(), inviteMessage.c_str(), inviteMessage.length(), 0);
 
-    // set the client flag 
-    it_user->second->set_isinvited(true);
+    // 
+    
     // Send RPL_INVITING to the invoker
     std::string rplMessage = ":" + server->host_name + " 341 " + clt->getNickName() + " " + user + "\r\n";
     send(clt->getSocket(), rplMessage.c_str(), rplMessage.length(), 0);
