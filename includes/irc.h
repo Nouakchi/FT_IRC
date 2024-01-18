@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 01:32:42 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/18 05:08:14 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ enum err_rpl
     ERR_NORECIPIENT = 411,
     ERR_NOTEXTTOSEND = 412,
 
-
+    ERR_CHANNELISFULL = 471,
+    ERR_INVITEONLYCHAN = 473,
+    ERR_BADCHANNELKEY = 475,
     ERR_BADCHANMASK = 476,
     
     ERR_NONICKNAMEGIVEN = 431,

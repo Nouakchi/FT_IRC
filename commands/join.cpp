@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:07:43 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 02:27:44 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/18 05:26:22 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,40 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 	{
 		if (it->second->users.find(clt->getNickName()) == it->second->users.end())
 		{
+			if (it->second->i)
+				return (
+					clt->reply(server->host_name, ERR_INVITEONLYCHAN, target + " :Cannot join channel (+i)"),
+					EXIT_FAILURE
+				);
+			if (it->second->key != key)
+				return (
+					clt->reply(server->host_name, ERR_BADCHANNELKEY, target + " :Cannot join channel (+k)"),
+					EXIT_FAILURE
+				);
+			if (it->second->l && it->second->users.size() > it->second->l + 1)
+				return (
+					clt->reply(server->host_name, ERR_CHANNELISFULL, target + " :Cannot join channel (+l)"),
+					EXIT_FAILURE
+				);
 			it->second->users.insert(std::pair<std::string, Client*>(clt->getNickName(), clt));
 			clt->addChannel(it->second);
+			std::map<std::string, Client *>::iterator c_it = it->second->users.begin();
+			while (c_it != it->second->users.end())
+			{
+				std::string msg = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " JOIN " + target + " \r\n";
+				std::cout << "-*- " << msg;
+				send(c_it->second->getSocket(), msg.c_str(), msg.size(), 0);
+				c_it++;
+			}
+			int RPL = (it->second->topic == " :No topic is set") ? RPL_NOTOPIC : RPL_TOPIC;
+			clt->reply(server->host_name, RPL, target + " :" + it->second->topic);
+			clt->reply(server->host_name, RPL_NAMREPLY, "= " + target + " :" + it->second->u_list());
+			clt->reply(server->host_name, RPL_ENDOFNAMES, target + " :End of /NAMES list");
+		}
+		else if (it->second->invited_users.find(clt->getNickName()) != it->second->invited_users.end())
+		{
+			clt->addChannel(it->second);
+			it->second->invited_users.erase(clt->getNickName());
 			std::map<std::string, Client *>::iterator c_it = it->second->users.begin();
 			while (c_it != it->second->users.end())
 			{
@@ -57,7 +89,6 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 		std::string msg = ":" + clt->getNickName() + "!~" + clt->getLoginName() + "@" + server->host_name + " JOIN " + target + " \r\n";
 		std::cout << "-*- " << msg;
 		send(clt->getSocket(), msg.c_str(), msg.size(), 0);
-		clt->reply(server->host_name, RPL_NOTOPIC, target + " :No topic is set");
 		clt->reply(server->host_name, RPL_NAMREPLY, "= " + target + " :@" + clt->getNickName());
 		clt->reply(server->host_name, RPL_ENDOFNAMES, target + " :End of /NAMES list.");
 	}
