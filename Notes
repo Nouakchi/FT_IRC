@@ -18,6 +18,8 @@ qoperators
 · k: Set/remove the channel key (password)
 · o: Give/take channel operator privilege
 · l: Set/remove the user limit to channel
+Questions : 
+    what if i set MODE #ch +l nbr (and nbr < actual channel users ??)
 
 ############## -*- serfak -*- ##############
 * KICK - Eject a client from the channel

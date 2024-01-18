@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 07:36:16 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/17 11:43:13 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/18 04:56:54 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ bool	setUnsetflags(std::string flags, std::string& res, size_t paramsNbr)
 	while (!flags.empty())
 	{
 		size_t pos = flags.find_first_of("+-", 1);
-		std::cout << pos << std::endl;
 		if (flags[0] == '+')
 			res.append(str_toupper(flags.substr(1, pos - 1)));
 		else if (flags[0] == '-')
@@ -109,7 +108,7 @@ bool	setUnsetflags(std::string flags, std::string& res, size_t paramsNbr)
 	}
 
 	int i = -1;
-	int ArgsNbr = 0;
+	size_t ArgsNbr = 0;
 	while (res[++i])
 		if (res[i] == 'o' || res[i] == 'O' 
 			|| res[i] == 'K' || res[i] == 'L')
@@ -122,25 +121,24 @@ bool	setUnsetflags(std::string flags, std::string& res, size_t paramsNbr)
 
 void	ApplyMode( t_server *server, Client *clnt, std::vector<std::string>& cmd)
 {
-	std::string toSet;
-	std::string toUnset;
-
-	std::string tmp = cmd[2];
-	if (cmd[2].find_first_not_of("+-itkol") != std::string::npos || cmd[2].length() > 10
-		|| cmd[2].find_first_of("+-", 1) == 1 || hasDuplicate(cmd[2]))
+	if (!ModesSyntaxe(cmd[2]))
 		return(error_replay(server,ERR_UNKNOWNMODE, *clnt, cmd[2] + " :is unknown mode char to me"));
 
 	std::string str;
-	int i = 0;
 	if (!setUnsetflags(cmd[2], str, cmd.size() - 3))
 		return (error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"));
 
-	while (!str.empty())
+	int i = 0;
+	int ArgsIndex = 0;
+	while (str[i])
 	{
+		if (str[i] == 'o' || str[i] == 'O' || str[i] == 'K' || str[i] == 'L')
+			ArgsIndex++;
 		if (isupper(str[i]))
-			SetMode(server, clnt, cmd, tolower(str[i]), i);
+			SetMode(server, clnt, cmd, tolower(str[i]), ArgsIndex + 3);
 		else
-			RmMode(server, clnt, cmd, str[i], i);
+			RmMode(server, clnt, cmd, str[i], ArgsIndex + 3);
+		i++;
 	}
 }
 

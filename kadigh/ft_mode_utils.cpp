@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 17:27:48 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/17 09:57:00 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/18 05:21:07 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,32 @@ void splitString(const std::string& cmd, std::vector<std::string>& substrs, char
 	return ;
 }
 
-bool	hasDuplicate(std::string str)
+bool	ModesSyntaxe(std::string str)
 {
+	// to be optimized 
+	if (str.find_first_not_of("+-itkol") != std::string::npos || str.length() > 10)
+		return false;
+
 	size_t lngth = str.length();
+	for (size_t i = 1; i < lngth; i++)
+		if((str[i] == '+' || str[i] == '-') &&
+			(str[i - 1] == '+' || str[i - 1] == '-'))
+				return false;
 
 	for (size_t i = 0; i < lngth; i++)
-		for (size_t j = i; j < lngth - i; j++)
+		for (size_t j = i + 1; j < lngth - i; j++)
 			if (isalpha(str[j]) && str[i] == str[j])
 				return false;
+
+		
 	return true;
 }
-
-
 
 std::string	str_toupper(std::string flag)
 {
 	std::string tmp(flag);
 
-	for (int i = 0; i < flag.length(); i++)
+	for (size_t i = 0; i < flag.length(); i++)
 		tmp[i] = toupper(flag[i]);
 	return tmp;
 }

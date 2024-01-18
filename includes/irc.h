@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/17 11:26:13 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/17 22:42:55 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd, cha
 void	RmMode(t_server *server, Client *clnt, std::vector<std::string>& cmd,  char c, int i);
 
 std::string str_toupper(std::string flag);
-bool        hasDuplicate(std::string str);
+bool        ModesSyntaxe(std::string str); /// TODO: this function must be optimized in term of Complexity
 
 /*___________bot__________________*/
 void    loggedTime( t_server *server, Client *clnt );

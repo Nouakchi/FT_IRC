@@ -6,34 +6,26 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:38:23 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/17 11:29:34 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/17 23:38:15 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/irc.h"
 
-void	setChnlOp( t_server *server, Client *clnt, std::vector<std::string>& cmd )
+void	setChnlOp( t_server *server, Client *clnt, std::string chnlName, std::string user)
 {
-	if (cmd.size() == 4)
-	{
-		std::string chnlUser = cmd[3];
-		std::string chnlName = cmd[1];
 
-		Channel* Chnl = server->channels[chnlName];
-		std::map<std::string, Client*>::iterator it = Chnl->users.find(chnlUser);
-		std::map<std::string, Client*>::iterator it2 = Chnl->users.find("@" + chnlUser);
-		if (it2 == Chnl->users.end() && it != Chnl->users.end())
-		{
-			Client* tmp = it->second;
-			Chnl->users.erase(it);
-			Chnl->users.insert(std::pair<std::string, Client*>("@" + chnlUser, tmp));
-		}
-		else if (it2 == Chnl->users.end())
-			return(error_replay(server, ERR_USERNOTINCHANNEL, *clnt, chnlUser + " :is not on channel"));
-		
+	Channel* Chnl = server->channels[chnlName];
+	std::map<std::string, Client*>::iterator it = Chnl->users.find(user);
+	std::map<std::string, Client*>::iterator it2 = Chnl->users.find("@" + user);
+	if (it2 == Chnl->users.end() && it != Chnl->users.end())
+	{
+		Client* tmp = it->second;
+		Chnl->users.erase(it);
+		Chnl->users.insert(std::pair<std::string, Client*>("@" + user, tmp));
 	}
-	else
-		return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"));
+	else if (it2 == Chnl->users.end())
+		return(error_replay(server, ERR_USERNOTINCHANNEL, *clnt, user + " :is not on channel"));
 
 }
 
@@ -42,17 +34,12 @@ void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd,  ch
 	std::string chnlName = cmd[1];
 
 	if (c == 'k')
+		server->channels[chnlName]->key = cmd[i];
+	else if (c == 'o')
+		setChnlOp(server, clnt, cmd[1], cmd[i]);
+	else if (c == 'l')
 	{
-		if (cmd.size() == 4)
-			server->channels[chnlName]->key = cmd[i];
-		else
-			return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"));
-	}
-	else if (cmd[2][0] == 'o')
-		setChnlOp(server, clnt, cmd);
-	else if (cmd[2][0] == 'l')
-	{
-		if (cmd.size() == 4 && (cmd[3].find_first_not_of("0123456789") == std::string::npos))
+		if (cmd[i].find_first_not_of("0123456789") == std::string::npos)
 		{
 			int limit = atoi(cmd[3].c_str());
 			if (limit > 0)
@@ -64,56 +51,45 @@ void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd,  ch
 				std::cout << "{" << msg << "}" << std::endl;
 				send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
 			}
-			else // not a valid arguement
+			else // not a valid arguement (int)
 				return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"));
 		}
 		else // not a valid arguement
 			return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"));
 	}
-	while (!cmd[2].empty())
+	else if (c == 'i')
 	{
-		if (cmd[2][0] == 'i')
-		{
-			server->channels[chnlName]->i = true;
-			// std::string msg = ":" + clnt->getNickName() + "!~" + clnt->getLoginName() + "@" + server->host_name + " MODE " + chnlName + " +i\r\n";
-			std::string msg = ":" + server->host_name + " MODE " + chnlName + " +i\r\n";
-			std::cout << "{" << msg << "}" << std::endl;
-			send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
-		}
-		else if (cmd[2][0] == 't')
-		{
-			// std::string msg = ":" + clnt->getNickName() + "!~" + clnt->getLoginName() + "@" + server->host_name + " MODE " + chnlName + " +i\r\n";
-			std::string msg = ":" + server->host_name + " MODE " + chnlName + " +t\r\n";
-			std::cout << "{" << msg << "}" << std::endl;
-			send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
-			server->channels[chnlName]->t = true;
-		}
-		cmd[2].erase(0,1);
+		server->channels[chnlName]->i = true;
+		// std::string msg = ":" + clnt->getNickName() + "!~" + clnt->getLoginName() + "@" + server->host_name + " MODE " + chnlName + " +i\r\n";
+		std::string msg = ":" + server->host_name + " MODE " + chnlName + " +i\r\n";
+		std::cout << "{" << msg << "}" << std::endl;
+		send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
+	}
+	else if (c == 't')
+	{
+		// std::string msg = ":" + clnt->getNickName() + "!~" + clnt->getLoginName() + "@" + server->host_name + " MODE " + chnlName + " +i\r\n";
+		std::string msg = ":" + server->host_name + " MODE " + chnlName + " +t\r\n";
+		std::cout << "{" << msg << "}" << std::endl;
+		send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
+		server->channels[chnlName]->t = true;
 	}
 }
 
-void	RmChnlOp( t_server *server, Client *clnt, std::vector<std::string>& cmd )
+void	RmChnlOp( t_server *server, Client *clnt, std::string chnlName, std::string user )
 {
-	if (cmd.size() == 4)
+	Channel* Chnl = server->channels[chnlName];
+
+	std::map<std::string, Client*>::iterator it2 = Chnl->users.find("@" + user);
+	if (it2 != Chnl->users.end()) // to be verified
 	{
-		std::string chnlName = cmd[1];
-		std::string chnlUser = cmd[3];
-		Channel* Chnl = server->channels[chnlName];
-		
-		std::map<std::string, Client*>::iterator it2 = Chnl->users.find("@" + chnlUser);
-		if (it2 != Chnl->users.end()) // to be verified
-		{
-			Client* tmp = it2->second;
-			Chnl->users.erase(it2);
-			Chnl->users.insert(std::pair<std::string, Client*>(chnlUser, tmp));
-			// to check
-			std::string msg = ":" + clnt->getNickName() + "!" + clnt->getLoginName() + "@" + server->host_name + "MODE " + chnlName + " -o " + chnlUser + "\r\n";
-			send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
-			//
-		}
+		Client* tmp = it2->second;
+		Chnl->users.erase(it2);
+		Chnl->users.insert(std::pair<std::string, Client*>(user, tmp));
+		// to check
+		std::string msg = ":" + clnt->getNickName() + "!" + clnt->getLoginName() + "@" + server->host_name + "MODE " + chnlName + " -o " + user + "\r\n";
+		send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
+		//
 	}
-	else
-		return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
 }
 
 void	RmMode(t_server *server, Client *clnt, std::vector<std::string>& cmd, char c, int i)
@@ -121,37 +97,24 @@ void	RmMode(t_server *server, Client *clnt, std::vector<std::string>& cmd, char 
 	std::string chnlName = cmd[1];
 
 	// after setting a MODE succefully i reply with (:irc.server.com 324 <your_nick> #channel -k)
-	if (cmd[2][0] == 'k')
+	if (c == 'k')
 	{
-		if (cmd.size() == 3)
-		{
-			server->channels[chnlName]->key = "";
-			std::string msg = ":" + clnt->getNickName() + "!" + clnt->getLoginName() + "@" + server->host_name + "MODE " + chnlName + " -k\r\n";
-			send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
-		}
-		else
-			return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
+		server->channels[chnlName]->key = "";
+		std::string msg = ":" + clnt->getNickName() + "!" + clnt->getLoginName() + "@" + server->host_name + "MODE " + chnlName + " -k\r\n";
+		send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
 	}
-	else if (cmd[2][0] == 'o')
-		RmChnlOp(server, clnt, cmd);
-	else if (cmd[2][0] == 'l')
+	else if (c == 'o')
+		RmChnlOp(server, clnt, cmd[1], cmd[i]);
+	else if (c == 'l')
 	{
-		if (cmd.size() == 3)
-		{
-			server->channels[chnlName]->l = -1;
-			std::string msg = ":" + clnt->getNickName() + "!" + clnt->getLoginName() + "@" + server->host_name + "MODE " + chnlName + " -l\r\n";
-			send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
-		}
-		else // not a valid arguement
-			return(error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters\r\n"));
+		server->channels[chnlName]->l = -1;
+		std::string msg = ":" + clnt->getNickName() + "!" + clnt->getLoginName() + "@" + server->host_name + "MODE " + chnlName + " -l\r\n";
+		send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
+		
 	}
-	while (!cmd[2].empty())
-	{
-		if (cmd[2][0] == 'i')
-			server->channels[chnlName]->i = false;
-		else if (cmd[2][0] == 't')
-			server->channels[chnlName]->t = false;
-		cmd[2].erase(0,1);
-	}
+	else if (c == 'i')
+		server->channels[chnlName]->i = false;
+	else if (c == 't')
+		server->channels[chnlName]->t = false;
 	
 }
