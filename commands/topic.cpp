@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:07:55 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/14 12:04:19 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/19 00:13:50 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int ft_topicCmd(t_server *server, Client *clt, std::vector<std::string> &items)
             return clt->reply(server->host_name, RPL_NOTOPIC, ch + " :No topic is set"), EXIT_SUCCESS;
         return clt->reply(server->host_name, RPL_TOPIC, ch + " :" + it->second->topic), EXIT_SUCCESS;
     }
-    if (it->second->users.find("@" + clt->getNickName()) == it->second->users.end() && size > 2 && it->second->t == false)
+    if (it->second->users.find("@" + clt->getNickName()) == it->second->users.end() && size > 2 && it->second->t == true)
         return clt->reply(server->host_name, ERR_CHANOPRIVSNEEDED, ch + " :You're not a channel operator"), EXIT_FAILURE;
     it->second->topic = topic;
     std::stringstream ss_topic;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+         #
+#    By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2024/01/17 23:22:21 by onouakch         ###   ########.fr        #
+#    Updated: 2024/01/19 00:09:55 by heddahbi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 NAME	=	ircserv
 CPP		=	c++
 RM		=	rm -rf
-FLAGS	=	-Wall -Wextra -Werror -std=c++98 -g3 -fsanitize=address
+FLAGS	=	-Wall -Wextra -Werror -std=c++98 
 
 INCLUDES	=	includes/irc.h		\
 				models/Client.hpp	\
