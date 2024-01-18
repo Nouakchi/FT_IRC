@@ -20,6 +20,10 @@ qoperators
 · l: Set/remove the user limit to channel
 Questions : 
     what if i set MODE #ch +l nbr (and nbr < actual channel users ??)
+TESTS:
+    MODE #as (a User didnt joined #as channel)
+    forward a message to all the channel
+    when a client joins a channel replay with channel modes 
 
 ############## -*- serfak -*- ##############
 * KICK - Eject a client from the channel

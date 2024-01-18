@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:20:47 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/06 14:35:58 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/18 20:30:45 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ Channel::Channel(std::string _name, std::string _key, Client *_opt)
     this->topic = "No topic is set";
     this->users.insert(std::pair<std::string, Client*>("@" + _opt->getNickName(), _opt));
     this->i = false;
-    this->t = true;
+    this->t = false;
     this->o = 0;
     this->l = -1;
 }

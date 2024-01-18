@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 07:36:16 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/18 04:56:54 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/18 22:44:49 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	listCHmodes( t_server *server, Client *clnt , std::string ChnlName) // list
 		modes[0].append("l");
 		modes[1].append(" " + std::to_string(chnl->l));
 	}
-	ChannelOP(chnl, modes);
+	// ChannelOP(chnl, modes);
 
 	if (!modes[0].empty())
 	{
@@ -135,9 +135,9 @@ void	ApplyMode( t_server *server, Client *clnt, std::vector<std::string>& cmd)
 		if (str[i] == 'o' || str[i] == 'O' || str[i] == 'K' || str[i] == 'L')
 			ArgsIndex++;
 		if (isupper(str[i]))
-			SetMode(server, clnt, cmd, tolower(str[i]), ArgsIndex + 3);
+			SetMode(server, clnt, cmd, tolower(str[i]), ArgsIndex + 2);
 		else
-			RmMode(server, clnt, cmd, str[i], ArgsIndex + 3);
+			RmMode(server, clnt, cmd, str[i], ArgsIndex + 2);
 		i++;
 	}
 }
