@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:31:38 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/19 00:04:23 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/19 00:27:54 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int ft_inviteCmd(t_server *server, Client *clt, std::vector<std::string> &items)
 
     //insert the user in the invited_users list
     it_channel->second->invited_users.insert(user);
-    it_channel->second->users[user] = it_user->second;
+    it_channel->second->users.insert(std::pair<std::string, Client*>(user, it_user->second));
     
     // Send RPL_INVITING to the invoker
     std::string rplMessage = ":" + server->host_name + " 341 " + clt->getNickName() + " " + user + "\r\n";
