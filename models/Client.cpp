@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 03:42:36 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 01:51:57 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:54:03 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,6 @@ std::time_t  Client::getclntsrvrJointime( void )
 void    Client::setNickName( std::string _nickName )
 {
     this->nickName = _nickName;
-}
-void       Client::set_isinvited(bool i)
-{
-    this->is_invited = i;
 }
 
 void    Client::setLoginName( std::string _loginName )
