@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/16 22:58:30 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:12:58 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define __CLIENT_HPP__
 
 #include <iostream>
+#include <set>
+#include "Channel.hpp"
+
+class Channel;
 
 class Client
 {
@@ -24,8 +28,10 @@ class Client
         std::string nickName;
         std::string loginName;
         std::string realName;
+        std::set<Channel *> joined_channels;
         
         std::time_t srvrJointime;
+        
 
     public:
         Client( int _socket );
@@ -44,11 +50,13 @@ class Client
         void        setLoginName( std::string );
         void        setPassChecked( bool );
         void        setRealName( std::string realname );
+        void        addChannel( Channel * );
         
         // member functions
         int         check_authentification( void );
         void        authenticate( void );
         int         reply( std::string serv_name, int code, std::string mssg);
+        void        clearHistory( void );
 };
 
 #endif

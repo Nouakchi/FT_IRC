@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:47:54 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/07 17:14:22 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:11:32 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void  ft_disconnect( t_server *server, int event_fd )
     EV_SET(&server->delete_event, event_fd, EVFILT_READ, EV_DELETE, 0, 0, NULL);
     kevent(server->kq, &server->delete_event, 1, NULL, 0, NULL);
     // remove the user from the SET && close it's FD
+    Client *clt = server->clients.find(event_fd)->second;
+    clt->clearHistory();
+    server->nicknames.erase(clt->getNickName());
     server->clients.erase(event_fd);
     close(event_fd);
     std::cout << "client disconnected !!" << std::endl;

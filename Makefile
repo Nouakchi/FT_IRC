@@ -6,7 +6,7 @@
 #    By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2024/01/16 22:59:46 by onouakch         ###   ########.fr        #
+#    Updated: 2024/01/17 23:22:21 by onouakch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,9 @@ SRCS	=	main.cpp					\
 			commands/join.cpp			\
 			commands/part.cpp			\
 			commands/privmsg.cpp		\
-			commands/invite.cpp		\
-			commands/kick.cpp		\
-			commands/topic.cpp		\
+			commands/invite.cpp			\
+			commands/kick.cpp			\
+			commands/topic.cpp			\
 			kadigh/SetRmMode.cpp		\
 			kadigh/ft_mode.cpp			\
 			kadigh/ft_mode_utils.cpp	\

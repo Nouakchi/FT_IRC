@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:07:43 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/16 22:57:16 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:23:10 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 		if (it->second->users.find(clt->getNickName()) == it->second->users.end())
 		{
 			it->second->users.insert(std::pair<std::string, Client*>(clt->getNickName(), clt));
+			clt->addChannel(it->second);
 			std::map<std::string, Client *>::iterator c_it = it->second->users.begin();
 			while (c_it != it->second->users.end())
 			{
@@ -52,6 +53,7 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 	{
 		Channel *new_chnl = new Channel(target, key, clt);
 		server->channels.insert(std::pair<std::string, Channel*>(target, new_chnl));
+		clt->addChannel(new_chnl);
 		std::string msg = ":" + clt->getNickName() + "!~" + clt->getLoginName() + "@" + server->host_name + " JOIN " + target + " \r\n";
 		std::cout << "-*- " << msg;
 		send(clt->getSocket(), msg.c_str(), msg.size(), 0);

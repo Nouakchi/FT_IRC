@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 13:02:46 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/16 22:58:15 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:12:32 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <iostream>
 #include <map>
 #include "Client.hpp"
+
+class Client;
 
 class Channel
 {
