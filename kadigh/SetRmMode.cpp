@@ -6,11 +6,32 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:38:23 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/19 00:08:18 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/19 01:20:13 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/irc.h"
+
+int     replayChnlMode(t_server *server, Client *clt, std::string target, std::string msg_toSend)
+{
+    std::map<std::string, Channel*>::iterator it = server->channels.find(target);
+    if (it == server->channels.end() || (it->second->users.find(clt->getNickName()) == it->second->users.end()
+        &&  it->second->users.find("@" + clt->getNickName()) == it->second->users.end()))
+		return (
+			clt->reply(server->host_name, ERR_CANNOTSENDTOCHAN, target + " :Cannot send to channel"),
+			EXIT_FAILURE
+		);
+    std::map<std::string, Client *>::iterator u_it = it->second->users.begin();
+    while (u_it != it->second->users.end())
+    {
+        // if (u_it->first.find(clt->getNickName()) != std::string::npos) // if not find send it to the clnt
+        // {
+        // }
+		    send(u_it->second->getSocket(), msg_toSend.c_str(), msg_toSend.size(), 0);
+        u_it++;
+    }
+    return (EXIT_SUCCESS);
+}
 
 void	setChnlOp( t_server *server, Client *clnt, std::string chnlName, std::string user)
 {
@@ -25,7 +46,7 @@ void	setChnlOp( t_server *server, Client *clnt, std::string chnlName, std::strin
 		Chnl->users.erase(it);
 		Chnl->users.insert(std::pair<std::string, Client*>("@" + user, tmp));
 		msg = ":" + clnt->getNickName() + "!" + clnt->getLoginName() + "@" + server->host_name + " MODE " + chnlName + " +o " + user + "\r\n";
-		toChannel(server, clnt, chnlName, msg);
+		replayChnlMode(server, clnt, chnlName, msg);
 	}
 	else if (it2 == Chnl->users.end())
 		return(error_replay(server, ERR_USERNOTINCHANNEL, *clnt, user + " :is not on channel"));
@@ -75,7 +96,10 @@ void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd,  ch
 		msg = msgPrefix + " +t \r\n";
 	}
 	if (c != 'o')
-		toChannel(server, clnt, chnlName, msg);
+	{
+	    // send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
+		replayChnlMode(server, clnt, chnlName, msg);
+	}
 }
 
 void	RmChnlOp( t_server *server, Client *clnt, std::string chnlName, std::string user )
@@ -90,7 +114,7 @@ void	RmChnlOp( t_server *server, Client *clnt, std::string chnlName, std::string
 		Chnl->users.insert(std::pair<std::string, Client*>(user, tmp));
 		// to check
 		std::string msg = ":" + clnt->getNickName() + "!" + clnt->getLoginName() + "@" + server->host_name + " MODE " + chnlName + " -o " + user + "\r\n";
-		toChannel(server, clnt, chnlName, msg);
+		replayChnlMode(server, clnt, chnlName, msg);
 		//
 	}
 	// else if (it2 == Chnl->users.end())
@@ -127,6 +151,6 @@ void	RmMode(t_server *server, Client *clnt, std::vector<std::string>& cmd, char 
 		msg = " -t";
 	}
 	if (c != 'o')
-		toChannel(server, clnt, chnlName, msgPrefix + msg + "\r\n");
+		replayChnlMode(server, clnt, chnlName, msgPrefix + msg + "\r\n");
 	
 }

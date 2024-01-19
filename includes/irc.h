@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 23:47:12 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/19 00:56:27 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	RmMode(t_server *server, Client *clnt, std::vector<std::string>& cmd,  char
 
 std::string str_toupper(std::string flag);
 bool        ModesSyntaxe(std::string str); /// TODO: this function must be optimized in term of Complexity
-int     toChannel(t_server *server, Client *clt, std::string target, std::string msg_toSend);
+
 /*___________bot__________________*/
 void    loggedTime( t_server *server, Client *clnt );
 # endif
