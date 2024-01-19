@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 13:02:46 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/06 14:58:25 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/18 05:21:42 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,21 @@
 #include <map>
 #include "Client.hpp"
 
+class Client;
+
 class Channel
 {
     public:
         std::string                         name;
         std::string                         topic;
         std::map<std::string, Client *>     users;
-
+        std::set<std::string>               invited_users;
+        
         bool                                i;
         bool                                t;
         std::string                         key;
         int                                 o;
-        int                                 l;
+        size_t                              l;
 
     public:
         Channel(std::string name, std::string key, Client *opt);

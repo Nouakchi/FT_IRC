@@ -6,11 +6,13 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/16 10:44:44 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/19 02:14:13 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/irc.h"
+#include <sstream>
+#include <vector>
 
 int main()
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 03:42:36 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/07 14:36:22 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/18 02:28:28 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ void    Client::authenticate( void )
     this->authFlag = 1;
 }
 
+void    Client::addChannel( Channel *ch )
+{
+    this->joined_channels.insert(ch);
+}
+
 /************************************************************/
 /*                  # -*- M_FUNCT -*- #                     */
 /************************************************************/
@@ -112,4 +117,14 @@ int     Client::reply( std::string serv_name, int code, std::string mssg)
     if (ft_send(this->socket, serv_name, s_code, this->nickName, mssg))
         return (EXIT_FAILURE);
     return (EXIT_SUCCESS);
+}
+void    Client::clearHistory( void )
+{
+    std::set<Channel *>::iterator it = this->joined_channels.begin();
+    while (it != this->joined_channels.end())
+    {
+        if (!(*it)->users.erase(this->nickName))
+            (*it)->users.erase("@" + this->nickName);
+        it++;
+    }
 }

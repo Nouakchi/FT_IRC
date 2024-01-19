@@ -6,9 +6,10 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/19 00:56:27 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/19 02:13:13 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 # ifndef __IRC_HPP__
 # define __IRC_HPP__
@@ -29,6 +30,7 @@
 #include "../models/Channel.hpp"
 #include <iterator>
 #include <set>
+
 #include <vector>
 #include <sstream>
 
@@ -57,16 +59,19 @@ enum err_rpl
     ERR_NORECIPIENT = 411,
     ERR_NOTEXTTOSEND = 412,
 
+    ERR_CHANNELISFULL = 471,
+    ERR_INVITEONLYCHAN = 473,
+    ERR_BADCHANNELKEY = 475,
+    ERR_BADCHANMASK = 476,
+    
     ERR_NONICKNAMEGIVEN = 431,
     ERR_ERRONEUSNICKNAME = 432,
     ERR_NICKNAMEINUSE = 433,
+    ERR_USERNOTINCHANNEL = 441,
     
     ERR_NOTONCHANNEL = 442,
 
-    ERR_USERNOTINCHANNEL = 441,
-    
     ERR_NOTREGISTERED = 451,
-    
     ERR_NEEDMOREPARAMS = 461,
     ERR_ALREADYREGISTRED = 462,
     
@@ -93,11 +98,11 @@ typedef struct s_server
     struct	sockaddr_in	            new_sock_struct;
     std::map<int, Client*>          clients;
     std::map<std::string, Channel*> channels;
-    std::set<std::string>        nicknames;
+    std::set<std::string>           nicknames;
 
-	
 }   t_server;
 
+/*####################*/
 int     ft_error( std::string err_msg );
 int     ft_create_socket( t_server *server );
 int     ft_bind_to_listen( t_server *server );
@@ -115,6 +120,12 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff );
 int     ft_joinCmd( t_server *server, Client *clt, std::vector<std::string> &items );
 int		ft_partCmd(t_server *server, Client *clt, std::vector<std::string> &items);
 int     ft_privmsg( t_server *server, Client *clt, std::vector<std::string> &items );
+/*####################*/
+int    ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items);
+int    ft_inviteCmd(t_server *server, Client *clt, std::vector<std::string> &items);
+int    ft_topicCmd(t_server *server, Client *clt, std::vector<std::string> &items);
+bool    is_valid_channel_name(std::string name);
+/*####################*/
 
 /*--------------------*/
 

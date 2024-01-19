@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/07 14:27:40 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/18 02:33:00 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,24 @@
 # define __CLIENT_HPP__
 
 #include <iostream>
+#include <set>
+#include "Channel.hpp"
+
+class Channel;
 
 class Client
 {
     private:
-        int         socket;
-        bool        authFlag;
-        bool        passChecked;
-        std::string nickName;
-        std::string loginName;
-        std::string realName;
+        int                     socket;
+        bool                    authFlag;
+        bool                    passChecked;
+        std::string             nickName;
+        std::string             loginName;
+        std::string             realName;
+        std::set<Channel *>     joined_channels;
         
         std::time_t srvrJointime;
+        
 
     public:
         Client( int _socket );
@@ -44,11 +50,13 @@ class Client
         void        setLoginName( std::string );
         void        setPassChecked( bool );
         void        setRealName( std::string realname );
+        void        addChannel( Channel * );
         
         // member functions
         int         check_authentification( void );
         void        authenticate( void );
         int         reply( std::string serv_name, int code, std::string mssg);
+        void        clearHistory( void );
 };
 
 #endif

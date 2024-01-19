@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:00:24 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/07 15:17:17 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/18 01:11:20 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
             ft_joinCmd(server, clt, items);
         else if (items[0] == "PART")
             ft_partCmd(server, clt, items);
+        else if (items[0] == "KICK")
+            ft_kickCmd(server, clt, items);
+        else if (items[0] == "INVITE")
+            ft_inviteCmd(server, clt, items);
+        else if (items[0] == "TOPIC")
+            ft_topicCmd(server, clt, items);
         else if (items[0] == "PRIVMSG")
             ft_privmsg(server, clt, items);
         else if (items[0] == "MODE")
