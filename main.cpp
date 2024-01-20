@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/19 02:14:13 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/19 03:52:18 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int main()
     server.serv_pass = "pass_test";
     server.server_date = asctime(ti);
 
-    gethostname(tmp_host, sizeof(tmp_host));
+    gethostname(tmp_host, sizeof(tmp_host)); // is allowed ?
+    // tmp_host = getaddrinfo
     
     server.server_name = std::string(tmp_host);
     server.host_name = ":" + server.server_name;
