@@ -29,3 +29,12 @@ TESTS:
 * KICK - Eject a client from the channel
 * INVITE - Invite a client to a channel
 * TOPIC - Change or view the channel topic
+
+############## -*- last things -*- ##############
+
+    NOTICE
+    parsing INPUT
+    JOIN (duplicate nicknames)
+    boot
+    leaks
+    testes
