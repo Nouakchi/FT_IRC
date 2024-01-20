@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:07:55 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/19 00:13:50 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/20 15:03:11 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ std::string _return_topic(std::vector<std::string> &items)
     std::string topic;
     for (size_t i = 2; i < items.size(); ++i)
     {
+        if(topic[0] == ':')
+            topic.erase(0, 1);
         topic += items[i];
         if (i < items.size() - 1)
             topic += " ";
