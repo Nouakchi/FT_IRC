@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:38:23 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/19 01:20:13 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/19 02:39:30 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ int     replayChnlMode(t_server *server, Client *clt, std::string target, std::s
     std::map<std::string, Client *>::iterator u_it = it->second->users.begin();
     while (u_it != it->second->users.end())
     {
-        // if (u_it->first.find(clt->getNickName()) != std::string::npos) // if not find send it to the clnt
-        // {
-        // }
-		    send(u_it->second->getSocket(), msg_toSend.c_str(), msg_toSend.size(), 0);
+	    send(u_it->second->getSocket(), msg_toSend.c_str(), msg_toSend.size(), 0);
         u_it++;
     }
     return (EXIT_SUCCESS);
