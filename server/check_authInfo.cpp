@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:51:58 by onouakch          #+#    #+#             */
-/*   Updated: 2023/12/28 09:25:14 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/20 06:14:38 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int     ft_checkNick( t_server *server, Client *clt, std::string buff )
     return (EXIT_SUCCESS);
 }
 
-int     ft_checkUser( Client *clt, std::string buff )
+int     ft_checkUser( t_server *server, Client *clt, std::string buff )
 {
     int nbr_args = 0;
     
@@ -80,7 +80,7 @@ int     ft_checkUser( Client *clt, std::string buff )
         }
         if (nbr_args != 4)
             return (
-                        clt->reply(":localhost", ERR_NEEDMOREPARAMS, "USER :Not enough parameters"),
+                        clt->reply(server->host_name, ERR_NEEDMOREPARAMS, "USER :Not enough parameters"),
                         EXIT_FAILURE
                     );
     }
@@ -95,7 +95,7 @@ int     ft_checkCmd( Client *clt, t_server *server, std::string buff)
     else if (tmp == "NICK ")
         return (ft_checkNick(server, clt, buff.substr(5, buff.length())));
     else if (tmp == "USER ")
-        return (ft_checkUser(clt, buff.substr(5, buff.length())));
+        return (ft_checkUser(server, clt, buff.substr(5, buff.length())));
     else
         return (clt->reply(server->host_name, ERR_NOTREGISTERED, ":You have not registered"));
 }

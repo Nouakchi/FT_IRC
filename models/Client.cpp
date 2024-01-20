@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 03:42:36 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 02:28:28 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/20 07:44:52 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ Client::Client( int _socket )
     this->passChecked = false;
     this->nickName = "*";
     this->loginName = "*";
+    this->cmd = "";
     srvrJointime = std::time(NULL);
 }
 
@@ -50,6 +51,11 @@ std::string Client::getNickName( void )
 std::string Client::getLoginName( void )
 {
     return (this->loginName);
+}
+
+std::string Client::getCmd( void )
+{
+    return (this->cmd);
 }
 
 std::string Client::getRealName( void )
@@ -83,6 +89,11 @@ void    Client::setRealName( std::string _realName )
 void    Client::setPassChecked( bool checked )
 {
     this->passChecked = checked;
+}
+
+void    Client::setCmd( std::string _cmd )
+{
+    this->cmd = _cmd;
 }
 
 void    Client::authenticate( void )
