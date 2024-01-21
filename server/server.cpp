@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/09 17:14:44 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/21 14:40:48 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int ft_bind_to_listen( t_server *server )
     bzero((char *)&server->sock_struct, sizeof(server->sock_struct));
     server->sock_struct.sin_family = AF_INET;
     server->sock_struct.sin_addr.s_addr = INADDR_ANY;
-    server->sock_struct.sin_port = htons( PORT );
+    server->sock_struct.sin_port = htons( server->port);
     
     //binding the socket to an ip and port
     if (bind(server->socket, (struct sockaddr *) &server->sock_struct, sizeof(server->sock_struct)))
@@ -61,7 +61,7 @@ int ft_bind_to_listen( t_server *server )
     //listen for connection
     if (listen(server->socket, 128))
         return (ft_error("Failed to listen !!"));
-    std::cout << "server is listening on port " << PORT << std::endl;
+    std::cout << "server is listening on port " <<server->port << std::endl;
     return (EXIT_SUCCESS);
 }
 

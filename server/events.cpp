@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:47:54 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/20 23:18:58 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/21 14:24:45 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void  ft_disconnect( t_server *server, int event_fd )
     server->nicknames.erase(clt->getNickName());
     server->clients.erase(event_fd);
     close(event_fd);
+    delete clt;
     std::cout << "client disconnected !!" << std::endl;
 }
 
@@ -57,7 +58,10 @@ void  ft_check_event( t_server *server, int event_fd )
                 if (it->second->getAuthFlag())
                     ft_parseCommand(server, it->second, ex_cmd);
                 else if (ft_authProcess(server, it->second, ex_cmd))
+                {
                     ft_disconnect(server, event_fd);
+                    return ;
+                }
                 cmd = cmd.substr(pos + 1, cmd.length());
                 pos = cmd.find("\n");
             }
