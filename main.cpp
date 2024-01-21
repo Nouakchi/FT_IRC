@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/21 14:50:05 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:08:25 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ int ft_parse_port( char *port )
 
     return (EXIT_SUCCESS);
 }
+int parse_pwd( char *pwd )
+{
+    int i = -1;
+    if(strlen(pwd) < 1)
+        return (ft_error("Password must be at least 1 char long !!"));
+    while (pwd[++i])
+        if (isspace(pwd[i]))
+            return (ft_error("Password must not contain spaces !!"));
+    return (EXIT_SUCCESS);
+}
 int main(int ac , char **av)
 {
     int             i , num_events;
@@ -38,11 +48,13 @@ int main(int ac , char **av)
     
     if (ac != 3)
         return (ft_error("Usage: ./ircserv <port> <password>"));
-    server.serv_pass = av[2];
-    if(server.serv_pass.size() < 1)
-        return (ft_error("Password must be at least 1 char long !!"));
+    if (EXIT_FAILURE == parse_pwd(av[2]))
+        return (EXIT_FAILURE);
     if (EXIT_FAILURE == ft_parse_port(av[1]))
         return (EXIT_FAILURE);
+    server.serv_pass = av[2];
+    // if(server.serv_pass.size() < 1)
+    //     return (ft_error("Password must be at least 1 char long !!"));
     server.port = atoi(av[1]);
     server.server_date = asctime(ti);
 
