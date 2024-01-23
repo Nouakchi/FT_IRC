@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:51:58 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/23 12:41:41 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:17:54 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int     ft_checkPass( Client *clt, std::string buff, std::string pass )
 
     if(buff[0]== ':')
         buff = buff.substr(1, buff.length());
-    
     // if the nickname is not given, so the user still in the PASS step,
     // otherwise the pass is ignored and an ERR_MSG is sent to the client
     if (clt->getNickName() == "*")
