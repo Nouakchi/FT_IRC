@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logtime.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 14:37:07 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/23 11:53:35 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:30:26 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,14 @@ int main(int ac, char **av)
 	fcntl(botsock, F_SETFL, O_NONBLOCK);
 	while (bytes > 0)
 	{
-		std::cout << buff ;
+		// std::cout << buff ;
 		bzero(buff, sizeof(buff));
 		bytes = recv(botsock, (void *)buff, sizeof(buff), 0);
-		
 	}
-	
 
+	
+	
+	// std::cout <<"test\n";
 	// std::cout << buff << std::endl;
 
 	bzero(buff, sizeof(buff));
@@ -118,7 +119,7 @@ int main(int ac, char **av)
 	std::string replay;
 	
 	std::vector<std::string> items;
-	while (true)
+	while (recv(botsock, (void *)buff, sizeof(buff), 0))
 	{
 		/*
 			the probleme here is that the BOT is a clieent so it could recieve private msgs and kayferbal
@@ -126,7 +127,7 @@ int main(int ac, char **av)
 			we should ignore the (PRIVMSG BOT :msg) 
 			so to avoid another user register with a BOT nickname we should make BOT NickName reserved and the BOT couldnt 
 		*/
-		recv(botsock, (void *)buff, sizeof(buff), 0); // ignore the Private msgs to the BOT or 
+		// recv(botsock, (void *)buff, sizeof(buff), 0); // ignore the Private msgs to the BOT or 
 		if (strlen(buff) == 0)
 			continue ;
 		splitString(buff, items, ' ');
