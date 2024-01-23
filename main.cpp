@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/23 13:15:37 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:37:23 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 int ft_parse_port( char *port )
 {
     int i = -1;
+    if (port[0] && port[0] == '+')
+		i++;
     while (port[++i])
         if (!isdigit(port[i]))
             return (ft_error("Port must be a number !!"));
     if(atoi(port) < 1024 || atoi(port) > 65535)
-        return (ft_error("Port must be between 0 and 65535 !!" ));
+        return (ft_error("Port must be between 1024 and 65535 !!" ));
 
     return (EXIT_SUCCESS);
 }

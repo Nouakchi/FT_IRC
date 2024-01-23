@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+         #
+#    By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2024/01/23 14:09:31 by aaoutem-         ###   ########.fr        #
+#    Updated: 2024/01/23 14:41:03 by onouakch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRCS	=	main.cpp					\
 BONUS	=	bot/logtime.cpp
 
 OBJS	=	$(SRCS:%.cpp=%.o)
+BOBJS	=	$(BONUS:%.cpp=%.o)
 
 all:	$(NAME)
 
@@ -52,14 +53,17 @@ $(NAME) : $(OBJS)
 %.o : %.cpp $(INCLUDES)
 	$(CPP) $(FLAGS) -c $< -o $@
 
-bonus : $(BONUS) $(INCLUDES)
-	$(CPP) $(FLAGS) $(BONUS) -o logtime
+bonus : $(BOBJS) $(INCLUDES)
+	$(CPP) $(FLAGS) $(BOBJS) -o $@
+
+%.o : bot/%.cpp $(INCLUDES)
+	$(CPP) $(FLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(BOBJS)
 
 fclean:	clean
-	$(RM) $(NAME) logtime
+	$(RM) $(NAME) bonus
 
 re: fclean all
 

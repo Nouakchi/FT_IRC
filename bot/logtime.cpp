@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logtime.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 14:37:07 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/23 13:52:15 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:37:17 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,18 @@
 int ft_parse_port( char *port )
 {
     int i = -1;
+	if (port[0] && port[0] == '+')
+		i++;
     while (port[++i])
         if (!isdigit(port[i]))
         {
-	        std::cout << "Port must be between 0 and 65535 !!\n";
-	    	return (EXIT_SUCCESS);
+	        std::cout << "Port must be a number !!\n";
+	    	return (EXIT_FAILURE);
 		}
     if(atoi(port) < 1024 || atoi(port) > 65535)
 	{
-        std::cout << "Port must be between 0 and 65535 !!\n";
-	    return (EXIT_SUCCESS);
+        std::cout << "Port must be between 1024 and 65535 !!\n";
+	    return (EXIT_FAILURE);
 	}
 
     return (EXIT_SUCCESS);
@@ -73,7 +75,7 @@ int main(int ac, char *av[])
 	std::string cmd;
 
 	if(ac != 3)
-		std::cout << "./ircbot <port> <password>\n";
+		return (std::cout << "./ircbot <port> <password>\n", 0);
 
 	if (EXIT_FAILURE == ft_parse_port(av[1]))
         return (EXIT_FAILURE);
