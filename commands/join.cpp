@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:07:43 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/22 20:19:33 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/23 10:13:55 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 	std::map<std::string, Channel*>::iterator it = server->channels.find(target);
 	if (it != server->channels.end())
 	{
-		if (it->second->users.find(clt->getNickName()) == it->second->users.end())
+		if (it->second->users.find(clt->getNickName()) == it->second->users.end() 
+			&& it->second->users.find("@" + clt->getNickName()) == it->second->users.end())
 		{
 			if (it->second->i)
 				return (

@@ -32,9 +32,9 @@ TESTS:
 
 ############## -*- last things -*- ##############
 
+    JOIN (duplicate nicknames) DONE √√
     NOTICE
     parsing INPUT
-    JOIN (duplicate nicknames)
     boot
     leaks
     testes
