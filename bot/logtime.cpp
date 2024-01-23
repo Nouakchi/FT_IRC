@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 14:37:07 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/23 08:39:27 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:24:26 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int main()
 	bzero((char *)&serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
-    serv_addr.sin_port = htons( PORT );
+    serv_addr.sin_port = htons( 6667 );
 
 	botsock = socket(AF_INET, SOCK_STREAM, 0);
 	if (botsock == -1)
@@ -74,22 +74,25 @@ int main()
 	if (n < -1)
 		return (std::cout << "Error connecting\n", 0);
 
-	// fcntl(botsock, F_SETFL, O_NONBLOCK);
-
 	cmd = "PASS pass_test\r\n";
 	send(botsock, cmd.c_str(), cmd.size(), 0);
-	// sleep(1); // hy if i add a sleep it authentify ???
-
 	cmd = "NICK BOT\r\n";
 	send(botsock, cmd.c_str(), cmd.size(), 0);
-	// sleep(1);
-
 	cmd = "USER as as as as\r\n";
-	send(botsock, cmd.c_str(), cmd.size(), 0);
-	// sleep(1);
-	recv(botsock, (void *)buff, sizeof(buff), 0);
+	send(botsock, cmd.c_str(), cmd.size(), 0);	
 
-	std::cout << buff << std::endl;
+	ssize_t bytes  = recv(botsock, (void *)buff, sizeof(buff), 0);
+	fcntl(botsock, F_SETFL, O_NONBLOCK);
+	while (bytes > 0)
+	{
+		std::cout << buff ;
+		bzero(buff, sizeof(buff));
+		bytes = recv(botsock, (void *)buff, sizeof(buff), 0);
+		
+	}
+	
+
+	// std::cout << buff << std::endl;
 
 	bzero(buff, sizeof(buff));
 

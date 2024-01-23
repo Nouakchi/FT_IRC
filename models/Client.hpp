@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/21 10:30:15 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 08:46:31 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class Client
         std::string             nickName;
         std::string             loginName;
         std::string             realName;
+        std::string             cmd;
         std::set<Channel *>     joined_channels;
         
         std::time_t srvrJointime;
@@ -44,10 +45,12 @@ class Client
         std::string getLoginName( void );
         std::string getRealName( void );
         std::time_t getcltsrvrJointime( void );
+        std::string getCmd( void );
 
         //setters
         void        setNickName( std::string );
         void        setLoginName( std::string );
+        void        setCmd( std::string );
         void        setPassChecked( bool );
         void        setRealName( std::string realname );
         void        addChannel( Channel * );

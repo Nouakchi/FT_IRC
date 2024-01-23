@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:08:37 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/17 12:35:56 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/21 21:28:13 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,14 @@ std::string _return_reason(std::vector<std::string> &items)
     return reason;
 }
 
-int ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items)
+int ft_kickCmd1(t_server *server, Client *clt, std::vector<std::string> &items, size_t size)
 {
-    size_t size = items.size();
+    
     std::string ch;
     std::stringstream ss_targets(items[1]);
     std::stringstream ss_users(items[2]);
     std::string reason;
-
-    // if the size of the vector is less than 3, then we don't have enough parameters to execute the command
-    if (size < 3)
-        return clt->reply(server->host_name, ERR_NEEDMOREPARAMS, "KICK :Not enough parameters"), EXIT_FAILURE;
-    // if the size of the vector is greater than 3, then we have a reason for the kick because limechat considers the last parameter as a reason
+    
     if (size > 3)
         reason = _return_reason(items);
     while (std::getline(ss_targets, ch, ','))
@@ -94,4 +90,16 @@ int ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items)
     }
     return EXIT_SUCCESS;
 }
+int ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items)
+{
+    size_t size = items.size();
+    if (items.empty())
+        return clt->reply(server->host_name, ERR_NEEDMOREPARAMS, "KICK :Not enough parameters"), EXIT_FAILURE;
+    if (size < 3)
+        return clt->reply(server->host_name, ERR_NEEDMOREPARAMS, "KICK :Not enough parameters"), EXIT_FAILURE;
+    if (ft_kickCmd1(server, clt, items,size) == EXIT_FAILURE)
+        return EXIT_FAILURE;
+    return EXIT_SUCCESS;
+}
+
 

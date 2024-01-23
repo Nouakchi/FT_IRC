@@ -29,7 +29,32 @@
 //     // send a message to a channel that the client didnt joined
 //     // send a message to a channel client joined and check if he could see that message
 
-// ############## -*- serfak -*- ##############
-// * KICK - Eject a client from the channel
-// * INVITE - Invite a client to a channel
-// * TOPIC - Change or view the channel topic
+############## -*- serfak -*- ##############
+* KICK - Eject a client from the channel
+* INVITE - Invite a client to a channel
+* TOPIC - Change or view the channel topic
+
+############## -*- last things -*- ##############
+
+    NOTICE
+    parsing INPUT
+    JOIN (duplicate nicknames)
+    boot
+    leaks
+    testes
+
+############## ##############
+ // SEGFAULTS
+ // makaynch lerror dial No such channel
+MODE empty
+MODE i+k; segfault
+MODE +i #l segv
+MODE daghsdhas
+MODE #asdjasd,#djksfhd +dd
+MODE i segv
+MODE &1,&32
+MODE #i // segv on unknown channel
+MODE #u #i // rah Error(472): # is unknown mode char to me hnaya
+MODE :Not enough parameters
+ERR_NOTONCHANNEL // makaynach
+

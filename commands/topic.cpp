@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:07:55 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/19 00:13:50 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/20 15:13:44 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@
 
 std::string _return_topic(std::vector<std::string> &items)
 {
-    // You need to implement this function to extract the topic
-    // based on your specific logic. For now, let's assume it
-    // concatenates all parameters starting from the third element.
     std::string topic;
     for (size_t i = 2; i < items.size(); ++i)
     {
+        if(topic[0] == ':')
+            topic.erase(0, 1);
         topic += items[i];
         if (i < items.size() - 1)
             topic += " ";
@@ -44,10 +43,7 @@ int ft_topicCmd(t_server *server, Client *clt, std::vector<std::string> &items)
 
     // if the size of the vector is greater than 2, then we have a topic for the channel because limechat considers the last parameter as a topic
     if (size > 2)
-    {
-        // Extracting the topic using the provided function
         topic = _return_topic(items);
-    }
 
     // if the channel name is not valid, then we return an error
     if (!is_valid_channel_name(ch))
@@ -66,7 +62,7 @@ int ft_topicCmd(t_server *server, Client *clt, std::vector<std::string> &items)
     {
         if (it->second->topic.empty())
             return clt->reply(server->host_name, RPL_NOTOPIC, ch + " :No topic is set"), EXIT_SUCCESS;
-        return clt->reply(server->host_name, RPL_TOPIC, ch + " :" + it->second->topic), EXIT_SUCCESS;
+        return clt->reply(server->host_name, RPL_TOPIC, ch  + it->second->topic), EXIT_SUCCESS;
     }
     if (it->second->users.find("@" + clt->getNickName()) == it->second->users.end() && size > 2 && it->second->t == true)
         return clt->reply(server->host_name, ERR_CHANOPRIVSNEEDED, ch + " :You're not a channel operator"), EXIT_FAILURE;

@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/21 06:01:28 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 08:42:40 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 #include <vector>
 #include <sstream>
 
-#define PORT 6667
 
 enum err_rpl
 {
@@ -96,6 +95,7 @@ typedef struct s_server
     struct  kevent                  delete_event;
     struct	sockaddr_in	            sock_struct;
     struct	sockaddr_in	            new_sock_struct;
+    int                             port;
     std::map<int, Client*>          clients;
     std::map<std::string, Channel*> channels;
     std::set<std::string>           nicknames;
