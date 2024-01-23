@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   logtime.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 14:37:07 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/23 11:24:26 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:53:35 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,22 @@ void splitString(const std::string& cmd, std::vector<std::string>& substrs, char
 	}
 
 	return ;
+}
+
+int ft_error(std::string msg)
+{
+	std::cout << msg << std::endl;
+	return (EXIT_FAILURE);
+}
+int parse_pwd( char *pwd )
+{
+    int i = -1;
+    if(strlen(pwd) < 1)
+        return (ft_error("Password must be at least 1 char long !!"));
+    while (pwd[++i])
+        if (isspace(pwd[i]))
+            return (ft_error("Password must not contain spaces !!"));
+    return (EXIT_SUCCESS);
 }
 
 std::string	loggedTime(std::string joinTimeStr)
@@ -50,7 +66,7 @@ std::string	loggedTime(std::string joinTimeStr)
 }
 
 // int main(int ac, char **av)
-int main()
+int main(int ac, char **av)
 {
 	std::cout << "logtime" << std::endl;
 	int botsock;
@@ -59,6 +75,8 @@ int main()
 	char buff[512];
 	std::string cmd;
 
+	if(ac != 2)
+		return (std::cout << "Usage: ./logtime <password>\n", 0);
 	bzero((char *)&serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
@@ -73,8 +91,8 @@ int main()
 	int n = connect(botsock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 	if (n < -1)
 		return (std::cout << "Error connecting\n", 0);
-
-	cmd = "PASS pass_test\r\n";
+	
+	cmd = "PASS " + std::string(av[1]) + "\r\n";
 	send(botsock, cmd.c_str(), cmd.size(), 0);
 	cmd = "NICK BOT\r\n";
 	send(botsock, cmd.c_str(), cmd.size(), 0);

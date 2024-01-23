@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/23 11:27:45 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:33:06 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int main(int ac , char **av)
             //check for a new connection or a received message
             num_events = kevent(server.kq, NULL, 0, new_event, 1, NULL);
             if (num_events == -1)
-                return (ft_error("Faile to check on events !!"));
+                return (ft_error("Failed to check on events !!"));
                 
             i = -1;
             while (++i < num_events)
@@ -118,7 +118,5 @@ int main(int ac , char **av)
     {
         std::cerr << "Error: " << e.what() << '\n';
     }
-    
-    
     return   (0);
 }
