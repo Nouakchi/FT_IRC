@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:07:43 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/23 08:42:23 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:26:10 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 	std::map<std::string, Channel*>::iterator it = server->channels.find(target);
 	if (it != server->channels.end())
 	{
-		if (it->second->users.find(clt->getNickName()) == it->second->users.end())
+		if (it->second->users.find(clt->getNickName()) == it->second->users.end() 
+			&& it->second->users.find("@" + clt->getNickName()) == it->second->users.end())
 		{
 			if (it->second->i)
 				return (
@@ -101,12 +102,16 @@ int     ft_joinCmd( t_server *server, Client *clt, std::vector<std::string> &ite
 	size_t size = items.size();
 	std::stringstream ss_targets(items[1]);
 	std::stringstream ss_keys((size == 3) ? items[2] : "");
-	
-	if (size < 2 || size > 3)
+	try{
+	if (size != 2)
 		return (
 			clt->reply(server->host_name, ERR_NEEDMOREPARAMS, "JOIN :Not enough parameters"),
 			EXIT_FAILURE
 		);
+		
+	}catch(std::exception &e){
+		std::cout << e.what() << std::endl;
+	}
 	while (std::getline(ss_targets, target, ','))
 	{
 		std::getline(ss_keys, key, ',');

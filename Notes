@@ -36,15 +36,14 @@
 
 ############## -*- last things -*- ##############
 
+    JOIN (duplicate nicknames) DONE √√
     NOTICE
     parsing INPUT
-    JOIN (duplicate nicknames)
     boot
     leaks
     testes
 
-############## ##############
- // SEGFAULTS
+##############-*-errors-*- ##############
  // makaynch lerror dial No such channel
 MODE empty
 MODE i+k; segfault
@@ -56,5 +55,5 @@ MODE &1,&32
 MODE #i // segv on unknown channel
 MODE #u #i // rah Error(472): # is unknown mode char to me hnaya
 MODE :Not enough parameters
-ERR_NOTONCHANNEL // makaynach
+
 
