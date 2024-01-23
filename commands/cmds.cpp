@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:00:24 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/23 11:33:10 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:46:11 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void LogtimeBot(t_server *server, Client *clt)
 	{
 		if (it->second->getNickName() == "BOT")
 		{
-			std::cout << ">> " + clt->getNickName() + " | ";
 			std::string arg = "LOGTIME " + clt->getNickName()+ " " + CltJointime.c_str();
 			send(it->second->getSocket(), arg.c_str(), arg.size(), 0);
 			break;

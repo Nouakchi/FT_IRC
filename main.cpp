@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/23 11:33:06 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:15:37 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,8 @@ int ft_parse_port( char *port )
 }
 int parse_pwd( char *pwd )
 {
-    int i = -1;
     if(strlen(pwd) < 1)
         return (ft_error("Password must be at least 1 char long !!"));
-    while (pwd[++i])
-        if (isspace(pwd[i]))
-            return (ft_error("Password must not contain spaces !!"));
     return (EXIT_SUCCESS);
 }
 

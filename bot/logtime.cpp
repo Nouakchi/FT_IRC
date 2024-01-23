@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 14:37:07 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/23 13:32:40 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:52:15 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,15 @@ int ft_parse_port( char *port )
     int i = -1;
     while (port[++i])
         if (!isdigit(port[i]))
-            return (ft_error("Port must be a number !!"));
+        {
+	        std::cout << "Port must be between 0 and 65535 !!\n";
+	    	return (EXIT_SUCCESS);
+		}
     if(atoi(port) < 1024 || atoi(port) > 65535)
-        return (ft_error("Port must be between 0 and 65535 !!" ));
+	{
+        std::cout << "Port must be between 0 and 65535 !!\n";
+	    return (EXIT_SUCCESS);
+	}
 
     return (EXIT_SUCCESS);
 }
@@ -42,11 +48,9 @@ void splitString(const std::string& cmd, std::vector<std::string>& substrs, char
 
 std::string	loggedTime(std::string joinTimeStr)
 {
-	std::time_t jointime  = atol(joinTimeStr.c_str());
 	std::time_t currenttime = std::time(NULL);
+	std::time_t jointime  = atol(joinTimeStr.c_str());
 	std::time_t difftime =  currenttime - jointime;
-	std::cout << "currenttime: " << currenttime << std::endl;
-	std::cout << "jointime: " << jointime << std::endl;
 
 	int days = difftime / 86400;
 	int restSeconds = difftime % 86400; 
@@ -97,7 +101,7 @@ int main(int ac, char *av[])
 	send(botsock, cmd.c_str(), cmd.size(), 0);
 	cmd = "USER as as as as\r\n";
 	send(botsock, cmd.c_str(), cmd.size(), 0);	
-
+	
 	ssize_t bytes  = recv(botsock, (void *)buff, sizeof(buff), 0);
 	fcntl(botsock, F_SETFL, O_NONBLOCK);
 	while (bytes > 0)
@@ -107,11 +111,6 @@ int main(int ac, char *av[])
 		bytes = recv(botsock, (void *)buff, sizeof(buff), 0);
 	}
 
-	
-	
-	// std::cout <<"test\n";
-	// std::cout << buff << std::endl;
-
 	bzero(buff, sizeof(buff));
 
 	std::string logtime;
@@ -119,13 +118,6 @@ int main(int ac, char *av[])
 	std::vector<std::string> items;
 	while (recv(botsock, (void *)buff, sizeof(buff), 0))
 	{
-		/*
-			the probleme here is that the BOT is a clieent so it could recieve private msgs and kayferbal
-			if soo we should make somthg for it soit 
-			we should ignore the (PRIVMSG BOT :msg) 
-			so to avoid another user register with a BOT nickname we should make BOT NickName reserved and the BOT couldnt 
-		*/
-		// recv(botsock, (void *)buff, sizeof(buff), 0); // ignore the Private msgs to the BOT or 
 		if (strlen(buff) == 0)
 			continue ;
 		splitString(buff, items, ' ');
@@ -136,7 +128,6 @@ int main(int ac, char *av[])
 		}
 		bzero(buff, sizeof(buff));
 		logtime = loggedTime (items[2]);
-		// std::cout <<"[" + items[0]+ " | "+ logtime +"]" << std::endl;
 		replay = "PRIVMSG " + items[1] + " :You Logged for " + logtime + "\r\n";
 		send(botsock, replay.c_str(), replay.size(), 0);
 		items.clear();
