@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:00:24 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 01:11:20 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/20 23:59:02 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
             ft_inviteCmd(server, clt, items);
         else if (items[0] == "TOPIC")
             ft_topicCmd(server, clt, items);
-        else if (items[0] == "PRIVMSG")
+        else if (items[0] == "PRIVMSG" || items[0] == "NOTICE")
             ft_privmsg(server, clt, items);
         else if (items[0] == "MODE")
             ft_modeCmd(server, clt, buff);

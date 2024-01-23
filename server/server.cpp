@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:14:18 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/09 17:14:44 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/21 00:05:50 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void ft_setup_new_connection( t_server *server , int event_fd )
         EV_SET(server->event, server->new_client, EVFILT_READ, EV_ADD, 0, 0, 0);
         if (kevent(server->kq, server->event, 1, NULL, 0, NULL))
             std::cerr << "Kevent falied !!"<< std::endl;
-        server->clients.insert(std::pair<int, Client*>(server->new_client, new Client(server->new_client)));
+        Client  *new_clt = new Client(server->new_client);
+        server->clients.insert(std::pair<int, Client*>(server->new_client, new_clt));
     }
 }
 
