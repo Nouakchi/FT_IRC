@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+         #
+#    By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2024/01/23 11:27:50 by aaoutem-         ###   ########.fr        #
+#    Updated: 2024/01/23 11:49:14 by heddahbi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,13 +53,13 @@ $(NAME) : $(OBJS)
 	$(CPP) $(FLAGS) -c $< -o $@
 
 bonus : $(BONUS) $(INCLUDES)
-	$(CPP) $(FLAGS) $(BONUS) -o bot
+	$(CPP) $(FLAGS) $(BONUS) -o logtime
 
 clean:
 	$(RM) $(OBJS)
 
 fclean:	clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) logtime
 
 re: fclean all
 
