@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 07:36:16 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/19 02:13:32 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/20 02:57:48 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	listCHmodes( t_server *server, Client *clnt , std::string ChnlName) // list
 	if (!modes[0].empty())
 	{
 		modes[0].insert(0, "+");
-		error_replay(server, RPL_CHANNELMODEIS, *clnt, ChnlName + " " + modes[0] + " " + modes[1]);// to be verified
+		error_replay(server, RPL_CHANNELMODEIS, *clnt, " " + ChnlName + " " + modes[0] + " " + modes[1]);// to be verified
 	}
 	// else
 	// 	error_replay(server, RPL_CHANNELMODEIS, *clnt, ChnlName + " :End of MODE list");
@@ -147,14 +147,14 @@ int	ft_modeCmd( t_server *server, Client *clnt, std::string buff)
 	std::vector<std::string> cmd;
 	splitString(buff, cmd, ' ');
 
-	if (!OpExecCommand(server, clnt, cmd[1])) // if the user is not an operator he is not allowed to change the channel modes
-		return (error_replay(server,ERR_CHANOPRIVSNEEDED, *clnt, cmd[1] + " :You're not channel operator"),0);
-
 	if (cmd.size() < 2 || cmd.size() > 7)
 		return (error_replay(server, ERR_NEEDMOREPARAMS, *clnt, "MODE :Not enough parameters"), 0);
 
 	if (!parseChannelName(server, cmd[1])) //parse the channel name && if exist
 		return (error_replay(server, ERR_NOSUCHCHANNEL, *clnt, " :No such channel"),0);
+
+	if (!OpExecCommand(server, clnt, cmd[1])) // if the user is not an operator he is not allowed to change the channel modes
+		return (error_replay(server,ERR_CHANOPRIVSNEEDED, *clnt, cmd[1] + " :You're not channel operator"),0);
 
 	if ( cmd.size() == 2 )
 		listCHmodes(server, clnt, cmd[1]);

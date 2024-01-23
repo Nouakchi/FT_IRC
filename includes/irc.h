@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/19 02:13:13 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/21 06:01:28 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,5 @@ std::string str_toupper(std::string flag);
 bool        ModesSyntaxe(std::string str); /// TODO: this function must be optimized in term of Complexity
 
 /*___________bot__________________*/
-void    loggedTime( t_server *server, Client *clnt );
+// void    loggedTime( t_server *server, Client *clnt );
 # endif

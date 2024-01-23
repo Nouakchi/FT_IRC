@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/19 03:52:18 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/21 07:00:46 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,24 @@ int main()
 
     time(&tt);
     ti = localtime(&tt);
-    
+
     server.serv_pass = "pass_test";
     server.server_date = asctime(ti);
 
-    gethostname(tmp_host, sizeof(tmp_host)); // is allowed ?
-    // tmp_host = getaddrinfo
-    
+    gethostname(tmp_host, sizeof(tmp_host));
+
     server.server_name = std::string(tmp_host);
     server.host_name = ":" + server.server_name;
-    
+
     if (EXIT_FAILURE == ft_create_socket(&server))
         return (EXIT_FAILURE);
 
     if (EXIT_FAILURE == ft_bind_to_listen(&server))
         return (EXIT_FAILURE);
-        
+
     if (EXIT_FAILURE == ft_setup_kernel_queue(&server))
         return (EXIT_FAILURE);
-    
+
     while (true)
     {
         //check for a new connection or a received message

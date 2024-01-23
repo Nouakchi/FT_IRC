@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 03:42:36 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 02:28:28 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/21 10:45:00 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ std::string Client::getRealName( void )
 {
     return (this->realName);
 }
-std::time_t  Client::getclntsrvrJointime( void )
+std::time_t  Client::getcltsrvrJointime( void )
 {
     return (this->srvrJointime);
 }

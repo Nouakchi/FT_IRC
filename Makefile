@@ -6,7 +6,7 @@
 #    By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/11 00:53:25 by onouakch          #+#    #+#              #
-#    Updated: 2024/01/19 02:14:27 by aaoutem-         ###   ########.fr        #
+#    Updated: 2024/01/21 09:51:23 by aaoutem-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,8 @@ SRCS	=	main.cpp					\
 			kadigh/SetRmMode.cpp		\
 			kadigh/ft_mode.cpp			\
 			kadigh/ft_mode_utils.cpp	\
-			bot/logtime.cpp				\
 
+BONUS	=	bot/logtime.cpp
 
 OBJS	=	$(SRCS:%.cpp=%.o)
 
@@ -51,6 +51,9 @@ $(NAME) : $(OBJS)
 
 %.o : %.cpp $(INCLUDES)
 	$(CPP) $(FLAGS) -c $< -o $@
+
+bonus : $(BONUS) $(INCLUDES)
+	$(CPP) $(FLAGS) $(BONUS) -o bot
 
 clean:
 	$(RM) $(OBJS)

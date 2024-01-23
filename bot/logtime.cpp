@@ -6,26 +6,120 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 14:37:07 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/07 15:22:10 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 08:39:27 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/irc.h"
+#include <sys/types.h>
+#include <sys/socket.h>
 
-void    loggedTime( t_server *server, Client *clnt )
+
+void splitString(const std::string& cmd, std::vector<std::string>& substrs, char delim)
 {
-	std::time_t jointime = clnt->getclntsrvrJointime();
+	std::istringstream iss(cmd);
+	std::string token;
+	std::string realname;
+
+	while (std::getline(iss, token, delim)) {
+		if (!token.empty())
+			substrs.push_back(token);
+	}
+
+	return ;
+}
+
+std::string	loggedTime(std::string joinTimeStr)
+{
+	std::time_t jointime  = atol(joinTimeStr.c_str());
 	std::time_t currenttime = std::time(NULL);
 	std::time_t difftime =  currenttime - jointime;
-	
+	std::cout << "currenttime: " << currenttime << std::endl;
+	std::cout << "jointime: " << jointime << std::endl;
+
 	int days = difftime / 86400;
 	int restSeconds = difftime % 86400; 
 	int hours = restSeconds / 3600;
 	int minutes = (restSeconds % 3600) / 60;
 	int seconds = restSeconds % 60;
 	
-	std::string logtime = "Logtime: " + std::to_string(days) + " days "
+	std::string logtime = std::to_string(days) + " day "
 		+ std::to_string(hours) +":"+ std::to_string(minutes) +":"+ std::to_string(seconds);
 
-	error_replay(server, 1, *clnt, logtime);
+	return (logtime);
+}
+
+// int main(int ac, char **av)
+int main()
+{
+	std::cout << "logtime" << std::endl;
+	int botsock;
+	struct  sockaddr_in serv_addr;
+	
+	char buff[512];
+	std::string cmd;
+
+	bzero((char *)&serv_addr, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_addr.s_addr = INADDR_ANY;
+    serv_addr.sin_port = htons( PORT );
+
+	botsock = socket(AF_INET, SOCK_STREAM, 0);
+	if (botsock == -1)
+	{
+		std::cout << "Error creating socket\n";
+		return (0);
+	}
+	int n = connect(botsock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+	if (n < -1)
+		return (std::cout << "Error connecting\n", 0);
+
+	// fcntl(botsock, F_SETFL, O_NONBLOCK);
+
+	cmd = "PASS pass_test\r\n";
+	send(botsock, cmd.c_str(), cmd.size(), 0);
+	// sleep(1); // hy if i add a sleep it authentify ???
+
+	cmd = "NICK BOT\r\n";
+	send(botsock, cmd.c_str(), cmd.size(), 0);
+	// sleep(1);
+
+	cmd = "USER as as as as\r\n";
+	send(botsock, cmd.c_str(), cmd.size(), 0);
+	// sleep(1);
+	recv(botsock, (void *)buff, sizeof(buff), 0);
+
+	std::cout << buff << std::endl;
+
+	bzero(buff, sizeof(buff));
+
+	std::string logtime;
+	std::string replay;
+	
+	std::vector<std::string> items;
+	while (true)
+	{
+		/*
+			the probleme here is that the BOT is a clieent so it could recieve private msgs and kayferbal
+			if soo we should make somthg for it soit 
+			we should ignore the (PRIVMSG BOT :msg) 
+			so to avoid another user register with a BOT nickname we should make BOT NickName reserved and the BOT couldnt 
+		*/
+		recv(botsock, (void *)buff, sizeof(buff), 0); // ignore the Private msgs to the BOT or 
+		if (strlen(buff) == 0)
+			continue ;
+		splitString(buff, items, ' ');
+		if (items[0] != "LOGTIME")
+		{
+			items.clear();
+			continue;
+		}
+		bzero(buff, sizeof(buff));
+		logtime = loggedTime (items[2]);
+		// std::cout <<"[" + items[0]+ " | "+ logtime +"]" << std::endl;
+		replay = "PRIVMSG " + items[1] + " :You Logged for " + logtime + "\r\n";
+		send(botsock, replay.c_str(), replay.size(), 0);
+		items.clear();
+	}
+	return (0);
 }

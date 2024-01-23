@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 14:38:23 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/19 02:39:30 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/20 02:58:38 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,6 @@ void	setChnlOp( t_server *server, Client *clnt, std::string chnlName, std::strin
 
 void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd,  char c, int i)
 {
-
-	std::cout << c <<"/"<< i << std::endl;
-	
 	std::string chnlName = cmd[1];
 	std::string msg;
 	std::string msgPrefix(":" + clnt->getNickName() + "!" + clnt->getLoginName() + "@" + server->host_name + " MODE " + chnlName);
@@ -93,10 +90,7 @@ void	SetMode( t_server *server, Client *clnt, std::vector<std::string>& cmd,  ch
 		msg = msgPrefix + " +t \r\n";
 	}
 	if (c != 'o')
-	{
-	    // send(clnt->getSocket(), msg.c_str(), msg.size(), 0);
 		replayChnlMode(server, clnt, chnlName, msg);
-	}
 }
 
 void	RmChnlOp( t_server *server, Client *clnt, std::string chnlName, std::string user )
@@ -149,5 +143,4 @@ void	RmMode(t_server *server, Client *clnt, std::vector<std::string>& cmd, char 
 	}
 	if (c != 'o')
 		replayChnlMode(server, clnt, chnlName, msgPrefix + msg + "\r\n");
-	
 }

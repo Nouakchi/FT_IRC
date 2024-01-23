@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 17:27:48 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/18 05:21:07 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/20 03:15:26 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,10 @@ bool	ModesSyntaxe(std::string str)
 			(str[i - 1] == '+' || str[i - 1] == '-'))
 				return false;
 
-	for (size_t i = 0; i < lngth; i++)
-		for (size_t j = i + 1; j < lngth - i; j++)
-			if (isalpha(str[j]) && str[i] == str[j])
-				return false;
+	std::set<char> stContainer(str.begin(), str.end()); // check duplicates
+	if (stContainer.size() != str.length())
+		return false;
 
-		
 	return true;
 }
 

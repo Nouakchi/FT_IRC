@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/22 02:27:45 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/18 02:33:00 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/21 10:30:15 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ class Client
         std::string getNickName( void );
         std::string getLoginName( void );
         std::string getRealName( void );
-        std::time_t getclntsrvrJointime( void );
+        std::time_t getcltsrvrJointime( void );
 
         //setters
         void        setNickName( std::string );

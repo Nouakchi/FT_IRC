@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   authentication.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:49:12 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/07 17:14:04 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/20 23:20:28 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int    ft_authProcess( t_server *server, Client *clt, std::string buff)
 {
     int status;
 
+    std::cout << buff << std::endl;
 	//	remove the "\r\n" of the received buffer from the client
     buff.pop_back();
     if (buff.find("\r") != std::string::npos)
