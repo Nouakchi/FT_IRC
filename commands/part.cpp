@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 09:47:19 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/07 17:12:56 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/21 14:28:29 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ int		ft_partChannel(t_server *server, Client *clt, std::string target, std::stri
 	}
 	it->second->users.erase((is_opt == it->second->users.end()) ? clt->getNickName() : "@" + clt->getNickName());
 	if (!it->second->users.size())
+	{
+		delete it->second;
 		server->channels.erase(it->first);
+	}
 	return (EXIT_SUCCESS);
 }
 

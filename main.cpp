@@ -3,18 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 14:02:26 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/19 03:52:18 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:08:25 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/irc.h"
 #include <sstream>
 #include <vector>
+int ft_parse_port( char *port )
+{
+    int i = -1;
+    while (port[++i])
+        if (!isdigit(port[i]))
+            return (ft_error("Port must be a number !!"));
+    if(atoi(port) < 1024 || atoi(port) > 65535)
+        return (ft_error("Port must be between 0 and 65535 !!" ));
 
-int main()
+    return (EXIT_SUCCESS);
+}
+int parse_pwd( char *pwd )
+{
+    int i = -1;
+    if(strlen(pwd) < 1)
+        return (ft_error("Password must be at least 1 char long !!"));
+    while (pwd[++i])
+        if (isspace(pwd[i]))
+            return (ft_error("Password must not contain spaces !!"));
+    return (EXIT_SUCCESS);
+}
+int main(int ac , char **av)
 {
     int             i , num_events;
     char            tmp_host[32];
@@ -26,12 +46,19 @@ int main()
     time(&tt);
     ti = localtime(&tt);
     
-    server.serv_pass = "pass_test";
+    if (ac != 3)
+        return (ft_error("Usage: ./ircserv <port> <password>"));
+    if (EXIT_FAILURE == parse_pwd(av[2]))
+        return (EXIT_FAILURE);
+    if (EXIT_FAILURE == ft_parse_port(av[1]))
+        return (EXIT_FAILURE);
+    server.serv_pass = av[2];
+    // if(server.serv_pass.size() < 1)
+    //     return (ft_error("Password must be at least 1 char long !!"));
+    server.port = atoi(av[1]);
     server.server_date = asctime(ti);
 
-    gethostname(tmp_host, sizeof(tmp_host)); // is allowed ?
-    // tmp_host = getaddrinfo
-    
+    gethostname(tmp_host, sizeof(tmp_host));
     server.server_name = std::string(tmp_host);
     server.host_name = ":" + server.server_name;
     
@@ -50,12 +77,13 @@ int main()
         num_events = kevent(server.kq, NULL, 0, new_event, 1, NULL);
         if (num_events == -1)
             return (ft_error("Faile to check on events !!"));
-
+            
         i = -1;
         while (++i < num_events)
         {
             int event_fd = new_event[i].ident;
-            //check for disconnected client
+
+            //check for new client
             if (new_event[i].flags & EV_EOF)
             {
                 std::map<int, Client*>::iterator it = server.clients.find(event_fd);
@@ -64,7 +92,6 @@ int main()
                     server.nicknames.erase(s_it);
                 ft_disconnect( &server, event_fd );
             }
-            //check for new client
             else if (event_fd == server.socket)
                 ft_setup_new_connection( &server, event_fd );
             //check for an event from an existant client
