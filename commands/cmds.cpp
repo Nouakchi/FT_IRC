@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:00:24 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/23 11:28:52 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:33:10 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,3 @@ void    ft_parseCommand( t_server *server, Client *clt, std::string buff )
             LogtimeBot( server, clt );
     }
 }
-
-
-
-

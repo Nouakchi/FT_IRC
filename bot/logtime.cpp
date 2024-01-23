@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 14:37:07 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/23 11:24:26 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:43:06 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,13 @@ int main()
 		bytes = recv(botsock, (void *)buff, sizeof(buff), 0);
 		
 	}
-	
-
-	// std::cout << buff << std::endl;
 
 	bzero(buff, sizeof(buff));
 
 	std::string logtime;
 	std::string replay;
-	
 	std::vector<std::string> items;
+	
 	while (true)
 	{
 		/*
