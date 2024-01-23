@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:07:43 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/19 02:56:27 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/22 20:19:33 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,16 @@ int     ft_joinCmd( t_server *server, Client *clt, std::vector<std::string> &ite
 	size_t size = items.size();
 	std::stringstream ss_targets(items[1]);
 	std::stringstream ss_keys((size == 3) ? items[2] : "");
-	
-	if (size < 2 || size > 3)
+	try{
+	if (size != 2)
 		return (
 			clt->reply(server->host_name, ERR_NEEDMOREPARAMS, "JOIN :Not enough parameters"),
 			EXIT_FAILURE
 		);
+		
+	}catch(std::exception &e){
+		std::cout << e.what() << std::endl;
+	}
 	while (std::getline(ss_targets, target, ','))
 	{
 		std::getline(ss_keys, key, ',');

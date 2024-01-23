@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:47:54 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/21 14:24:45 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/22 21:11:24 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void  ft_check_event( t_server *server, int event_fd )
     char buff[1024] = {0};
     ssize_t bytes_read = recv(event_fd, &buff, sizeof(buff), 0);
     if (bytes_read <= 0)
-        return ;
+        return;
 
     // std::string test = "PASS pass_test\nNICK mok\nUSER a b c d\n";
     
