@@ -6,7 +6,7 @@
 /*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 14:37:07 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/23 13:04:11 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:32:40 by aaoutem-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
+int ft_parse_port( char *port )
+{
+    int i = -1;
+    while (port[++i])
+        if (!isdigit(port[i]))
+            return (ft_error("Port must be a number !!"));
+    if(atoi(port) < 1024 || atoi(port) > 65535)
+        return (ft_error("Port must be between 0 and 65535 !!" ));
+
+    return (EXIT_SUCCESS);
+}
 
 void splitString(const std::string& cmd, std::vector<std::string>& substrs, char delim)
 {
@@ -49,20 +60,26 @@ std::string	loggedTime(std::string joinTimeStr)
 	return (logtime);
 }
 
-// int main(int ac, char **av)
-int main()
+int main(int ac, char *av[])
 {
-	std::cout << "logtime" << std::endl;
 	int botsock;
 	struct  sockaddr_in serv_addr;
-	
+
 	char buff[512];
 	std::string cmd;
+
+	if(ac != 3)
+		std::cout << "./ircbot <port> <password>\n";
+
+	if (EXIT_FAILURE == ft_parse_port(av[1]))
+        return (EXIT_FAILURE);
+
+	int port = atoi(av[1]);
 
 	bzero((char *)&serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
-    serv_addr.sin_port = htons( 6667 );
+    serv_addr.sin_port = htons( port );
 
 	botsock = socket(AF_INET, SOCK_STREAM, 0);
 	if (botsock == -1)
@@ -74,7 +91,7 @@ int main()
 	if (n < -1)
 		return (std::cout << "Error connecting\n", 0);
 
-	cmd = "PASS pass_test\r\n";
+	cmd = "PASS " +std::string(av[2]) + "\r\n";
 	send(botsock, cmd.c_str(), cmd.size(), 0);
 	cmd = "NICK BOT\r\n";
 	send(botsock, cmd.c_str(), cmd.size(), 0);
@@ -85,19 +102,22 @@ int main()
 	fcntl(botsock, F_SETFL, O_NONBLOCK);
 	while (bytes > 0)
 	{
-		std::cout << buff ;
+		// std::cout << buff ;
 		bzero(buff, sizeof(buff));
 		bytes = recv(botsock, (void *)buff, sizeof(buff), 0);
-		
 	}
+
+	
+	
+	// std::cout <<"test\n";
+	// std::cout << buff << std::endl;
 
 	bzero(buff, sizeof(buff));
 
 	std::string logtime;
 	std::string replay;
 	std::vector<std::string> items;
-	
-	while (true)
+	while (recv(botsock, (void *)buff, sizeof(buff), 0))
 	{
 		/*
 			the probleme here is that the BOT is a clieent so it could recieve private msgs and kayferbal
@@ -105,7 +125,7 @@ int main()
 			we should ignore the (PRIVMSG BOT :msg) 
 			so to avoid another user register with a BOT nickname we should make BOT NickName reserved and the BOT couldnt 
 		*/
-		recv(botsock, (void *)buff, sizeof(buff), 0); // ignore the Private msgs to the BOT or 
+		// recv(botsock, (void *)buff, sizeof(buff), 0); // ignore the Private msgs to the BOT or 
 		if (strlen(buff) == 0)
 			continue ;
 		splitString(buff, items, ' ');
