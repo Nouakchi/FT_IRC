@@ -6,7 +6,7 @@
 /*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 14:37:07 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/23 11:53:35 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:30:56 by heddahbi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,18 +98,15 @@ int main(int ac, char **av)
 	send(botsock, cmd.c_str(), cmd.size(), 0);
 	cmd = "USER as as as as\r\n";
 	send(botsock, cmd.c_str(), cmd.size(), 0);	
-
+	
 	ssize_t bytes  = recv(botsock, (void *)buff, sizeof(buff), 0);
 	fcntl(botsock, F_SETFL, O_NONBLOCK);
 	while (bytes > 0)
 	{
-		std::cout << buff ;
+		// std::cout << buff ;
 		bzero(buff, sizeof(buff));
 		bytes = recv(botsock, (void *)buff, sizeof(buff), 0);
-		
 	}
-	
-
 	// std::cout << buff << std::endl;
 
 	bzero(buff, sizeof(buff));
