@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:47:54 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/22 21:11:24 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:42:06 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void  ft_check_event( t_server *server, int event_fd )
             while (pos != std::string::npos)
             {
                 std::string ex_cmd = cmd.substr(0, pos + 1);
-                // std::cout << "*** " << ex_cmd.length() << "[" << ex_cmd.substr(0,ex_cmd.length() - 2) << "]" << std::endl;
                 if (it->second->getAuthFlag())
                     ft_parseCommand(server, it->second, ex_cmd);
                 else if (ft_authProcess(server, it->second, ex_cmd))
@@ -67,8 +66,6 @@ void  ft_check_event( t_server *server, int event_fd )
             }
             it->second->setCmd("");
         }
-        else
-            std::cout << it->second->getCmd() << std::endl;
     }
 }
 

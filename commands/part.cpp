@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 09:47:19 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/21 14:28:29 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:52:31 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int		ft_partChannel(t_server *server, Client *clt, std::string target, std::stri
 	while (c_it != it->second->users.end())
 	{
 		std::string msg = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " PART " + target + " " + quit_msg + " \r\n";
-		std::cout << "-*- " << msg;
 		send(c_it->second->getSocket(), msg.c_str(), msg.size(), 0);
 		c_it++;
 	}
@@ -59,7 +58,6 @@ int		ft_partCmd(t_server *server, Client *clt, std::vector<std::string> &items)
 		);
 	while (std::getline(ss_targets, target, ','))
 	{
-		std::cout << "[" << quit_msg << "]\n";
 		ft_partChannel(server, clt, target, quit_msg);
 		target.clear();
 	}

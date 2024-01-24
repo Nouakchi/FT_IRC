@@ -3,25 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aaoutem- <aaoutem-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:07:43 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/23 11:26:10 by aaoutem-         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:15:01 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/irc.h"
-#include "../models/Channel.hpp"
-#include "../models/Client.hpp"
-#include <sstream>
-
-
-
 
 int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::string key)
 {
-	std::cout << "[" << target << " => " << key << "]" << std::endl;
 	char c = target[0];
 	if (c != '#' && c != '&')
 		return (
@@ -55,7 +48,6 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 			while (c_it != it->second->users.end())
 			{
 				std::string msg = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " JOIN " + target + " \r\n";
-				std::cout << "-*- " << msg;
 				send(c_it->second->getSocket(), msg.c_str(), msg.size(), 0);
 				c_it++;
 			}
@@ -72,7 +64,6 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 			while (c_it != it->second->users.end())
 			{
 				std::string msg = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + " JOIN " + target + " \r\n";
-				std::cout << "-*- " << msg;
 				send(c_it->second->getSocket(), msg.c_str(), msg.size(), 0);
 				c_it++;
 			}
@@ -88,7 +79,6 @@ int		ft_joinChannel( t_server *server, Client *clt, std::string target, std::str
 		server->channels.insert(std::pair<std::string, Channel*>(target, new_chnl));
 		clt->addChannel(new_chnl);
 		std::string msg = ":" + clt->getNickName() + "!~" + clt->getLoginName() + "@" + server->host_name + " JOIN " + target + " \r\n";
-		std::cout << "-*- " << msg;
 		send(clt->getSocket(), msg.c_str(), msg.size(), 0);
 		clt->reply(server->host_name, RPL_NAMREPLY, "= " + target + " :@" + clt->getNickName());
 		clt->reply(server->host_name, RPL_ENDOFNAMES, target + " :End of /NAMES list.");
@@ -102,14 +92,16 @@ int     ft_joinCmd( t_server *server, Client *clt, std::vector<std::string> &ite
 	size_t size = items.size();
 	std::stringstream ss_targets(items[1]);
 	std::stringstream ss_keys((size == 3) ? items[2] : "");
-	try{
-	if (size != 2)
-		return (
-			clt->reply(server->host_name, ERR_NEEDMOREPARAMS, "JOIN :Not enough parameters"),
-			EXIT_FAILURE
-		);
-		
-	}catch(std::exception &e){
+	try
+	{
+		if (size < 2 || size > 3)
+			return (
+				clt->reply(server->host_name, ERR_NEEDMOREPARAMS, "JOIN :Not enough parameters"),
+				EXIT_FAILURE
+			);
+	}
+	catch(std::exception &e)
+	{
 		std::cout << e.what() << std::endl;
 	}
 	while (std::getline(ss_targets, target, ','))

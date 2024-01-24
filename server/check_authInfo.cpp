@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_authInfo.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 03:51:58 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/23 13:17:54 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:44:46 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/irc.h"
 
-int     ft_checkPass( Client *clt, std::string buff, std::string pass )
+int     ft_checkPass( t_server *server, Client *clt, std::string buff, std::string pass )
 {
     if (buff.length() == 0)
         return (clt->reply(":localhost", ERR_NEEDMOREPARAMS, "PASS :Not enough parameters"), EXIT_FAILURE);
@@ -29,13 +29,12 @@ int     ft_checkPass( Client *clt, std::string buff, std::string pass )
             clt->setPassChecked(false);
     }
     else
-        clt->reply(":localhost", ERR_ALREADYREGISTRED, ":You may not reregister");
+        clt->reply(server->host_name, ERR_ALREADYREGISTRED, ":You may not reregister");
     return (EXIT_SUCCESS);
 }
 
 int     ft_checkNick( t_server *server, Client *clt, std::string buff )
 {
-    (void) server;
     if (buff.length() == 0)
         return (clt->reply(server->host_name, ERR_NONICKNAMEGIVEN, ":No nickname given"), EXIT_FAILURE);
         
@@ -93,7 +92,7 @@ int     ft_checkCmd( Client *clt, t_server *server, std::string buff)
 {
     std::string tmp = buff.substr(0,5);
     if (tmp == "PASS ")
-        return (ft_checkPass(clt, buff.substr(5, buff.length()), server->serv_pass));
+        return (ft_checkPass(server, clt, buff.substr(5, buff.length()), server->serv_pass));
     else if (tmp == "NICK ")
         return (ft_checkNick(server, clt, buff.substr(5, buff.length())));
     else if (tmp == "USER ")

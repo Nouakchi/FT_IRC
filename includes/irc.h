@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:14:29 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/23 14:29:17 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:50:43 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ enum err_rpl
     RPL_NAMREPLY = 353,
     
     RPL_ENDOFNAMES = 366,
+
+    RPL_INVITING = 341,
+
+    ERR_USERONCHANNEL = 443,
     
     ERR_NOSUCHNICK = 401,
     ERR_NOSUCHCHANNEL = 403,

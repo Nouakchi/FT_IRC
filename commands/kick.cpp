@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:08:37 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/21 21:28:13 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:15:43 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/irc.h"
-#include "../models/Client.hpp"
-#include "../models/Channel.hpp"
 
 // bad channel mask is an error that is returned when the channel name doesn't start with # or &
 bool is_valid_channel_name(std::string name)
@@ -51,7 +49,6 @@ int ft_kickCmd1(t_server *server, Client *clt, std::vector<std::string> &items, 
         reason = _return_reason(items);
     while (std::getline(ss_targets, ch, ','))
     {
-        std::cout << "ch: " << ch << std::endl;
         // if the channel name is not valid, then we return an error
         if (!is_valid_channel_name(ch))
             return clt->reply(server->host_name, ERR_BADCHANMASK, ch + " :Bad Channel Mask"), EXIT_FAILURE;
@@ -93,9 +90,7 @@ int ft_kickCmd1(t_server *server, Client *clt, std::vector<std::string> &items, 
 int ft_kickCmd(t_server *server, Client *clt, std::vector<std::string> &items)
 {
     size_t size = items.size();
-    if (items.empty())
-        return clt->reply(server->host_name, ERR_NEEDMOREPARAMS, "KICK :Not enough parameters"), EXIT_FAILURE;
-    if (size < 3)
+    if (items.empty() || size < 3)
         return clt->reply(server->host_name, ERR_NEEDMOREPARAMS, "KICK :Not enough parameters"), EXIT_FAILURE;
     if (ft_kickCmd1(server, clt, items,size) == EXIT_FAILURE)
         return EXIT_FAILURE;

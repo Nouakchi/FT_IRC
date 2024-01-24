@@ -6,7 +6,7 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:17:10 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/21 00:50:23 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:06:04 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int     toChannel(t_server *server, Client *clt, std::string target, std::string
         if (u_it->first.find(clt->getNickName()) == std::string::npos)
         {
             std::string msg = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + cmd + target + " " + msg_toSend + " \r\n";
-		    std::cout << "-*- " << msg;
 		    send(u_it->second->getSocket(), msg.c_str(), msg.size(), 0);
         }
         u_it++;
@@ -42,7 +41,6 @@ int     toChannel(t_server *server, Client *clt, std::string target, std::string
 
 int     toUser(t_server *server, Client *clt, std::string target, std::string cmd, std::string msg_toSend)
 {
-    std::cout << target << std::endl;
     if (server->nicknames.find(target) == server->nicknames.end())
     {
          if (cmd == "NOTICE")
@@ -54,13 +52,11 @@ int     toUser(t_server *server, Client *clt, std::string target, std::string cm
 		    );
     }
     std::map<int, Client*>::iterator u_it = server->clients.begin();
-    std::cout << "[" << target << "]\n";
     while (u_it != server->clients.end())
     {
         if (u_it->second->getNickName() == target)
         {
             std::string msg = ":" + clt->getNickName() + "!" + clt->getLoginName() + "@" + server->host_name + cmd + target + " " + msg_toSend + " \r\n";
-	        std::cout << "-*- " << msg;
 	        send(u_it->second->getSocket(), msg.c_str(), msg.size(), 0);
             break;
         }

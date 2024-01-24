@@ -6,13 +6,11 @@
 /*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 14:37:07 by aaoutem-          #+#    #+#             */
-/*   Updated: 2024/01/23 14:37:17 by onouakch         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:05:05 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/irc.h"
-#include <sys/types.h>
-#include <sys/socket.h>
 
 int ft_parse_port( char *port )
 {
@@ -108,7 +106,6 @@ int main(int ac, char *av[])
 	fcntl(botsock, F_SETFL, O_NONBLOCK);
 	while (bytes > 0)
 	{
-		// std::cout << buff ;
 		bzero(buff, sizeof(buff));
 		bytes = recv(botsock, (void *)buff, sizeof(buff), 0);
 	}

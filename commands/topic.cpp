@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 17:07:55 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/20 15:13:44 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:53:05 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/irc.h"
-#include "../models/Client.hpp"
-#include "../models/Channel.hpp"
 
 std::string _return_topic(std::vector<std::string> &items)
 {

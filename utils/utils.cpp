@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 11:12:57 by onouakch          #+#    #+#             */
-/*   Updated: 2024/01/21 16:02:44 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:06:20 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int ft_send(int socket, std::string serv_name, std::string code, std::string nic
 	resp.append(code.append(" "));
 	resp.append(nickname.append(" "));
 	resp.append(message.append("\r\n"));
-	// std::cout << "-*- " << resp;
 	if (send(socket, resp.c_str(), resp.size(), 0) == -1)
 		return (1);
 	return (0);

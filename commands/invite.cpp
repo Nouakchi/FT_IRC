@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: heddahbi <heddahbi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: onouakch <onouakch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:31:38 by heddahbi          #+#    #+#             */
-/*   Updated: 2024/01/19 00:27:54 by heddahbi         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:51:28 by onouakch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/irc.h"
-#include "../models/Client.hpp"
-#include "../models/Channel.hpp"
-#define ERR_NEEDMOREPARAMS 461
-#define ERR_NOSUCHCHANNEL 403
-#define ERR_NOTONCHANNEL 442
-#define ERR_USERNOTINCHANNEL 441
-#define ERR_CHANOPRIVSNEEDED 482
-#define ERR_NOSUCHNICK 401
-#define ERR_USERONCHANNEL 443
-#define RPL_INVITING   341
 
 int get_client_by_fd(t_server *server, std::string nickname)
 {
